@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct LensItemRow: View {
-    var lensItem: LensItem
+    @ObservedObject var lensItem: LensItem
     var body: some View {
         HStack {
             VStack(alignment: .leading) {
@@ -29,7 +29,7 @@ struct LensItemRow: View {
         }
         .padding()
         .background(Color.white)
-        .clipShape(RoundedRectangle(cornerRadius: 25))
+        .clipShape(RoundedRectangle(cornerRadius: 20))
     }
 }
 

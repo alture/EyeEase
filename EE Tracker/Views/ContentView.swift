@@ -10,13 +10,7 @@ import SwiftData
 
 struct ContentView: View {
 //    @Environment(\.modelContext) private var modelContext
-    @State var lenses: [LensItem] = [
-        .init(name: "Lens Item 1", specs: .default),
-        .init(name: "Lens Item 2", specs: .default),
-        .init(name: "Lens Item 3", specs: .default),
-        .init(name: "Lens Item 4", specs: .default),
-        .init(name: "Lens Item 5", specs: .default),
-    ]
+    @StateObject var viewModel: LenseViewModel
     @State var isShowingSettings: Bool = false
     @State var selectedLensItem: LensItem?
     @State var isNewLensShowing: Bool = false
@@ -27,14 +21,23 @@ struct ContentView: View {
                 ZStack(alignment: .bottom) {
                     ScrollView(.vertical) {
                         VStack(spacing: 12) {
-                            ForEach(lenses) { lensItem in
+                            ForEach(viewModel.lenses) { lensItem in
                                 LensItemRow(lensItem: lensItem)
                                     .onTapGesture {
                                         self.selectedLensItem = lensItem
                                     }
+                                    .contextMenu {
+                                        Button {
+                                            self.delete(lensItem)
+                                        } label: {
+                                            Text("Delete")
+                                            Image(systemName: "trash")
+                                        }
+                                    }
                             }
                         }
                     }
+                    .frame(maxWidth: .infinity)
                     .scrollIndicators(.hidden)
                     .padding(.horizontal)
                     .scrollBounceBehavior(.basedOnSize)
@@ -56,10 +59,11 @@ struct ContentView: View {
                 SettingsView()
             })
             .sheet(item: $selectedLensItem, content: { lensItem in
-                EmptyView()
+                LensView(lensItem: lensItem)
             })
             .sheet(isPresented: $isNewLensShowing, content: {
-                LensView(name: "", wearDuration: .monthly, startDate: Date(), color: .clear)
+                NewLensView()
+                    .environmentObject(self.viewModel)
             })
             .navigationTitle("My Lens")
             .toolbar(content: {
@@ -75,9 +79,13 @@ struct ContentView: View {
             })
         }
     }
+    
+    private func delete(_ item: LensItem) {
+        viewModel.remove(lense: item)
+    }
 }
 
 #Preview {
-    ContentView()
+    ContentView(viewModel: LenseViewModel())
 //        .modelContainer(for: LenseItem.self, inMemory: true)
 }

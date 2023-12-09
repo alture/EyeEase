@@ -18,6 +18,10 @@
 		B7E075512B1CE214001ABFE4 /* CircleProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E075502B1CE214001ABFE4 /* CircleProgressView.swift */; };
 		B7E075532B1D0FF2001ABFE4 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E075522B1D0FF2001ABFE4 /* SettingsView.swift */; };
 		B7E075552B1D11B2001ABFE4 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E075542B1D11B2001ABFE4 /* SettingsViewModel.swift */; };
+		B7E32D812B2119CD00CA0729 /* LensDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E32D802B2119CD00CA0729 /* LensDetailView.swift */; };
+		B7E32D832B21219C00CA0729 /* LensCreateOrEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E32D822B21219B00CA0729 /* LensCreateOrEditView.swift */; };
+		B7E32D852B233A7000CA0729 /* LenseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E32D842B233A7000CA0729 /* LenseViewModel.swift */; };
+		B7E32D872B23503600CA0729 /* NewLensView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E32D862B23503600CA0729 /* NewLensView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,6 +37,10 @@
 		B7E075502B1CE214001ABFE4 /* CircleProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleProgressView.swift; sourceTree = "<group>"; };
 		B7E075522B1D0FF2001ABFE4 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		B7E075542B1D11B2001ABFE4 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
+		B7E32D802B2119CD00CA0729 /* LensDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LensDetailView.swift; sourceTree = "<group>"; };
+		B7E32D822B21219B00CA0729 /* LensCreateOrEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LensCreateOrEditView.swift; sourceTree = "<group>"; };
+		B7E32D842B233A7000CA0729 /* LenseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LenseViewModel.swift; sourceTree = "<group>"; };
+		B7E32D862B23503600CA0729 /* NewLensView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewLensView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,6 +98,9 @@
 				B7E075502B1CE214001ABFE4 /* CircleProgressView.swift */,
 				B7E075522B1D0FF2001ABFE4 /* SettingsView.swift */,
 				B7D0E9352B1FA73900DE811D /* LensView.swift */,
+				B7E32D802B2119CD00CA0729 /* LensDetailView.swift */,
+				B7E32D822B21219B00CA0729 /* LensCreateOrEditView.swift */,
+				B7E32D862B23503600CA0729 /* NewLensView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -100,6 +111,7 @@
 				B7C08EBF2B1CB73C00DD0BE2 /* LensItem.swift */,
 				B7E075542B1D11B2001ABFE4 /* SettingsViewModel.swift */,
 				B7D0E9332B1F73CB00DE811D /* LensSpecs.swift */,
+				B7E32D842B233A7000CA0729 /* LenseViewModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -175,14 +187,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				B7C08EC02B1CB73C00DD0BE2 /* LensItem.swift in Sources */,
+				B7E32D872B23503600CA0729 /* NewLensView.swift in Sources */,
 				B7C08EB12B1CAAB600DD0BE2 /* ContentView.swift in Sources */,
+				B7E32D852B233A7000CA0729 /* LenseViewModel.swift in Sources */,
 				B7D0E9342B1F73CB00DE811D /* LensSpecs.swift in Sources */,
 				B7C08EAF2B1CAAB600DD0BE2 /* EE_TrackerApp.swift in Sources */,
 				B7E075532B1D0FF2001ABFE4 /* SettingsView.swift in Sources */,
 				B7D0E9362B1FA73900DE811D /* LensView.swift in Sources */,
+				B7E32D832B21219C00CA0729 /* LensCreateOrEditView.swift in Sources */,
 				B7E075512B1CE214001ABFE4 /* CircleProgressView.swift in Sources */,
 				B7E0754E2B1CDC33001ABFE4 /* LensItemRow.swift in Sources */,
 				B7E075552B1D11B2001ABFE4 /* SettingsViewModel.swift in Sources */,
+				B7E32D812B2119CD00CA0729 /* LensDetailView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

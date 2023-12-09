@@ -25,7 +25,7 @@ struct EE_TrackerApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(viewModel: LenseViewModel())
                 .preferredColorScheme(.light)
         }
 //        .modelContainer(sharedModelContainer)

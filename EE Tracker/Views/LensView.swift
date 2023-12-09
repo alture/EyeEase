@@ -8,80 +8,50 @@
 import SwiftUI
 
 struct LensView: View {
-    @State var name: String
-    @State var diopter: Float?
-    @State var wearDuration: LensWearDuration
-    @State var quantity: Int?
-    @State var startDate: Date
-    @State var color: Color
-    @State var cylinder: Float?
-    @State var axis: Int?
+    @ObservedObject var lensItem: LensItem
+    var draftLensItem: LensItem?
     @Environment(\.dismiss) var dismiss
+    @Environment(\.editMode) var editMode
+    
+    private var isEditing: Bool {
+        guard let editMode else { return false }
+        return editMode.wrappedValue.isEditing
+    }
+    
     var body: some View {
         NavigationStack {
-            Form {
-                Section {
-                    TextField("Name", text: $name)
-                    
-                    HStack {
-                        Text("Diopter")
-                        Spacer()
-                        TextField("-2.5", value: $diopter, format: .number)
-                            .fixedSize()
-                    }
-                    
-                    Picker("Wear duration", selection: $wearDuration) {
-                        ForEach(LensWearDuration.allCases) { duration in
-                            Text(duration.rawValue)
-                        }
-                    }
-                    
-                    if wearDuration == .daily {
-                        withAnimation {
-                            HStack {
-                                Text("Quantity")
-                                Spacer()
-                                TextField("0", value: $quantity, format: .number)
-                                    .fixedSize()
-                            }
-                        }
-                    }
-                    
-                    DatePicker("Start Date", selection: $startDate, displayedComponents: [.date])
-                    
-                }
-                
-                Section(header: Text("Optional")) {
-                    ColorPicker("Color", selection: $color)
-                    
-                    HStack {
-                        Text("Cylinder")
-                        Spacer()
-                        TextField("5", value: $cylinder, format: .number)
-                            .fixedSize()
-                    }
-                    
-                    HStack {
-                        Text("Axis")
-                        Spacer()
-                        TextField("5", value: $axis, format: .number)
-                            .fixedSize()
-                    }
+            VStack {
+                if isEditing {
+//                    self.draftLensItem = self.lensItem
+                    LensCreateOrEditView(lensItem: lensItem)
+                } else {
+                    LensDetailView(lensItem: lensItem)
                 }
             }
-            .navigationTitle("New lens")
+            .navigationTitle(isEditing ? "Edit" : lensItem.name)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
-                    Button("Cancel") {
-                        self.dismiss()
+                    if self.isEditing {
+                        Button("Cancel") {
+                            self.editMode?.animation().wrappedValue.toggle()
+                        }
+                        .foregroundStyle(Color.teal)
+                    } else {
+                        Button("Close") {
+                            self.dismiss()
+                        }
+                        .foregroundStyle(Color.teal)
                     }
                 }
                 
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button("Add new") {
-                        self.dismiss()
-                    }
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button(action: {
+                        self.editMode?.animation().wrappedValue.toggle()
+                    }, label: {
+                        Text("\(isEditing ? "Save" : "Edit")")
+                    })
+                    .foregroundStyle(Color.teal)
                 }
             }
         }
@@ -89,12 +59,11 @@ struct LensView: View {
 }
 
 #Preview {
-    LensView(
-        name: "",
-        diopter: nil,
-        wearDuration: .daily,
-        quantity: nil,
-        startDate: Date(),
-        color: .clear
-    )
+    LensView(lensItem: LensItem(name: "Preview Name", specs: .default))
+}
+
+extension EditMode {
+    mutating func toggle() {
+        self = self == .active ? .inactive : .active
+    }
 }

@@ -12,7 +12,13 @@ struct CircleProgressView: View {
     var progress: CGFloat {
         switch specs.wearDuration {
         case .daily:
-            return CGFloat(Double(specs.currentQuantity) / Double(specs.fullQuantity))
+            guard 
+                let currentQuantity = specs.currentQuantity,
+                let fullQuantity = specs.fullQuantity
+            else {
+                return 0.0
+            }
+            return CGFloat(Double(currentQuantity) / Double(fullQuantity))
         default:
             return CGFloat(1.0 - Double(specs.remainingDays) / Double(specs.wearDuration.limit))
         }
@@ -41,7 +47,7 @@ struct CircleProgressView: View {
             .frame(width: 30, height: 30)
             Text(
                 specs.wearDuration == .daily 
-                ? "\(specs.currentQuantity) left"
+                ? "\(specs.currentQuantity ?? 0) left"
                 : "\(specs.remainingDays) \(specs.remainingDays > 1 ? "days" : "day") left"
             )
             .font(.system(.subheadline, design: .rounded, weight: .bold))

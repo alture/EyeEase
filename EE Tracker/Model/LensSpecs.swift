@@ -8,10 +8,12 @@
 import Foundation
 import SwiftUI
 
-enum EyeSide: String {
+enum EyeSide: String, CaseIterable, Identifiable {
     case left = "Left"
     case right = "Right"
     case paired = "Paired"
+    
+    var id: Self { self }
 }
 
 enum LensWearDuration: String, CaseIterable, Identifiable {
@@ -42,10 +44,10 @@ enum LensWearDuration: String, CaseIterable, Identifiable {
     var id: Self { self }
 }
 
-struct LensSpecs {
-    var eyeSide: EyeSide
-    var wearDuration: LensWearDuration
-    var startDate: Date
+final class LensSpecs: ObservableObject {
+    @Published var eyeSide: EyeSide
+    @Published var wearDuration: LensWearDuration
+    @Published var startDate: Date
     var remainingDays: Int {
         guard let finishDate else { return 0 }
         let currentDate = Date()
@@ -55,24 +57,34 @@ struct LensSpecs {
     var finishDate: Date? {
         Calendar.current.date(byAdding: .day, value: wearDuration.limit, to: startDate)
     }
-    var fullQuantity: Int
-    var currentQuantity: Int
-    var color: Color
-    var diopter: CGFloat
-    var hasAstigmatism: Bool
-    var cylinder: CGFloat?
-    var axis: Int?
+    @Published var fullQuantity: Int?
+    @Published var currentQuantity: Int?
+    @Published var color: Color
+    @Published var diopter: Float
+    @Published var cylinder: Float?
+    @Published var axis: Int?
     
     static var `default` = LensSpecs(
         eyeSide: .paired,
         wearDuration: .monthly,
         startDate: Date(),
-        fullQuantity: 30,
-        currentQuantity: 12,
-        color: .red,
+        fullQuantity: nil,
+        currentQuantity: nil,
+        color: .clear,
         diopter: -4.5,
-        hasAstigmatism: false,
         cylinder: nil,
         axis: nil
     )
+    
+    init(eyeSide: EyeSide, wearDuration: LensWearDuration, startDate: Date, fullQuantity: Int? = nil, currentQuantity: Int? = nil, color: Color, diopter: Float, cylinder: Float? = nil, axis: Int? = nil) {
+        self.eyeSide = eyeSide
+        self.wearDuration = wearDuration
+        self.startDate = startDate
+        self.fullQuantity = fullQuantity
+        self.currentQuantity = currentQuantity
+        self.color = color
+        self.diopter = diopter
+        self.cylinder = cylinder
+        self.axis = axis
+    }
 }
