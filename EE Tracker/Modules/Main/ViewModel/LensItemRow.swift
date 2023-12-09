@@ -17,15 +17,22 @@ struct LensItemRow: View {
                         .font(.system(.title2, design: .rounded, weight: .bold))
                     Circle()
                         .frame(width: 15, height: 15)
-                        .foregroundStyle(lensItem.specs.color)
+                        .foregroundStyle(lensItem.color)
                 }
-                Text("D: \(String(format: "%.1f", lensItem.specs.diopter)) • \(lensItem.specs.wearDuration.rawValue) • \(lensItem.specs.eyeSide.rawValue)")
+                Text("D: \(String(format: "%.1f", lensItem.diopter)) • \(lensItem.wearDuration.rawValue) • \(lensItem.eyeSide.rawValue)")
                     .font(.system(.body, design: .rounded, weight: .medium))
                     .foregroundStyle(Color(.systemGray2))
             }
             
             Spacer()
-            CircleProgressView(specs: lensItem.specs)
+            VStack(alignment: .trailing) {
+                CircleProgressView(lensItem: lensItem)
+                    .frame(width: 30, height: 30)
+                Text(lensItem.limitDesciption)
+                .font(.system(.subheadline, design: .rounded, weight: .bold))
+                .foregroundStyle(Color(.systemGray2))
+
+            }
         }
         .padding()
         .background(Color.white)
@@ -34,7 +41,14 @@ struct LensItemRow: View {
 }
 
 #Preview {
-    LensItemRow(lensItem: LensItem(name: "Preview Title", specs: .default)
+    LensItemRow(lensItem: LensItem(
+        name: "Preview Name",
+        eyeSide: .paired, 
+        startDate: Date(),
+        totalNumber: 0,
+        currentNumber: 0,
+        resolvedColor: .fromColor(.red),
+        diopter: 0)
     )
     .previewLayout(.fixed(width: 200, height: 50))
 }

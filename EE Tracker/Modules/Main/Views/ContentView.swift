@@ -9,10 +9,8 @@ import SwiftUI
 import SwiftData
 
 struct ContentView: View {
-//    @Environment(\.modelContext) private var modelContext
     @StateObject var viewModel: LenseViewModel
     @State var isShowingSettings: Bool = false
-    @State var selectedLensItem: LensItem?
     @State var isNewLensShowing: Bool = false
     
     var body: some View {
@@ -24,7 +22,7 @@ struct ContentView: View {
                             ForEach(viewModel.lenses) { lensItem in
                                 LensItemRow(lensItem: lensItem)
                                     .onTapGesture {
-                                        self.selectedLensItem = lensItem
+                                        self.viewModel.selectedLensItem = lensItem
                                     }
                                     .contextMenu {
                                         Button {
@@ -52,14 +50,13 @@ struct ContentView: View {
                             .frame(width: 60, height: 60)
                     })
                 }
-                
             }
             .background(Color(.systemGray6))
             .sheet(isPresented: $isShowingSettings, content: {
                 SettingsView()
             })
-            .sheet(item: $selectedLensItem, content: { lensItem in
-                LensView(lensItem: lensItem)
+            .sheet(item: $viewModel.selectedLensItem, content: { lensItem in
+                LensView(lensItem: lensItem, viewModel: viewModel)
             })
             .sheet(isPresented: $isNewLensShowing, content: {
                 NewLensView()
@@ -81,11 +78,10 @@ struct ContentView: View {
     }
     
     private func delete(_ item: LensItem) {
-        viewModel.remove(lense: item)
+        viewModel.remove(lens: item)
     }
 }
 
 #Preview {
     ContentView(viewModel: LenseViewModel())
-//        .modelContainer(for: LenseItem.self, inMemory: true)
 }

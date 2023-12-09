@@ -8,10 +8,10 @@
 import SwiftUI
 
 struct SettingsView: View {
-    @ObservedObject private var viewModel: SettingsViewModel = SettingsViewModel(
+    @ObservedObject private var viewModel: SettingsViewModel = SettingsViewModel(settingsModel: SettingsModel(
         plan: .free,
         pushNotificationAllowed: false,
-        reminderDays: 3
+        reminderDays: 5)
     )
     
     @Environment(\.dismiss) var dismiss
@@ -19,7 +19,7 @@ struct SettingsView: View {
         NavigationStack {
             Form {
                 Section(header: Text("Account")) {
-                    if viewModel.plan == .free {
+                    if viewModel.settingsModel.plan == .free {
                         Button {
                             
                         } label: {
@@ -54,7 +54,7 @@ struct SettingsView: View {
                     header: Text("Application"),
                     footer: Text("Choose the number of days before the lens replacement reminder")
                 ) {
-                    Toggle(isOn: $viewModel.pushNotificationAllowed, label: {
+                    Toggle(isOn: $viewModel.settingsModel.pushNotificationAllowed, label: {
                         HStack {
                             Image(systemName: "app.badge")
                                 .symbolRenderingMode(.palette)
@@ -63,7 +63,7 @@ struct SettingsView: View {
                         }
                     })
                     
-                    Picker(selection: $viewModel.reminderDays) {
+                    Picker(selection: $viewModel.settingsModel.reminderDays) {
                         ForEach([1, 3, 5, 7], id: \.self) { day in
                             Text("\(day) \(day == 1 ? "day" : "days")")
                         }

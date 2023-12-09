@@ -10,6 +10,7 @@ import SwiftUI
 struct LensView: View {
     @ObservedObject var lensItem: LensItem
     var draftLensItem: LensItem?
+    @ObservedObject var viewModel: LenseViewModel
     @Environment(\.dismiss) var dismiss
     @Environment(\.editMode) var editMode
     
@@ -22,10 +23,10 @@ struct LensView: View {
         NavigationStack {
             VStack {
                 if isEditing {
-//                    self.draftLensItem = self.lensItem
+                    //                    self.draftLensItem = self.lensItem
                     LensCreateOrEditView(lensItem: lensItem)
                 } else {
-                    LensDetailView(lensItem: lensItem)
+                    LensDetailView(lensItem: lensItem, viewModel: viewModel)
                 }
             }
             .navigationTitle(isEditing ? "Edit" : lensItem.name)
@@ -59,7 +60,16 @@ struct LensView: View {
 }
 
 #Preview {
-    LensView(lensItem: LensItem(name: "Preview Name", specs: .default))
+    LensView(lensItem: LensItem(
+        name: "Preview Name",
+        eyeSide: .paired,
+        startDate: Date(),
+        totalNumber: 0,
+        currentNumber: 0,
+        resolvedColor: .fromColor(.red),
+        diopter: 0),
+             viewModel: LenseViewModel()
+    )
 }
 
 extension EditMode {

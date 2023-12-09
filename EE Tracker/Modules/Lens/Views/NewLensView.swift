@@ -8,7 +8,14 @@
 import SwiftUI
 
 struct NewLensView: View {
-    @StateObject var draftLensItem: LensItem = LensItem(specs: .default)
+    @StateObject var draftLensItem: LensItem = LensItem(
+        name: "",
+        startDate: Date(),
+        totalNumber: 0,
+        currentNumber: 0,
+        resolvedColor: ColorComponents.fromColor(.clear),
+        diopter: 0
+    )
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var viewModel: LenseViewModel
     var body: some View {
@@ -26,7 +33,7 @@ struct NewLensView: View {
                     if !self.draftLensItem.name.isEmpty {
                         ToolbarItem(placement: .topBarTrailing) {
                             Button("Add") {
-                                self.viewModel.add(new: self.draftLensItem)
+                                self.viewModel.add(lens: self.draftLensItem)
                                 self.dismiss()
                             }
                         }
