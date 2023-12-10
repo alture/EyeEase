@@ -12,12 +12,12 @@ struct NewLensView: View {
         name: "",
         startDate: Date(),
         totalNumber: 0,
-        currentNumber: 0,
+        usedNumber: 0,
         resolvedColor: ColorComponents.fromColor(.clear),
         diopter: 0
     )
     @Environment(\.dismiss) var dismiss
-    @EnvironmentObject var viewModel: LenseViewModel
+    @Environment(\.modelContext) var modelContext
     var body: some View {
         NavigationStack {
             LensCreateOrEditView(lensItem: self.draftLensItem)
@@ -33,7 +33,12 @@ struct NewLensView: View {
                     if !self.draftLensItem.name.isEmpty {
                         ToolbarItem(placement: .topBarTrailing) {
                             Button("Add") {
-                                self.viewModel.add(lens: self.draftLensItem)
+                                self.modelContext.insert(self.draftLensItem)
+                                do {
+                                    try self.modelContext.save()
+                                } catch {
+                                    fatalError(error.localizedDescription)
+                                }
                                 self.dismiss()
                             }
                         }
@@ -45,5 +50,5 @@ struct NewLensView: View {
 
 #Preview {
     NewLensView()
-        .environmentObject(LenseViewModel())
+        .modelContainer(previewContainer)
 }

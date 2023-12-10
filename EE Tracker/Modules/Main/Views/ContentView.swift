@@ -9,7 +9,9 @@ import SwiftUI
 import SwiftData
 
 struct ContentView: View {
-    @StateObject var viewModel: LenseViewModel
+    @Query private var lensItems: [LensItem]
+    @Environment(\.modelContext) var modelContext
+    @State var selectedLensItem: LensItem?
     @State var isShowingSettings: Bool = false
     @State var isNewLensShowing: Bool = false
     
@@ -19,10 +21,10 @@ struct ContentView: View {
                 ZStack(alignment: .bottom) {
                     ScrollView(.vertical) {
                         VStack(spacing: 12) {
-                            ForEach(viewModel.lenses) { lensItem in
+                            ForEach(lensItems) { lensItem in
                                 LensItemRow(lensItem: lensItem)
                                     .onTapGesture {
-                                        self.viewModel.selectedLensItem = lensItem
+                                        self.selectedLensItem = lensItem
                                     }
                                     .contextMenu {
                                         Button {
@@ -41,7 +43,7 @@ struct ContentView: View {
                     .scrollBounceBehavior(.basedOnSize)
                     
                     Button(action: {
-                        self.isNewLensShowing.toggle()
+                        self.isNewLensShowing = true
                     }, label: {
                         Image(systemName: "plus.circle.fill")
                             .resizable()
@@ -55,12 +57,15 @@ struct ContentView: View {
             .sheet(isPresented: $isShowingSettings, content: {
                 SettingsView()
             })
-            .sheet(item: $viewModel.selectedLensItem, content: { lensItem in
-                LensView(lensItem: lensItem, viewModel: viewModel)
+            .sheet(item: $selectedLensItem, content: { lensItem in
+                LensView(lensItem: lensItem)
+                    .modelContext(modelContext)
             })
             .sheet(isPresented: $isNewLensShowing, content: {
                 NewLensView()
-                    .environmentObject(self.viewModel)
+            })
+            .onDisappear(perform: {
+                self.isNewLensShowing = false
             })
             .navigationTitle("My Lens")
             .toolbar(content: {
@@ -78,10 +83,11 @@ struct ContentView: View {
     }
     
     private func delete(_ item: LensItem) {
-        viewModel.remove(lens: item)
+        modelContext.delete(item)
     }
 }
 
 #Preview {
-    ContentView(viewModel: LenseViewModel())
+    ContentView()
+        .modelContainer(previewContainer)
 }

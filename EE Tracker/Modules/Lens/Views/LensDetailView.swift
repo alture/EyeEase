@@ -9,50 +9,69 @@ import SwiftUI
 
 struct LensDetailView: View {
     @ObservedObject var lensItem: LensItem
-    @ObservedObject var viewModel: LenseViewModel
     @State var isOptionalSectionShowing: Bool = false
     
     var body: some View {
         VStack {
-            HStack(spacing: 20) {
-                if lensItem.wearDuration == .daily {
-                    Button(action: {
-                        withAnimation {
-                            self.lensItem.decreaseQuantity(for: lensItem)
+            VStack {
+                switch lensItem.wearDuration {
+                case .daily:
+                    HStack(alignment: .firstTextBaseline, spacing: 20) {
+                        VStack(spacing: 4) {
+                            Button(action: {
+                                withAnimation {
+                                    self.lensItem.decreaseQuantity(for: lensItem)
+                                }
+                                
+                                UIImpactFeedbackGenerator().impactOccurred()
+                            }, label: {
+                                Image(systemName: "minus.circle")
+                                    .font(.largeTitle)
+                            })
+                            .customDisabled(!(lensItem.usedNumber > 0))
+                            
+                            Text("Undo")
+                                .font(.headline)
+                                .foregroundStyle(.secondary)
                         }
                         
-                        UIImpactFeedbackGenerator().impactOccurred()
-                    }, label: {
-                        Image(systemName: "minus.circle")
-                            .font(.largeTitle)
-                    })
-                    .customDisabled(!(lensItem.currentNumber > 0))
-                }
-                
-                ZStack {
-                    Text(lensItem.limitDesciption)
-                        .font(.system(.subheadline, design: .rounded, weight: .bold))
-                        .foregroundStyle(Color(.systemGray2))
-                    CircleProgressView(lensItem: lensItem,
-                                       lineWidth: 8.0
-                    )
-                    .frame(width: 120, height: 120)
-                    
-                }
-                
-                if lensItem.wearDuration == .daily {
-                    Button(action: {
-                        withAnimation {
-                            self.lensItem.increaseQuantity(for: lensItem)
+                        ZStack {
+                            Text(lensItem.limitDesciption)
+                                .font(.system(.subheadline, design: .rounded, weight: .bold))
+                                .foregroundStyle(Color(.systemGray2))
+                            CircleProgressView(lensItem: lensItem,
+                                               lineWidth: 8.0
+                            )
+                            .frame(width: 120, height: 120)
                         }
-                        UIImpactFeedbackGenerator().impactOccurred()
-                    }, label: {
-                        Image(systemName: "plus.circle")
-                            .font(.largeTitle)
-                    })
-                    .customDisabled(lensItem.currentNumber >= lensItem.totalNumber)
+                        VStack(spacing: 4) {
+                            Button(action: {
+                                withAnimation {
+                                    self.lensItem.increaseQuantity(for: lensItem)
+                                }
+                                UIImpactFeedbackGenerator().impactOccurred()
+                            }, label: {
+                                Image(systemName: "plus.circle")
+                                    .font(.largeTitle)
+                            })
+                            .customDisabled(lensItem.usedNumber >= lensItem.totalNumber)
+                            
+                            Text("Pick-up")
+                                .font(.headline)
+                                .foregroundStyle(.secondary)
+                        }
+                    }
+                default:
+                    ZStack {
+                        Text(lensItem.limitDesciption)
+                            .font(.system(.subheadline, design: .rounded, weight: .bold))
+                            .foregroundStyle(Color(.systemGray2))
+                        CircleProgressView(lensItem: lensItem,
+                                           lineWidth: 8.0
+                        )
+                        .frame(width: 120, height: 120)
+                    }
                 }
-                
             }
             .padding()
             List {
@@ -145,11 +164,11 @@ extension Button {
     LensDetailView(lensItem: LensItem(
         name: "Preview Name",
         eyeSide: .paired,
+        wearDuration: .daily,
         startDate: Date(),
-        totalNumber: 0,
-        currentNumber: 0,
+        totalNumber: 30,
+        usedNumber: 0,
         resolvedColor: .fromColor(.red),
-        diopter: 0),
-                   viewModel: LenseViewModel()
+        diopter: 0)
     )
 }

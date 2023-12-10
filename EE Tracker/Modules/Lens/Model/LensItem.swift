@@ -32,13 +32,13 @@ final class LensItem: Identifiable, Hashable, ObservableObject {
     var progress: CGFloat {
         switch wearDuration {
         case .daily:
-            return CGFloat(Double(currentNumber) / Double(totalNumber))
+            return CGFloat(Double(usedNumber) / Double(totalNumber))
         default:
             return CGFloat(1.0 - Double(remainingDays) / Double(wearDuration.limit))
         }
     }
     var totalNumber: Int
-    var currentNumber: Int
+    var usedNumber: Int
     var color: Color { resolvedColor.color }
     var resolvedColor: ColorComponents
     var diopter: Float
@@ -46,22 +46,23 @@ final class LensItem: Identifiable, Hashable, ObservableObject {
     var axis: Int?
     
     var limitDesciption: String {
-        wearDuration == .daily
-        ? "\(currentNumber) lens left"
-        : "\(remainingDays) \(remainingDays > 1 ? "days" : "day") left"
+        switch wearDuration {
+        case .daily:
+            return "\(totalNumber - usedNumber) pairs left"
+        default:
+            return "\(remainingDays) \(remainingDays > 1 ? "days" : "day") left"
+        }
     }
     
     func increaseQuantity(for lense: LensItem) {
         let maxValue = lense.totalNumber
-        let quantity = min(maxValue, lense.currentNumber + 1)
-        lense.currentNumber = quantity
-        objectWillChange.send()
+        let quantity = min(maxValue, lense.usedNumber + 1)
+        lense.usedNumber = quantity
     }
     
     func decreaseQuantity(for lense: LensItem) {
-        let quantity = max(0, lense.currentNumber - 1)
-        lense.currentNumber = quantity
-        objectWillChange.send()
+        let quantity = max(0, lense.usedNumber - 1)
+        lense.usedNumber = quantity
     }
     
     func hash(into hasher: inout Hasher) {
@@ -75,7 +76,7 @@ final class LensItem: Identifiable, Hashable, ObservableObject {
         wearDuration: WearDuration = .monthly,
         startDate: Date,
         totalNumber: Int,
-        currentNumber: Int,
+        usedNumber: Int,
         resolvedColor: ColorComponents,
         diopter: Float,
         cylinder: Float? = nil,
@@ -86,14 +87,13 @@ final class LensItem: Identifiable, Hashable, ObservableObject {
             self.wearDuration = wearDuration
             self.startDate = startDate
             self.totalNumber = totalNumber
-            self.currentNumber = currentNumber
+            self.usedNumber = usedNumber
             self.resolvedColor = resolvedColor
             self.diopter = diopter
             self.cylinder = cylinder
             self.axis = axis
         }
 }
-
 
 struct ColorComponents: Codable {
     let red: Float

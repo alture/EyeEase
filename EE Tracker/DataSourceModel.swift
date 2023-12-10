@@ -9,16 +9,10 @@ import Foundation
 import SwiftData
 
 final class DataSourceModel {
-    private let modelContainer: ModelContainer
     private let modelContext: ModelContext
     
-    @MainActor
-    static let shared = DataSourceModel()
-    
-    @MainActor
-    private init() {
-        self.modelContainer = try! ModelContainer(for: LensItem.self)
-        self.modelContext = modelContainer.mainContext
+    init(modelContext: ModelContext) {
+        self.modelContext = modelContext
     }
     
     func appendItem(_ item: LensItem) {

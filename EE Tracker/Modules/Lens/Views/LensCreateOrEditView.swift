@@ -23,6 +23,7 @@ struct LensCreateOrEditView: View {
                     Spacer()
                     TextField("-2.5", value: $lensItem.diopter, format: .number)
                         .fixedSize()
+                        .multilineTextAlignment(.trailing)
                 }
                 
                 Picker("Wear duration", selection: $lensItem.wearDuration) {
@@ -37,13 +38,15 @@ struct LensCreateOrEditView: View {
                         Spacer()
                         TextField("30", value: $lensItem.totalNumber, format: .number)
                             .fixedSize()
+                            .multilineTextAlignment(.trailing)
                     }
                     
                     HStack {
                         Text("Used number of lens")
                         Spacer()
-                        TextField("0", value: $lensItem.currentNumber, format: .number)
+                        TextField("0", value: $lensItem.usedNumber, format: .number)
                             .fixedSize()
+                            .multilineTextAlignment(.trailing)
                     }
                 }
                 
@@ -78,7 +81,7 @@ struct LensCreateOrEditView: View {
         eyeSide: .paired,
         startDate: Date(),
         totalNumber: 0,
-        currentNumber: 0,
+        usedNumber: 0,
         resolvedColor: .fromColor(.red),
         diopter: 0)
     )

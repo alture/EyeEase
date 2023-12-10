@@ -46,7 +46,7 @@ struct LensItemRow: View {
         eyeSide: .paired, 
         startDate: Date(),
         totalNumber: 0,
-        currentNumber: 0,
+        usedNumber: 0,
         resolvedColor: .fromColor(.red),
         diopter: 0)
     )

@@ -33,3 +33,15 @@ struct CircleProgressView: View {
         .background(.clear)
     }
 }
+
+#Preview {
+    CircleProgressView(lensItem: LensItem(
+        name: "",
+        wearDuration: .monthly,
+        startDate: Date(),
+        totalNumber: 30,
+        usedNumber: 10,
+        resolvedColor: ColorComponents.fromColor(.red),
+        diopter: -4.5)
+    )
+}
