@@ -10,7 +10,7 @@ import SwiftData
 
 struct ContentView: View {
     @Query private var lensItems: [LensItem]
-    @Environment(\.modelContext) var modelContext
+    @Environment(\.modelContext) private var modelContext
     @State var selectedLensItem: LensItem?
     @State var isShowingSettings: Bool = false
     @State var isNewLensShowing: Bool = false
@@ -63,6 +63,7 @@ struct ContentView: View {
             })
             .sheet(isPresented: $isNewLensShowing, content: {
                 NewLensView()
+                    .modelContext(modelContext)
             })
             .onDisappear(perform: {
                 self.isNewLensShowing = false
@@ -92,7 +93,9 @@ struct ContentView: View {
     }
     
     private func delete(_ item: LensItem) {
-        modelContext.delete(item)
+        withAnimation {
+            modelContext.delete(item)
+        }
     }
 }
 

@@ -35,11 +35,6 @@ struct NewLensView: View {
                         ToolbarItem(placement: .topBarTrailing) {
                             Button("Add") {
                                 self.modelContext.insert(self.draftLensItem)
-                                do {
-                                    try self.modelContext.save()
-                                } catch {
-                                    fatalError(error.localizedDescription)
-                                }
                                 self.dismiss()
                             }
                             .foregroundStyle(.teal)
