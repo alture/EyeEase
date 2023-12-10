@@ -9,6 +9,12 @@ import SwiftUI
 
 struct LensCreateOrEditView: View {
     @ObservedObject var lensItem: LensItem
+    let formatter: NumberFormatter = {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        return formatter
+    }()
+
     var body: some View {
         Form {
             Section(header: Text("Main")) {
@@ -21,8 +27,8 @@ struct LensCreateOrEditView: View {
                 HStack {
                     Text("Diopter")
                     Spacer()
-                    TextField("-2.5", value: $lensItem.diopter, format: .number)
-                        .fixedSize()
+                    TextField("-2.5", value: $lensItem.diopter, formatter: formatter)
+                        .frame(minWidth: 60)
                         .multilineTextAlignment(.trailing)
                 }
                 
@@ -36,16 +42,8 @@ struct LensCreateOrEditView: View {
                     HStack {
                         Text("Total number of lens")
                         Spacer()
-                        TextField("30", value: $lensItem.totalNumber, format: .number)
-                            .fixedSize()
-                            .multilineTextAlignment(.trailing)
-                    }
-                    
-                    HStack {
-                        Text("Used number of lens")
-                        Spacer()
-                        TextField("0", value: $lensItem.usedNumber, format: .number)
-                            .fixedSize()
+                        TextField("30", value: $lensItem.totalNumber, formatter: formatter)
+                            .frame(minWidth: 60)
                             .multilineTextAlignment(.trailing)
                     }
                 }
@@ -60,14 +58,14 @@ struct LensCreateOrEditView: View {
                 HStack {
                     Text("Cylinder")
                     Spacer()
-                    TextField("Optional", value: $lensItem.cylinder, format: .number)
+                    TextField("Optional", value: $lensItem.cylinder, formatter: formatter)
                         .fixedSize()
                 }
                 
                 HStack {
                     Text("Axis")
                     Spacer()
-                    TextField("Optional", value: $lensItem.axis, format: .number)
+                    TextField("Optional", value: $lensItem.axis, formatter: formatter)
                         .fixedSize()
                 }
             }

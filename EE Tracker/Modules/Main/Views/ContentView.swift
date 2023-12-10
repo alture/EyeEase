@@ -68,6 +68,15 @@ struct ContentView: View {
                 self.isNewLensShowing = false
             })
             .navigationTitle("My Lens")
+            .overlay(content: {
+                if lensItems.isEmpty {
+                    ContentUnavailableView(
+                        "No tracking lens",
+                        systemImage: "clock.arrow.2.circlepath",
+                        description: Text("Add new lense using + button bellow")
+                    )
+                }
+            })
             .toolbar(content: {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {

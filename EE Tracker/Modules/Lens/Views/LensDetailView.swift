@@ -23,31 +23,31 @@ struct LensDetailView: View {
                     LensDetailRow(title: "Start Date", value: formattedDate(lensItem.startDate))
                 }
                 
-                Section(isExpanded: $isOptionalSectionShowing) {
-                    //                    ColorPicker(selection: $lensItem.color, label: {
-                    //                        Text("Color")
-                    //                            .font(.headline)
-                    //                            .foregroundColor(.secondary)
-                    //                            .padding(.vertical, 10)
-                    //                    })
-                    
-                    if let cylinder = lensItem.cylinder {
-                        LensDetailRow(title: "Cylinder", value: "\(cylinder)")
+                if lensItem.axis != nil || lensItem.cylinder != nil {
+                    Section(isExpanded: $isOptionalSectionShowing) {
+                        //                    ColorPicker(selection: $lensItem.color, label: {
+                        //                        Text("Color")
+                        //                            .font(.headline)
+                        //                            .foregroundColor(.secondary)
+                        //                            .padding(.vertical, 10)
+                        //                    })
+                        
+                        if let cylinder = lensItem.cylinder {
+                            LensDetailRow(title: "Cylinder", value: "\(cylinder)")
+                        }
+                        
+                        if let axis = lensItem.axis {
+                            LensDetailRow(title: "Axis", value: "\(axis)")
+                        }
+                    } header: {
+                        Text("Other Information")
                     }
-                    
-                    if let axis = lensItem.axis {
-                        LensDetailRow(title: "Axis", value: "\(axis)")
-                    }
-                } header: {
-                    Text("Other Information")
                 }
             }
             .scrollIndicators(.hidden)
             .listStyle(.sidebar)
             .scrollBounceBehavior(.basedOnSize)
         }
-        
-        
     }
     
     private func formattedDate(_ date: Date) -> String {

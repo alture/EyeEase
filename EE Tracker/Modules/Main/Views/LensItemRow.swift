@@ -12,13 +12,13 @@ struct LensItemRow: View {
     var body: some View {
         HStack {
             VStack(alignment: .leading) {
-                HStack {
+//                HStack {
                     Text(lensItem.name)
                         .font(.system(.title2, design: .rounded, weight: .bold))
-                    Circle()
-                        .frame(width: 15, height: 15)
-                        .foregroundStyle(lensItem.color)
-                }
+//                    Circle()
+//                        .frame(width: 15, height: 15)
+//                        .foregroundStyle(lensItem.color)
+//                }
                 Text("D: \(String(format: "%.1f", lensItem.diopter)) • \(lensItem.wearDuration.rawValue) • \(lensItem.eyeSide.rawValue)")
                     .font(.system(.body, design: .rounded, weight: .medium))
                     .foregroundStyle(Color(.systemGray2))
