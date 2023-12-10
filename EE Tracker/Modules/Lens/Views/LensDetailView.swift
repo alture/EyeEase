@@ -13,67 +13,7 @@ struct LensDetailView: View {
     
     var body: some View {
         VStack {
-            VStack {
-                switch lensItem.wearDuration {
-                case .daily:
-                    HStack(alignment: .firstTextBaseline, spacing: 20) {
-                        VStack(spacing: 4) {
-                            Button(action: {
-                                withAnimation {
-                                    self.lensItem.decreaseQuantity(for: lensItem)
-                                }
-                                
-                                UIImpactFeedbackGenerator().impactOccurred()
-                            }, label: {
-                                Image(systemName: "minus.circle")
-                                    .font(.largeTitle)
-                            })
-                            .customDisabled(!(lensItem.usedNumber > 0))
-                            
-                            Text("Undo")
-                                .font(.headline)
-                                .foregroundStyle(.secondary)
-                        }
-                        
-                        ZStack {
-                            Text(lensItem.limitDesciption)
-                                .font(.system(.subheadline, design: .rounded, weight: .bold))
-                                .foregroundStyle(Color(.systemGray2))
-                            CircleProgressView(lensItem: lensItem,
-                                               lineWidth: 8.0
-                            )
-                            .frame(width: 120, height: 120)
-                        }
-                        VStack(spacing: 4) {
-                            Button(action: {
-                                withAnimation {
-                                    self.lensItem.increaseQuantity(for: lensItem)
-                                }
-                                UIImpactFeedbackGenerator().impactOccurred()
-                            }, label: {
-                                Image(systemName: "plus.circle")
-                                    .font(.largeTitle)
-                            })
-                            .customDisabled(lensItem.usedNumber >= lensItem.totalNumber)
-                            
-                            Text("Pick-up")
-                                .font(.headline)
-                                .foregroundStyle(.secondary)
-                        }
-                    }
-                default:
-                    ZStack {
-                        Text(lensItem.limitDesciption)
-                            .font(.system(.subheadline, design: .rounded, weight: .bold))
-                            .foregroundStyle(Color(.systemGray2))
-                        CircleProgressView(lensItem: lensItem,
-                                           lineWidth: 8.0
-                        )
-                        .frame(width: 120, height: 120)
-                    }
-                }
-            }
-            .padding()
+            LensDetailHeaderView(lensItem: lensItem)
             List {
                 Section {
                     LensDetailRow(title: "Name", value: lensItem.name)

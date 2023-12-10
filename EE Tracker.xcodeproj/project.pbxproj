@@ -26,6 +26,7 @@
 		B7E32D8F2B2528EA00CA0729 /* SettingsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E32D8E2B2528EA00CA0729 /* SettingsModel.swift */; };
 		B7E32DA02B26058500CA0729 /* PreviewSampleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E32D9F2B26058500CA0729 /* PreviewSampleData.swift */; };
 		B7E32DA22B2605AD00CA0729 /* SampleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E32DA12B2605AD00CA0729 /* SampleData.swift */; };
+		B7E32DA42B2629A800CA0729 /* LensDetailHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E32DA32B2629A800CA0729 /* LensDetailHeaderView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -49,6 +50,7 @@
 		B7E32D8E2B2528EA00CA0729 /* SettingsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsModel.swift; sourceTree = "<group>"; };
 		B7E32D9F2B26058500CA0729 /* PreviewSampleData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewSampleData.swift; sourceTree = "<group>"; };
 		B7E32DA12B2605AD00CA0729 /* SampleData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleData.swift; sourceTree = "<group>"; };
+		B7E32DA32B2629A800CA0729 /* LensDetailHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LensDetailHeaderView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -160,6 +162,7 @@
 				B7E32D802B2119CD00CA0729 /* LensDetailView.swift */,
 				B7E32D822B21219B00CA0729 /* LensCreateOrEditView.swift */,
 				B7E32D862B23503600CA0729 /* NewLensView.swift */,
+				B7E32DA32B2629A800CA0729 /* LensDetailHeaderView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -296,6 +299,7 @@
 				B7E32DA02B26058500CA0729 /* PreviewSampleData.swift in Sources */,
 				B7E075532B1D0FF2001ABFE4 /* SettingsView.swift in Sources */,
 				B7D0E9362B1FA73900DE811D /* LensView.swift in Sources */,
+				B7E32DA42B2629A800CA0729 /* LensDetailHeaderView.swift in Sources */,
 				B7E32D8B2B2521B700CA0729 /* EyeSide.swift in Sources */,
 				B7E32D832B21219C00CA0729 /* LensCreateOrEditView.swift in Sources */,
 				B7E075512B1CE214001ABFE4 /* CircleProgressView.swift in Sources */,

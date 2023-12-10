@@ -28,6 +28,7 @@ struct NewLensView: View {
                         Button("Cancel") {
                             self.dismiss()
                         }
+                        .foregroundStyle(.teal)
                     }
                     
                     if !self.draftLensItem.name.isEmpty {
@@ -41,6 +42,7 @@ struct NewLensView: View {
                                 }
                                 self.dismiss()
                             }
+                            .foregroundStyle(.teal)
                         }
                     }
                 }

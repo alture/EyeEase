@@ -20,6 +20,10 @@ final class LensItem: Identifiable, Hashable, ObservableObject {
     var eyeSide: EyeSide
     var wearDuration: WearDuration
     var startDate: Date
+    var changeDate: Date {
+        let endDate = Calendar.current.date(byAdding: .day, value: wearDuration.limit, to: startDate)
+        return endDate ?? Date()
+    }
     var remainingDays: Int {
         guard let finishDate else { return 0 }
         let currentDate = Date()
@@ -48,7 +52,7 @@ final class LensItem: Identifiable, Hashable, ObservableObject {
     var limitDesciption: String {
         switch wearDuration {
         case .daily:
-            return "\(totalNumber - usedNumber) pairs left"
+            return "\(totalNumber - usedNumber) \(eyeSide == .paired ? "pairs" : "lens") left"
         default:
             return "\(remainingDays) \(remainingDays > 1 ? "days" : "day") left"
         }
@@ -56,12 +60,12 @@ final class LensItem: Identifiable, Hashable, ObservableObject {
     
     func increaseQuantity(for lense: LensItem) {
         let maxValue = lense.totalNumber
-        let quantity = min(maxValue, lense.usedNumber + 1)
+        let quantity = min(maxValue, lense.usedNumber + (eyeSide == .paired ? 2 : 1))
         lense.usedNumber = quantity
     }
     
     func decreaseQuantity(for lense: LensItem) {
-        let quantity = max(0, lense.usedNumber - 1)
+        let quantity = max(0, lense.usedNumber - (eyeSide == .paired ? 2 : 1))
         lense.usedNumber = quantity
     }
     
