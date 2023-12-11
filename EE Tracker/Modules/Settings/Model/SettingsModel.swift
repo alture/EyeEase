@@ -14,10 +14,13 @@ enum Plan: String, Codable, CaseIterable, Identifiable {
     var id: Self { self }
 }
 
-final class SettingsModel: ObservableObject {
+final class SettingsModel {
     var plan: Plan
     var pushNotificationAllowed: Bool
     var reminderDays: Int
+    var appVersion: String {
+        AppVersionProvider.appVersion()
+    }
     
     init(plan: Plan, pushNotificationAllowed: Bool, reminderDays: Int) {
         self.plan = plan

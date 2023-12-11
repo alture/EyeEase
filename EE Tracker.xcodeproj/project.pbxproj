@@ -27,6 +27,7 @@
 		B7E32DA02B26058500CA0729 /* PreviewSampleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E32D9F2B26058500CA0729 /* PreviewSampleData.swift */; };
 		B7E32DA22B2605AD00CA0729 /* SampleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E32DA12B2605AD00CA0729 /* SampleData.swift */; };
 		B7E32DA42B2629A800CA0729 /* LensDetailHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E32DA32B2629A800CA0729 /* LensDetailHeaderView.swift */; };
+		B7E32DC22B26523D00CA0729 /* AppVersionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E32DC12B26523D00CA0729 /* AppVersionProvider.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -51,6 +52,7 @@
 		B7E32D9F2B26058500CA0729 /* PreviewSampleData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewSampleData.swift; sourceTree = "<group>"; };
 		B7E32DA12B2605AD00CA0729 /* SampleData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleData.swift; sourceTree = "<group>"; };
 		B7E32DA32B2629A800CA0729 /* LensDetailHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LensDetailHeaderView.swift; sourceTree = "<group>"; };
+		B7E32DC12B26523D00CA0729 /* AppVersionProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppVersionProvider.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -171,16 +173,8 @@
 			isa = PBXGroup;
 			children = (
 				B7E32D9A2B252BB500CA0729 /* Views */,
-				B7E32D992B252BB000CA0729 /* Model */,
 			);
 			path = Main;
-			sourceTree = "<group>";
-		};
-		B7E32D992B252BB000CA0729 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Model;
 			sourceTree = "<group>";
 		};
 		B7E32D9A2B252BB500CA0729 /* Views */ = {
@@ -215,6 +209,7 @@
 			children = (
 				B7E32D9F2B26058500CA0729 /* PreviewSampleData.swift */,
 				B7E32DA12B2605AD00CA0729 /* SampleData.swift */,
+				B7E32DC12B26523D00CA0729 /* AppVersionProvider.swift */,
 			);
 			path = Support;
 			sourceTree = "<group>";
@@ -295,6 +290,7 @@
 				B7E32D8D2B2521DC00CA0729 /* WearDuration.swift in Sources */,
 				B7C08EB12B1CAAB600DD0BE2 /* ContentView.swift in Sources */,
 				B7C08EAF2B1CAAB600DD0BE2 /* EE_TrackerApp.swift in Sources */,
+				B7E32DC22B26523D00CA0729 /* AppVersionProvider.swift in Sources */,
 				B7E32DA22B2605AD00CA0729 /* SampleData.swift in Sources */,
 				B7E32DA02B26058500CA0729 /* PreviewSampleData.swift in Sources */,
 				B7E075532B1D0FF2001ABFE4 /* SettingsView.swift in Sources */,

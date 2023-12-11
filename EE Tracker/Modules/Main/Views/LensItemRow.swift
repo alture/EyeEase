@@ -11,16 +11,16 @@ struct LensItemRow: View {
     @ObservedObject var lensItem: LensItem
     var body: some View {
         HStack {
-            VStack(alignment: .leading) {
+            VStack(alignment: .leading, spacing: 8) {
 //                HStack {
                     Text(lensItem.name)
-                        .font(.system(.title2, design: .rounded, weight: .bold))
+                        .font(.system(.title2, design: .default, weight: .bold))
 //                    Circle()
 //                        .frame(width: 15, height: 15)
 //                        .foregroundStyle(lensItem.color)
 //                }
                 Text("D: \(String(format: "%.1f", lensItem.diopter)) • \(lensItem.wearDuration.rawValue) • \(lensItem.eyeSide.rawValue)")
-                    .font(.system(.body, design: .rounded, weight: .medium))
+                    .font(.system(.body, design: .default, weight: .medium))
                     .foregroundStyle(Color(.systemGray2))
             }
             
@@ -29,14 +29,13 @@ struct LensItemRow: View {
                 CircleProgressView(lensItem: lensItem)
                     .frame(width: 30, height: 30)
                 Text(lensItem.limitDesciption)
-                .font(.system(.subheadline, design: .rounded, weight: .bold))
+                .font(.system(.subheadline, design: .default, weight: .bold))
                 .foregroundStyle(Color(.systemGray2))
 
             }
         }
-        .padding()
+        .padding(.vertical, 8)
         .background(Color.white)
-        .clipShape(RoundedRectangle(cornerRadius: 20))
     }
 }
 

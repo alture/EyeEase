@@ -8,10 +8,8 @@
 import SwiftUI
 
 struct SettingsView: View {
-    @ObservedObject private var viewModel: SettingsViewModel = SettingsViewModel(settingsModel: SettingsModel(
-        plan: .free,
-        pushNotificationAllowed: false,
-        reminderDays: 5)
+    @State var viewModel: SettingsViewModel = SettingsViewModel(
+        settingsModel: SettingsModel(plan: .free, pushNotificationAllowed: false, reminderDays: 5)
     )
     
     @Environment(\.dismiss) var dismiss
@@ -73,14 +71,11 @@ struct SettingsView: View {
                             Text("Reminder")
                         }
                     }
-                    
                 }
                 
                 Section(header: Text("About")) {
                     Group {
-                        Button {
-                            
-                        } label: {
+                        Link(destination: URL(string: "mailto:jon.doe@mail.com")!) {
                             HStack {
                                 Image(systemName: "square.and.pencil")
                                 Text("Write us")
@@ -100,7 +95,7 @@ struct SettingsView: View {
                             Image(systemName: "info.circle")
                             Text("EyeEase - Lenses Tracker")
                             Spacer()
-                            Text("v1.0")
+                            Text("v\(viewModel.settingsModel.appVersion)")
                                 .foregroundStyle(Color(.systemGray2))
                         }
                     }
@@ -123,5 +118,9 @@ struct SettingsView: View {
 }
 
 #Preview {
-    SettingsView()
+    SettingsView(viewModel: SettingsViewModel(settingsModel: SettingsModel(
+        plan: .free,
+        pushNotificationAllowed: false,
+        reminderDays: 5))
+    )
 }

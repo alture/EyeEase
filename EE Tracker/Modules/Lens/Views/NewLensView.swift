@@ -44,8 +44,3 @@ struct NewLensView: View {
         }
     }
 }
-
-#Preview {
-    NewLensView()
-        .modelContainer(previewContainer)
-}

@@ -17,53 +17,47 @@ struct ContentView: View {
     
     var body: some View {
         NavigationStack {
-            VStack(alignment: .leading) {
-                ZStack(alignment: .bottom) {
-                    ScrollView(.vertical) {
-                        VStack(spacing: 12) {
-                            ForEach(lensItems) { lensItem in
-                                LensItemRow(lensItem: lensItem)
-                                    .onTapGesture {
-                                        self.selectedLensItem = lensItem
-                                    }
-                                    .contextMenu {
-                                        Button {
-                                            self.delete(lensItem)
-                                        } label: {
-                                            Text("Delete")
-                                            Image(systemName: "trash")
-                                        }
-                                    }
+            ZStack(alignment: .bottom) {
+                List {
+                    ForEach(lensItems) { lensItem in
+                        LensItemRow(lensItem: lensItem)
+                            .onTapGesture {
+                                self.selectedLensItem = lensItem
                             }
-                        }
+                            .contextMenu {
+                                Button {
+                                    self.delete(lensItem)
+                                } label: {
+                                    Text("Delete")
+                                    Image(systemName: "trash")
+                                }
+                            }
                     }
-                    .frame(maxWidth: .infinity)
-                    .scrollIndicators(.hidden)
-                    .padding(.horizontal)
-                    .scrollBounceBehavior(.basedOnSize)
-                    
-                    Button(action: {
-                        self.isNewLensShowing = true
-                    }, label: {
-                        Image(systemName: "plus.circle.fill")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .foregroundStyle(.teal)
-                            .frame(width: 60, height: 60)
+                    .onDelete(perform: { indexSet in
+                        
                     })
                 }
+                .scrollIndicators(.hidden)
+                .scrollBounceBehavior(.basedOnSize)
+                
+                Button(action: {
+                    self.isNewLensShowing = true
+                }, label: {
+                    Image(systemName: "plus.circle.fill")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .foregroundStyle(.teal)
+                        .frame(width: 60, height: 60)
+                })
             }
-            .background(Color(.systemGray6))
             .sheet(isPresented: $isShowingSettings, content: {
                 SettingsView()
             })
             .sheet(item: $selectedLensItem, content: { lensItem in
                 LensView(lensItem: lensItem)
-                    .modelContext(modelContext)
             })
             .sheet(isPresented: $isNewLensShowing, content: {
                 NewLensView()
-                    .modelContext(modelContext)
             })
             .onDisappear(perform: {
                 self.isNewLensShowing = false

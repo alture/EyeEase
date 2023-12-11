@@ -6,8 +6,7 @@
 //
 
 import Foundation
-import SwiftData
-
+import Combine
 
 final class SettingsViewModel: ObservableObject {
     @Published var settingsModel: SettingsModel
