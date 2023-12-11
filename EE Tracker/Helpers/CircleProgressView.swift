@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CircleProgressView: View {
-    @State var lensItem: LensItem
+    @EnvironmentObject var lensItem: LensItem
     var lineWidth: CGFloat = 4.0
     private var progressColor: Color {
         switch lensItem.progress {
@@ -24,24 +24,24 @@ struct CircleProgressView: View {
     var body: some View {
         ZStack {
             Circle()
-                .stroke(Color(.systemGray6), lineWidth: lineWidth)
+                .stroke(Color(.systemGray5), lineWidth: lineWidth)
             Circle()
                 .trim(from: 0.0, to: lensItem.progress)
                 .stroke(progressColor, lineWidth: lineWidth)
                 .rotationEffect(.degrees(-90))
+                .animation(.easeInOut, value: lensItem.progress)
         }
-        .background(.clear)
     }
 }
 
 #Preview {
-    CircleProgressView(lensItem: LensItem(
-        name: "",
-        wearDuration: .monthly,
-        startDate: Date(),
-        totalNumber: 30,
-        usedNumber: 10,
-        resolvedColor: ColorComponents.fromColor(.red),
-        diopter: -4.5)
-    )
+    CircleProgressView()
+        .environmentObject(LensItem(
+            name: "",
+            wearDuration: .monthly,
+            startDate: Date(),
+            totalNumber: 30,
+            usedNumber: 10,
+            resolvedColor: ColorComponents.fromColor(.red),
+            diopter: -4.5))
 }

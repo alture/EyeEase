@@ -20,7 +20,8 @@ struct NewLensView: View {
     @Environment(\.modelContext) var modelContext
     var body: some View {
         NavigationStack {
-            LensCreateOrEditView(lensItem: self.draftLensItem)
+            LensCreateOrEditView()
+                .environmentObject(draftLensItem)
                 .navigationTitle("Create Lens")
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbar {
@@ -43,4 +44,9 @@ struct NewLensView: View {
                 }
         }
     }
+}
+
+#Preview {
+    NewLensView()
+        .modelContainer(previewContainer)
 }

@@ -45,7 +45,7 @@ struct SettingsView: View {
                             Text("Restore Purchases")
                         }
                     }
-                    .foregroundStyle(.black)
+                    .foregroundStyle(.primary)
                 }
                 
                 Section(
@@ -56,7 +56,7 @@ struct SettingsView: View {
                         HStack {
                             Image(systemName: "app.badge")
                                 .symbolRenderingMode(.palette)
-                                .foregroundStyle(.red, .black)
+                                .foregroundStyle(.red, .primary)
                             Text("Push notification")
                         }
                     })
@@ -64,6 +64,7 @@ struct SettingsView: View {
                     Picker(selection: $viewModel.settingsModel.reminderDays) {
                         ForEach([1, 3, 5, 7], id: \.self) { day in
                             Text("\(day) \(day == 1 ? "day" : "days")")
+                                .tag(day)
                         }
                     } label: {
                         HStack {
@@ -99,7 +100,7 @@ struct SettingsView: View {
                                 .foregroundStyle(Color(.systemGray2))
                         }
                     }
-                    .foregroundStyle(Color.black)
+                    .foregroundStyle(.primary)
                 }
             }
             .toolbar(content: {

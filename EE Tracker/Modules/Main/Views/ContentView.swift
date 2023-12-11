@@ -33,9 +33,6 @@ struct ContentView: View {
                                 }
                             }
                     }
-                    .onDelete(perform: { indexSet in
-                        
-                    })
                 }
                 .scrollIndicators(.hidden)
                 .scrollBounceBehavior(.basedOnSize)
@@ -54,10 +51,13 @@ struct ContentView: View {
                 SettingsView()
             })
             .sheet(item: $selectedLensItem, content: { lensItem in
-                LensView(lensItem: lensItem)
+                LensView()
+                    .environmentObject(lensItem)
+                    .modelContainer(modelContext.container)
             })
             .sheet(isPresented: $isNewLensShowing, content: {
                 NewLensView()
+                    .modelContainer(modelContext.container)
             })
             .onDisappear(perform: {
                 self.isNewLensShowing = false

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct LensCreateOrEditView: View {
-    @ObservedObject var lensItem: LensItem
+    @EnvironmentObject var lensItem: LensItem
     let formatter: NumberFormatter = {
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
@@ -19,6 +19,7 @@ struct LensCreateOrEditView: View {
         Form {
             Section(header: Text("Main")) {
                 TextField("Name", text: $lensItem.name)
+                    .autocorrectionDisabled(true)
                 Picker("Eye Side", selection: $lensItem.eyeSide) {
                     ForEach(EyeSide.allCases) { side in
                         Text(side.rawValue)
@@ -28,6 +29,8 @@ struct LensCreateOrEditView: View {
                     Text("Diopter")
                     Spacer()
                     TextField("-2.5", value: $lensItem.diopter, formatter: formatter)
+                        .autocorrectionDisabled(true)
+                        .textContentType(.telephoneNumber)
                         .frame(minWidth: 60)
                         .multilineTextAlignment(.trailing)
                 }
@@ -40,9 +43,11 @@ struct LensCreateOrEditView: View {
                 
                 if lensItem.wearDuration == .daily {
                     HStack {
-                        Text("Total number of lens")
+                        Text("Number of lens")
                         Spacer()
                         TextField("30", value: $lensItem.totalNumber, formatter: formatter)
+                            .autocorrectionDisabled()
+                            .textContentType(.telephoneNumber)
                             .frame(minWidth: 60)
                             .multilineTextAlignment(.trailing)
                     }
@@ -58,7 +63,10 @@ struct LensCreateOrEditView: View {
                 HStack {
                     Text("Cylinder")
                     Spacer()
-                    TextField("Optional", value: $lensItem.cylinder, formatter: formatter)
+                    TextField("Optional", value: $lensItem.cylinder, format: .number)
+                        .autocorrectionDisabled(true)
+                        .textContentType(.telephoneNumber)
+                        .multilineTextAlignment(.trailing)
                         .fixedSize()
                 }
                 
@@ -66,6 +74,7 @@ struct LensCreateOrEditView: View {
                     Text("Axis")
                     Spacer()
                     TextField("Optional", value: $lensItem.axis, formatter: formatter)
+                        .multilineTextAlignment(.trailing)
                         .fixedSize()
                 }
             }
@@ -74,7 +83,8 @@ struct LensCreateOrEditView: View {
 }
 
 #Preview {
-    LensCreateOrEditView(lensItem: LensItem(
+    LensCreateOrEditView()
+    .environmentObject(LensItem(
         name: "Preview Name",
         eyeSide: .paired,
         startDate: Date(),

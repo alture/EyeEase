@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct LensItemRow: View {
-    @ObservedObject var lensItem: LensItem
+    var lensItem: LensItem
     var body: some View {
         HStack {
             VStack(alignment: .leading, spacing: 8) {
@@ -26,7 +26,8 @@ struct LensItemRow: View {
             
             Spacer()
             VStack(alignment: .trailing) {
-                CircleProgressView(lensItem: lensItem)
+                CircleProgressView()
+                    .environmentObject(lensItem)
                     .frame(width: 30, height: 30)
                 Text(lensItem.limitDesciption)
                 .font(.system(.subheadline, design: .default, weight: .bold))
@@ -35,19 +36,18 @@ struct LensItemRow: View {
             }
         }
         .padding(.vertical, 8)
-        .background(Color.white)
     }
 }
 
 #Preview {
-    LensItemRow(lensItem: LensItem(
+    let lensItem = LensItem(
         name: "Preview Name",
-        eyeSide: .paired, 
+        eyeSide: .paired,
         startDate: Date(),
         totalNumber: 0,
         usedNumber: 0,
         resolvedColor: .fromColor(.red),
         diopter: 0)
-    )
-    .previewLayout(.fixed(width: 200, height: 50))
+    return LensItemRow(lensItem: lensItem)
+        .previewLayout(.fixed(width: 200, height: 50))
 }

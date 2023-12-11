@@ -8,12 +8,13 @@
 import SwiftUI
 
 struct LensDetailView: View {
-    @ObservedObject var lensItem: LensItem
+    @EnvironmentObject var lensItem: LensItem
     @State var isOptionalSectionShowing: Bool = false
     
     var body: some View {
         VStack {
-            LensDetailHeaderView(lensItem: lensItem)
+            LensDetailHeaderView()
+                .environment(lensItem)
             List {
                 Section {
                     LensDetailRow(title: "Name", value: lensItem.name)
@@ -101,7 +102,7 @@ extension Button {
 }
 
 #Preview {
-    LensDetailView(lensItem: LensItem(
+    let lensItem = LensItem(
         name: "Preview Name",
         eyeSide: .paired,
         wearDuration: .daily,
@@ -109,6 +110,8 @@ extension Button {
         totalNumber: 30,
         usedNumber: 0,
         resolvedColor: .fromColor(.red),
-        diopter: 0)
+        diopter: 0
     )
+    return LensDetailView()
+        .environmentObject(lensItem)
 }

@@ -52,7 +52,7 @@ final class LensItem: Identifiable, Hashable, ObservableObject {
     var limitDesciption: String {
         switch wearDuration {
         case .daily:
-            return "\(totalNumber - usedNumber) \(eyeSide == .paired ? "pairs" : "lens") left"
+            return "\(usedNumber) lens used"
         default:
             return "\(remainingDays) \(remainingDays > 1 ? "days" : "day") left"
         }
@@ -62,15 +62,22 @@ final class LensItem: Identifiable, Hashable, ObservableObject {
         let maxValue = lense.totalNumber
         let quantity = min(maxValue, lense.usedNumber + (eyeSide == .paired ? 2 : 1))
         lense.usedNumber = quantity
+        objectWillChange.send()
     }
     
     func decreaseQuantity(for lense: LensItem) {
         let quantity = max(0, lense.usedNumber - (eyeSide == .paired ? 2 : 1))
         lense.usedNumber = quantity
+        objectWillChange.send()
     }
     
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
+    }
+    
+    func restart() {
+        startDate = Date()
+        usedNumber = 0
     }
     
     init(

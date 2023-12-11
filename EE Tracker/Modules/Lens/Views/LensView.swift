@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct LensView: View {
-    @State var lensItem: LensItem
+    @EnvironmentObject var lensItem: LensItem
+    @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) var dismiss
     @Environment(\.editMode) var editMode
     
@@ -21,9 +22,20 @@ struct LensView: View {
         NavigationStack {
             VStack {
                 if isEditing {
-                    LensCreateOrEditView(lensItem: lensItem)
+                    LensCreateOrEditView()
+                        .environmentObject(lensItem)
+                    Button(role: .destructive, action: {
+                        self.modelContext.delete(lensItem)
+                        self.dismiss()
+                    }, label: {
+                        Label("Delete", systemImage: "trash")
+                            .frame(maxWidth: .infinity, minHeight: 40)
+                    })
+                    .buttonStyle(.borderedProminent)
+                    .padding()
                 } else {
-                    LensDetailView(lensItem: lensItem)
+                    LensDetailView()
+                        .environmentObject(lensItem)
                 }
             }
             .navigationTitle(isEditing ? "Edit" : lensItem.name)
@@ -51,22 +63,25 @@ struct LensView: View {
                     })
                     .foregroundStyle(Color.teal)
                 }
+                
             }
         }
     }
 }
 
 #Preview {
-    LensView(lensItem: LensItem(
-        name: "Preview Name",
-        startDate: Date(),
-        totalNumber: 0,
-        usedNumber: 0,
-        resolvedColor: ColorComponents.fromColor(.red),
-        diopter: -4.5,
-        cylinder: nil,
-        axis: nil)
-    )
+    LensView()
+        .environmentObject(LensItem(
+            name: "Preview Name",
+            wearDuration: .daily,
+            startDate: Date(),
+            totalNumber: 30,
+            usedNumber: 10,
+            resolvedColor: ColorComponents.fromColor(.red),
+            diopter: -4.5,
+            cylinder: nil,
+            axis: nil))
+        .modelContainer(previewContainer)
 }
 
 extension EditMode {
