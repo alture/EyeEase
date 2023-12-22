@@ -10,16 +10,6 @@ import SwiftUI
 struct CircleProgressView: View {
     @EnvironmentObject var lensItem: LensItem
     var lineWidth: CGFloat = 4.0
-    private var progressColor: Color {
-        switch lensItem.progress {
-        case 0.0...0.5:
-            Color.green
-        case 0.5...0.8:
-            Color.orange
-        default:
-            Color.red
-        }
-    }
     
     var body: some View {
         ZStack {
@@ -27,7 +17,7 @@ struct CircleProgressView: View {
                 .stroke(Color(.systemGray5), lineWidth: lineWidth)
             Circle()
                 .trim(from: 0.0, to: lensItem.progress)
-                .stroke(progressColor, lineWidth: lineWidth)
+                .stroke(lensItem.progressColor, style: StrokeStyle(lineWidth: lineWidth, lineCap: .round))
                 .rotationEffect(.degrees(-90))
                 .animation(.easeInOut, value: lensItem.progress)
         }

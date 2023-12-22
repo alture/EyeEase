@@ -10,7 +10,7 @@ import SwiftUI
 struct LensDetailHeaderView: View {
     @EnvironmentObject var lensItem: LensItem
     var body: some View {
-        VStack(alignment: .center) {
+        VStack(alignment: .center, spacing: 20.0) {
             switch lensItem.wearDuration {
             case .daily:
                 HStack(alignment: .firstTextBaseline) {
@@ -51,7 +51,7 @@ struct LensDetailHeaderView: View {
                             Image(systemName: "plus.circle")
                                 .font(.largeTitle)
                         })
-                        .customDisabled(lensItem.usedNumber >= lensItem.totalNumber)
+                        .customDisabled(lensItem.usedNumber >= lensItem.totalNumber ?? 0)
                         
                         Text("Pick Up")
                             .font(.headline)
@@ -59,10 +59,9 @@ struct LensDetailHeaderView: View {
                     }
                     .frame(minWidth: 0, maxWidth: .infinity)
                 }
-                .padding(.bottom)
             default:
                 ZStack {
-                    VStack {
+                    VStack(alignment: .center) {
                         Text("\(lensItem.remainingDays)")
                             .font(.largeTitle)
                             .bold()
@@ -75,28 +74,40 @@ struct LensDetailHeaderView: View {
                         .environmentObject(lensItem)
                     .frame(width: 130, height: 130)
                 }
-                .padding(.bottom)
             }
-            
             switch lensItem.wearDuration {
             case .daily:
                 HStack {
-                    Text("You have")
-                    Text("\(lensItem.totalNumber - lensItem.usedNumber)")
-                        .foregroundStyle(.teal)
-                    Text("lens in case")
+                    if lensItem.usedNumber >= lensItem.totalNumber ?? 0 {
+                        Text("Lens has expired")
+                            .foregroundStyle(.red)
+                            .font(.system(.title3, design: .default, weight: .bold))
+                    } else {
+                        Text("You have")
+                        if let totalNumber = lensItem.totalNumber {
+                            Text("\(totalNumber - lensItem.usedNumber)")
+                                .foregroundStyle(lensItem.progressColor)
+                        }
+                        Text("lens in case")
+                    }
                 }
                 .font(.system(.title3, design: .default, weight: .bold))
             default:
                 HStack {
-                    Text("Change on")
-                    Text(lensItem.changeDate, style: .date)
-                        .foregroundStyle(.teal)
+                    if lensItem.remainingDays <= 0 {
+                        Text("Lens has expired")
+                            .foregroundStyle(.red)
+                    } else {
+                        Text("Change on")
+                        Text(lensItem.changeDate, style: .date)
+                            .foregroundStyle(lensItem.progressColor)
+                    }
                 }
                 .font(.system(.title3, design: .default, weight: .bold))
             }
         }
-        .padding(.vertical)
+        .frame(minWidth: 0, maxWidth: .infinity)
+        .padding(.vertical, 8)
     }
 
 }

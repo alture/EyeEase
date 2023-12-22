@@ -8,20 +8,16 @@
 import SwiftUI
 
 struct NewLensView: View {
-    @StateObject var draftLensItem: LensItem = LensItem(
+    @State var draftLensItem: LensItem = LensItem(
         name: "",
         startDate: Date(),
-        totalNumber: 0,
-        usedNumber: 0,
-        resolvedColor: ColorComponents.fromColor(.clear),
-        diopter: 0
+        resolvedColor: ColorComponents.fromColor(.clear)
     )
     @Environment(\.dismiss) var dismiss
     @Environment(\.modelContext) var modelContext
     var body: some View {
         NavigationStack {
-            LensCreateOrEditView()
-                .environmentObject(draftLensItem)
+            LensCreateOrEditView(lensItem: $draftLensItem)
                 .navigationTitle("Create Lens")
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbar {
@@ -32,7 +28,7 @@ struct NewLensView: View {
                         .foregroundStyle(.teal)
                     }
                     
-                    if !self.draftLensItem.name.isEmpty {
+                    if self.draftLensItem.isFilled() {
                         ToolbarItem(placement: .topBarTrailing) {
                             Button("Add") {
                                 self.modelContext.insert(self.draftLensItem)

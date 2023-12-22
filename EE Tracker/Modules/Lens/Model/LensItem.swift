@@ -16,7 +16,13 @@ final class LensItem: Identifiable, Hashable, ObservableObject {
     }
     
     @Attribute(.unique) var id: UUID
-    var name: String
+    var name: String {
+        didSet {
+            if name.count > 20 {
+                name.removeLast()
+            }
+        }
+    }
     var eyeSide: EyeSide
     var wearDuration: WearDuration
     var startDate: Date
@@ -36,18 +42,19 @@ final class LensItem: Identifiable, Hashable, ObservableObject {
     var progress: CGFloat {
         switch wearDuration {
         case .daily:
-            return CGFloat(Double(usedNumber) / Double(totalNumber))
+            return CGFloat(Double(usedNumber) / Double(totalNumber ?? 0))
         default:
             return CGFloat(1.0 - Double(remainingDays) / Double(wearDuration.limit))
         }
     }
-    var totalNumber: Int
+    var totalNumber: Int?
     var usedNumber: Int
     var color: Color { resolvedColor.color }
     var resolvedColor: ColorComponents
-    var diopter: Float
+    var diopter: Double?
     var cylinder: Float?
     var axis: Int?
+    var isPinned: Bool
     
     var limitDesciption: String {
         switch wearDuration {
@@ -58,8 +65,27 @@ final class LensItem: Identifiable, Hashable, ObservableObject {
         }
     }
     
+    var progressColor: Color {
+        var progress: Int = remainingDays
+        switch wearDuration {
+        case .daily:
+            guard let totalNumber else { return Color.clear }
+            progress = totalNumber - usedNumber
+        default:
+            break
+        }
+        switch progress  {
+        case 0...2:
+            return Color.red
+        case 3...6:
+            return Color.yellow
+        default:
+            return Color.green
+        }
+    }
+    
     func increaseQuantity(for lense: LensItem) {
-        let maxValue = lense.totalNumber
+        let maxValue = lense.totalNumber ?? 0
         let quantity = min(maxValue, lense.usedNumber + (eyeSide == .paired ? 2 : 1))
         lense.usedNumber = quantity
         objectWillChange.send()
@@ -80,18 +106,30 @@ final class LensItem: Identifiable, Hashable, ObservableObject {
         usedNumber = 0
     }
     
+    func isFilled() -> Bool {
+        let nameIsFilled = !name.isEmpty
+        let diopterIsFilled = diopter != 0
+        switch wearDuration {
+        case .daily:
+            return totalNumber != nil && nameIsFilled && diopterIsFilled
+        default:
+            return nameIsFilled && diopterIsFilled
+        }
+    }
+    
     init(
         id: UUID = UUID(),
         name: String,
         eyeSide: EyeSide = .paired,
         wearDuration: WearDuration = .monthly,
         startDate: Date,
-        totalNumber: Int,
-        usedNumber: Int,
+        totalNumber: Int? = nil,
+        usedNumber: Int = 0,
         resolvedColor: ColorComponents,
-        diopter: Float,
+        diopter: Double? = nil,
         cylinder: Float? = nil,
-        axis: Int? = nil) {
+        axis: Int? = nil,
+        isPinned: Bool = true) {
             self.id = id
             self.name = name
             self.eyeSide = eyeSide
@@ -103,6 +141,7 @@ final class LensItem: Identifiable, Hashable, ObservableObject {
             self.diopter = diopter
             self.cylinder = cylinder
             self.axis = axis
+            self.isPinned = isPinned
         }
 }
 

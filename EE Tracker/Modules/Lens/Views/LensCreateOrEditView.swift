@@ -8,83 +8,84 @@
 import SwiftUI
 
 struct LensCreateOrEditView: View {
-    @EnvironmentObject var lensItem: LensItem
-    let formatter: NumberFormatter = {
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .decimal
-        return formatter
-    }()
-
+    @Binding var lensItem: LensItem
+    @Environment(\.dismiss) private var dismiss
+    
     var body: some View {
-        Form {
-            Section(header: Text("Main")) {
-                TextField("Name", text: $lensItem.name)
-                    .autocorrectionDisabled(true)
-                Picker("Eye Side", selection: $lensItem.eyeSide) {
-                    ForEach(EyeSide.allCases) { side in
-                        Text(side.rawValue)
-                    }
-                }
-                HStack {
-                    Text("Diopter")
-                    Spacer()
-                    TextField("-2.5", value: $lensItem.diopter, formatter: formatter)
+        VStack {
+            Form {
+                Section(header: Text("Main")) {
+                    TextField("Lens name", text: $lensItem.name)
                         .autocorrectionDisabled(true)
-                        .textContentType(.telephoneNumber)
-                        .frame(minWidth: 60)
-                        .multilineTextAlignment(.trailing)
-                }
-                
-                Picker("Wear duration", selection: $lensItem.wearDuration) {
-                    ForEach(WearDuration.allCases) { duration in
-                        Text(duration.rawValue)
+                    Picker("Wear duration", selection: $lensItem.wearDuration) {
+                        ForEach(WearDuration.allCases) { duration in
+                            Text(duration.rawValue)
+                        }
                     }
-                }
-                
-                if lensItem.wearDuration == .daily {
+                    
                     HStack {
-                        Text("Number of lens")
+                        Text("Diopter")
                         Spacer()
-                        TextField("30", value: $lensItem.totalNumber, formatter: formatter)
-                            .autocorrectionDisabled()
-                            .textContentType(.telephoneNumber)
+                        TextField("Required", value: $lensItem.diopter, format: .number)
+                            .keyboardType(.numberPad)
+                            .autocorrectionDisabled(true)
                             .frame(minWidth: 60)
                             .multilineTextAlignment(.trailing)
                     }
+                    
+                    Picker("Eye Side", selection: $lensItem.eyeSide) {
+                        ForEach(EyeSide.allCases) { side in
+                            Text(side.rawValue)
+                        }
+                    }
+                    
+                    if lensItem.wearDuration == .daily {
+                        HStack {
+                            Text("Number of lens")
+                            Spacer()
+                            TextField("Required", value: $lensItem.totalNumber, format: .number)
+                                .keyboardType(.asciiCapableNumberPad)
+                                .autocorrectionDisabled(true)
+                                .frame(minWidth: 60)
+                                .multilineTextAlignment(.trailing)
+                        }
+                    }
+                    
+                    DatePicker("Start Date", selection: $lensItem.startDate, displayedComponents: [.date])
+                    
                 }
                 
-                DatePicker("Start Date", selection: $lensItem.startDate, displayedComponents: [.date])
-                
-            }
-            
-            Section(header: Text("Other")) {
-//                ColorPicker("Color", selection: $lensItem.color)
-                
-                HStack {
-                    Text("Cylinder")
-                    Spacer()
-                    TextField("Optional", value: $lensItem.cylinder, format: .number)
-                        .autocorrectionDisabled(true)
-                        .textContentType(.telephoneNumber)
-                        .multilineTextAlignment(.trailing)
-                        .fixedSize()
+                Section(header: Text("Other")) {
+    //                ColorPicker("Color", selection: $lensItem.color)
+                    
+                    HStack {
+                        Text("Cylinder")
+                        Spacer()
+                        TextField("Optional", value: $lensItem.cylinder, format: .number)
+                            .keyboardType(.numberPad)
+                            .autocorrectionDisabled(true)
+                            .multilineTextAlignment(.trailing)
+                            .fixedSize()
+                    }
+                    
+                    HStack {
+                        Text("Axis")
+                        Spacer()
+                        TextField("Optional", value: $lensItem.axis, format: .number)
+                            .keyboardType(.numberPad)
+                            .autocorrectionDisabled(true)
+                            .multilineTextAlignment(.trailing)
+                            .fixedSize()
+                    }
                 }
                 
-                HStack {
-                    Text("Axis")
-                    Spacer()
-                    TextField("Optional", value: $lensItem.axis, formatter: formatter)
-                        .multilineTextAlignment(.trailing)
-                        .fixedSize()
-                }
             }
         }
     }
 }
 
 #Preview {
-    LensCreateOrEditView()
-    .environmentObject(LensItem(
+    let lensItem = LensItem(
         name: "Preview Name",
         eyeSide: .paired,
         startDate: Date(),
@@ -92,5 +93,5 @@ struct LensCreateOrEditView: View {
         usedNumber: 0,
         resolvedColor: .fromColor(.red),
         diopter: 0)
-    )
+    return LensCreateOrEditView(lensItem: .constant(lensItem))
 }

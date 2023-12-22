@@ -8,39 +8,37 @@
 import Foundation
 
 struct SampleData {
-    static var content: [LensItem] = [
+    static var content: [LensItem] =
+    [
         LensItem(
-            name: "Lens Item Name",
+            name: "My Lense Aqueue",
             startDate: Date(),
             totalNumber: 0,
             usedNumber: 0,
             resolvedColor: ColorComponents.fromColor(.clear),
-            diopter: -4.5
+            diopter: -4.5,
+            isPinned: true
         ),
         LensItem(
-            name: "Lens Item Name 2",
+            name: "Secon Lense Yota",
             wearDuration: .daily,
             startDate: Date(),
             totalNumber: 30,
             usedNumber: 0,
             resolvedColor: ColorComponents.fromColor(.clear),
-            diopter: -4.5
+            diopter: 5.0
         ),
         LensItem(
             name: "Lens Item Name 3",
-            wearDuration: .daily,
+            wearDuration: .monthly,
             startDate: Date(),
-            totalNumber: 30,
-            usedNumber: 30,
             resolvedColor: ColorComponents.fromColor(.clear),
             diopter: -4.5
         ),
         LensItem(
             name: "Lens Item Name 4",
-            wearDuration: .daily,
+            wearDuration: .biweekly,
             startDate: Date(),
-            totalNumber: 30,
-            usedNumber: 10,
             resolvedColor: ColorComponents.fromColor(.clear),
             diopter: -4.5
         ),

@@ -9,87 +9,101 @@ import SwiftUI
 import SwiftData
 
 struct ContentView: View {
-    @Query private var lensItems: [LensItem]
+    @Query(sort: \LensItem.startDate) private var lensItems: [LensItem]
     @Environment(\.modelContext) private var modelContext
-    @State var selectedLensItem: LensItem?
-    @State var isShowingSettings: Bool = false
-    @State var isNewLensShowing: Bool = false
+    @State private var isShowingSettings: Bool = false
+    @State private var isNewLensShowing: Bool = false
     
     var body: some View {
         NavigationStack {
-            ZStack(alignment: .bottom) {
-                List {
-                    ForEach(lensItems) { lensItem in
-                        LensItemRow(lensItem: lensItem)
-                            .onTapGesture {
-                                self.selectedLensItem = lensItem
-                            }
-                            .contextMenu {
-                                Button {
-                                    self.delete(lensItem)
-                                } label: {
-                                    Text("Delete")
-                                    Image(systemName: "trash")
-                                }
-                            }
+            List {
+                if let pinnedLensItem = lensItems.last(where: { $0.isPinned }) {
+                    LensTrackingView()
+                        .environmentObject(pinnedLensItem)
+                } else {
+                    VStack(alignment: .center) {
+                        Image(systemName: "pin")
+                            .font(.largeTitle)
+                            .foregroundStyle(Color(.systemGray5))
+                        Text("No pinned Lens")
+                            .font(.title2)
                     }
                 }
-                .scrollIndicators(.hidden)
-                .scrollBounceBehavior(.basedOnSize)
-                
-                Button(action: {
-                    self.isNewLensShowing = true
-                }, label: {
-                    Image(systemName: "plus.circle.fill")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .foregroundStyle(.teal)
-                        .frame(width: 60, height: 60)
-                })
-            }
-            .sheet(isPresented: $isShowingSettings, content: {
-                SettingsView()
-            })
-            .sheet(item: $selectedLensItem, content: { lensItem in
-                LensView()
-                    .environmentObject(lensItem)
-                    .modelContainer(modelContext.container)
-            })
-            .sheet(isPresented: $isNewLensShowing, content: {
-                NewLensView()
-                    .modelContainer(modelContext.container)
-            })
-            .onDisappear(perform: {
-                self.isNewLensShowing = false
-            })
-            .navigationTitle("My Lens")
-            .overlay(content: {
-                if lensItems.isEmpty {
-                    ContentUnavailableView(
-                        "No tracking lens",
-                        systemImage: "clock.arrow.2.circlepath",
-                        description: Text("Add new lense using + button bellow")
-                    )
+                Section {
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack(spacing: 10) {
+                            ForEach(lensItems) { lensItem in
+                                LensItemRow()
+                                    .environmentObject(lensItem)
+                            }
+                        }
+                    }
+                } header: {
+                    HStack {
+                        Image(systemName: "circlebadge.2")
+                            .foregroundStyle(.teal)
+                        Text("My Lens")
+                    }
+                    Text("My Lens")
                 }
-            })
+                .listRowBackground(Color(.systemGroupedBackground))
+                .listRowInsets(EdgeInsets())
+            }
+            .scrollIndicators(.hidden)
+            .navigationTitle("EyeEase")
             .toolbar(content: {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        self.isNewLensShowing.toggle()
+                    } label: {
+                        Image(systemName: "plus")
+                            .font(.title3)
+                            .foregroundStyle(Color.teal)
+                    }
+
+                }
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
                         self.isShowingSettings.toggle()
                     } label: {
                         Image(systemName: "gearshape.fill")
-                            .font(.title2)
+                            .font(.title3)
                             .foregroundStyle(Color.teal)
                     }
                 }
             })
         }
+        .sheet(isPresented: $isShowingSettings, content: {
+            SettingsView()
+        })
+        .sheet(isPresented: $isNewLensShowing, content: {
+            NewLensView()
+                .modelContainer(modelContext.container)
+        })
+        .onDisappear(perform: {
+            self.isNewLensShowing = false
+        })
+        .overlay(content: {
+            if lensItems.isEmpty {
+                ContentUnavailableView(
+                    "No tracking lens",
+                    systemImage: "clock.arrow.2.circlepath",
+                    description: Text("Add new lense using + button on top")
+                )
+            }
+        })
     }
     
     private func delete(_ item: LensItem) {
         withAnimation {
             modelContext.delete(item)
         }
+    }
+    
+    private func formattedDate(_ date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        return formatter.string(from: date)
     }
 }
 
