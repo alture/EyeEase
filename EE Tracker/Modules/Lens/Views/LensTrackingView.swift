@@ -70,17 +70,30 @@ struct LensTrackingView: View {
                 }
                 LensDetailHeaderView()
                     .environmentObject(lensItem)
-                    .padding(.vertical, 16)
+                    .padding(.top, 8)
                 HStack(alignment: .top, spacing: 8.0) {
                     LensDetailRow(image: "hourglass.circle", title: "Duration", value: lensItem.wearDuration.rawValue)
                     LensDetailRow(image: "dial", title: "Power", value: "\(lensItem.diopter ?? 0)")
                     LensDetailRow(image: "eyes.inverse", title: "Eye Side", value: lensItem.eyeSide.rawValue)
                 }
+                .padding(.top, 8)
+                
+                if self.lensItem.isExpired {
+                    Button {
+                        self.lensItem.restart()
+                    } label: {
+                        Text("Change with new one")
+                            .fontWeight(.semibold)
+                            .frame(minWidth: 0, maxWidth: .infinity, minHeight: 50)
+                            .foregroundStyle(.white)
+                            .background(Color.orange)
+                            .clipShape(RoundedRectangle(cornerRadius: 10.0))
+                    }
+                    .buttonStyle(.plain)
+                    .padding(.top)
+                    .padding(.bottom, 8)
+                }
             }
-            
-            
-            
-
         } header: {
             HStack {
                 Image(systemName: "pin")

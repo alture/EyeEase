@@ -24,7 +24,7 @@ struct LensCreateOrEditView: View {
                     }
                     
                     HStack {
-                        Text("Diopter")
+                        Text("Power")
                         Spacer()
                         TextField("Required", value: $lensItem.diopter, format: .number)
                             .keyboardType(.numberPad)
@@ -78,7 +78,6 @@ struct LensCreateOrEditView: View {
                             .fixedSize()
                     }
                 }
-                
             }
         }
     }

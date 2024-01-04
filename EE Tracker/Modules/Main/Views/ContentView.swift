@@ -9,7 +9,7 @@ import SwiftUI
 import SwiftData
 
 struct ContentView: View {
-    @Query(sort: \LensItem.startDate) private var lensItems: [LensItem]
+    @Query private var lensItems: [LensItem]
     @Environment(\.modelContext) private var modelContext
     @State private var isShowingSettings: Bool = false
     @State private var isNewLensShowing: Bool = false
@@ -17,7 +17,7 @@ struct ContentView: View {
     var body: some View {
         NavigationStack {
             List {
-                if let pinnedLensItem = lensItems.last(where: { $0.isPinned }) {
+                if let pinnedLensItem = lensItems.first(where: { $0.isPinned }) {
                     LensTrackingView()
                         .environmentObject(pinnedLensItem)
                 } else {

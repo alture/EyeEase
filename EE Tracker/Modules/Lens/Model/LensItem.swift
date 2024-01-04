@@ -55,6 +55,15 @@ final class LensItem: Identifiable, Hashable, ObservableObject {
     var cylinder: Float?
     var axis: Int?
     var isPinned: Bool
+    var isExpired: Bool {
+        switch wearDuration {
+        case .daily:
+            guard let totalNumber else { return false }
+            return totalNumber <= usedNumber
+        default:
+            return remainingDays <= 0
+        }
+    }
     
     var limitDesciption: String {
         switch wearDuration {

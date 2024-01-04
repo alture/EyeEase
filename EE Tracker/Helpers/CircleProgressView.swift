@@ -15,6 +15,7 @@ struct CircleProgressView: View {
         ZStack {
             Circle()
                 .stroke(Color(.systemGray5), lineWidth: lineWidth)
+                .animation(.easeInOut, value: lensItem.progress)
             Circle()
                 .trim(from: 0.0, to: lensItem.progress)
                 .stroke(lensItem.progressColor, style: StrokeStyle(lineWidth: lineWidth, lineCap: .round))

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B73708F52B35F65F0013EAC3 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73708F42B35F65F0013EAC3 /* Persistence.swift */; };
 		B7C08EAF2B1CAAB600DD0BE2 /* EE_TrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C08EAE2B1CAAB600DD0BE2 /* EE_TrackerApp.swift */; };
 		B7C08EB12B1CAAB600DD0BE2 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C08EB02B1CAAB600DD0BE2 /* ContentView.swift */; };
 		B7C08EB52B1CAABA00DD0BE2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B7C08EB42B1CAABA00DD0BE2 /* Assets.xcassets */; };
@@ -28,9 +29,11 @@
 		B7E32DA22B2605AD00CA0729 /* SampleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E32DA12B2605AD00CA0729 /* SampleData.swift */; };
 		B7E32DA42B2629A800CA0729 /* LensDetailHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E32DA32B2629A800CA0729 /* LensDetailHeaderView.swift */; };
 		B7E32DC22B26523D00CA0729 /* AppVersionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E32DC12B26523D00CA0729 /* AppVersionProvider.swift */; };
+		B7FC52412B36713D009BA759 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B7FC52402B36713D009BA759 /* Launch Screen.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B73708F42B35F65F0013EAC3 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
 		B7C08EAB2B1CAAB600DD0BE2 /* EE Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "EE Tracker.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B7C08EAE2B1CAAB600DD0BE2 /* EE_TrackerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EE_TrackerApp.swift; sourceTree = "<group>"; };
 		B7C08EB02B1CAAB600DD0BE2 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -53,6 +56,8 @@
 		B7E32DA12B2605AD00CA0729 /* SampleData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleData.swift; sourceTree = "<group>"; };
 		B7E32DA32B2629A800CA0729 /* LensDetailHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LensDetailHeaderView.swift; sourceTree = "<group>"; };
 		B7E32DC12B26523D00CA0729 /* AppVersionProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppVersionProvider.swift; sourceTree = "<group>"; };
+		B7FC523F2B366E32009BA759 /* EE-Tracker-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "EE-Tracker-Info.plist"; sourceTree = SOURCE_ROOT; };
+		B7FC52402B36713D009BA759 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = "Launch Screen.storyboard"; path = "EE Tracker/Preview Content/Launch Screen.storyboard"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +71,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B73708F32B35F64A0013EAC3 /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				B73708F42B35F65F0013EAC3 /* Persistence.swift */,
+			);
+			path = CoreData;
+			sourceTree = "<group>";
+		};
 		B7C08EA22B1CAAB500DD0BE2 = {
 			isa = PBXGroup;
 			children = (
@@ -85,6 +98,8 @@
 		B7C08EAD2B1CAAB600DD0BE2 /* EE Tracker */ = {
 			isa = PBXGroup;
 			children = (
+				B7FC523F2B366E32009BA759 /* EE-Tracker-Info.plist */,
+				B73708F32B35F64A0013EAC3 /* CoreData */,
 				B7E32D9E2B26055C00CA0729 /* Support */,
 				B7E32D9D2B252BF800CA0729 /* Helpers */,
 				B7E32D912B252B1F00CA0729 /* Modules */,
@@ -100,6 +115,7 @@
 			isa = PBXGroup;
 			children = (
 				B7C08EB72B1CAABA00DD0BE2 /* Preview Assets.xcassets */,
+				B7FC52402B36713D009BA759 /* Launch Screen.storyboard */,
 			);
 			path = "Preview Content";
 			sourceTree = "<group>";
@@ -272,6 +288,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B7FC52412B36713D009BA759 /* Launch Screen.storyboard in Resources */,
 				B7C08EB82B1CAABA00DD0BE2 /* Preview Assets.xcassets in Resources */,
 				B7C08EB52B1CAABA00DD0BE2 /* Assets.xcassets in Resources */,
 			);
@@ -287,6 +304,7 @@
 				B7E32D8F2B2528EA00CA0729 /* SettingsModel.swift in Sources */,
 				B7C08EC02B1CB73C00DD0BE2 /* LensItem.swift in Sources */,
 				B7E32D872B23503600CA0729 /* NewLensView.swift in Sources */,
+				B73708F52B35F65F0013EAC3 /* Persistence.swift in Sources */,
 				B7E32D8D2B2521DC00CA0729 /* WearDuration.swift in Sources */,
 				B7C08EB12B1CAAB600DD0BE2 /* ContentView.swift in Sources */,
 				B7C08EAF2B1CAAB600DD0BE2 /* EE_TrackerApp.swift in Sources */,
@@ -439,9 +457,10 @@
 				DEVELOPMENT_TEAM = FNS9H7J227;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "EE-Tracker-Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen.storyboard";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -468,9 +487,10 @@
 				DEVELOPMENT_TEAM = FNS9H7J227;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "EE-Tracker-Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen.storyboard";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				LD_RUNPATH_SEARCH_PATHS = (

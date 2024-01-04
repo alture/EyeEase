@@ -11,6 +11,15 @@ struct SampleData {
     static var content: [LensItem] =
     [
         LensItem(
+            name: "Secon Lense Yota 2",
+            wearDuration: .daily,
+            startDate: Date(),
+            totalNumber: 30,
+            usedNumber: 28,
+            resolvedColor: ColorComponents.fromColor(.clear),
+            diopter: 5.0
+        ),
+        LensItem(
             name: "My Lense Aqueue",
             startDate: Date(),
             totalNumber: 0,

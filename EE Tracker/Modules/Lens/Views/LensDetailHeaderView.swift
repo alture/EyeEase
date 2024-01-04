@@ -75,14 +75,16 @@ struct LensDetailHeaderView: View {
                     .frame(width: 130, height: 130)
                 }
             }
-            switch lensItem.wearDuration {
-            case .daily:
-                HStack {
-                    if lensItem.usedNumber >= lensItem.totalNumber ?? 0 {
-                        Text("Lens has expired")
-                            .foregroundStyle(.red)
-                            .font(.system(.title3, design: .default, weight: .bold))
-                    } else {
+            
+            if self.lensItem.isExpired {
+                Text("Lens has expired")
+                    .foregroundStyle(.red)
+                    .font(.system(.title3, design: .default, weight: .bold))
+                
+            } else {
+                switch lensItem.wearDuration {
+                case .daily:
+                    HStack {
                         Text("You have")
                         if let totalNumber = lensItem.totalNumber {
                             Text("\(totalNumber - lensItem.usedNumber)")
@@ -90,20 +92,15 @@ struct LensDetailHeaderView: View {
                         }
                         Text("lens in case")
                     }
-                }
-                .font(.system(.title3, design: .default, weight: .bold))
-            default:
-                HStack {
-                    if lensItem.remainingDays <= 0 {
-                        Text("Lens has expired")
-                            .foregroundStyle(.red)
-                    } else {
+                    .font(.system(.title3, design: .default, weight: .bold))
+                default:
+                    HStack {
                         Text("Change on")
                         Text(lensItem.changeDate, style: .date)
                             .foregroundStyle(lensItem.progressColor)
                     }
+                    .font(.system(.title3, design: .default, weight: .bold))
                 }
-                .font(.system(.title3, design: .default, weight: .bold))
             }
         }
         .frame(minWidth: 0, maxWidth: .infinity)
@@ -119,7 +116,7 @@ struct LensDetailHeaderView: View {
         wearDuration: .daily,
         startDate: Date(),
         totalNumber: 30,
-        usedNumber: 0,
+        usedNumber: 30,
         resolvedColor: ColorComponents.fromColor(.red),
         diopter: -4.5,
         cylinder: 8.0,
