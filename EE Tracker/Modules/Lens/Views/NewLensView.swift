@@ -8,11 +8,7 @@
 import SwiftUI
 
 struct NewLensView: View {
-    @State var draftLensItem: LensItem = LensItem(
-        name: "",
-        startDate: Date(),
-        resolvedColor: ColorComponents.fromColor(.clear)
-    )
+    @State var draftLensItem: LensItem = LensItem(name: "", startDate: Date(), sphere: Sphere(), detail: LensDetail())
     @Environment(\.dismiss) var dismiss
     @Environment(\.modelContext) var modelContext
     var body: some View {
@@ -28,7 +24,7 @@ struct NewLensView: View {
                         .foregroundStyle(.teal)
                     }
                     
-                    if self.draftLensItem.isFilled() {
+                    if self.draftLensItem.isFilled {
                         ToolbarItem(placement: .topBarTrailing) {
                             Button("Add") {
                                 self.modelContext.insert(self.draftLensItem)

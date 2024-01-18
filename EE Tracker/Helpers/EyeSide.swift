@@ -9,8 +9,8 @@ import Foundation
 
 enum EyeSide: String, Codable, CaseIterable, Identifiable {
     case left = "Left"
+    case both = "Both"
     case right = "Right"
-    case paired = "Paired"
     
     var id: Self { self }
 }

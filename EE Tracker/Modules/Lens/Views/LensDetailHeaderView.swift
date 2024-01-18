@@ -110,17 +110,6 @@ struct LensDetailHeaderView: View {
 }
 
 #Preview {
-    let lensItem = LensItem(
-        name: "Preview Name",
-        eyeSide: .paired,
-        wearDuration: .daily,
-        startDate: Date(),
-        totalNumber: 30,
-        usedNumber: 30,
-        resolvedColor: ColorComponents.fromColor(.red),
-        diopter: -4.5,
-        cylinder: 8.0,
-        axis: 2)
     return LensDetailHeaderView()
-        .environmentObject(lensItem)
+        .environmentObject(SampleData.content[0])
 }

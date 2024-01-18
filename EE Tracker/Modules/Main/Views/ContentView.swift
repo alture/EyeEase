@@ -24,7 +24,6 @@ struct ContentView: View {
                     VStack(alignment: .center) {
                         Image(systemName: "pin")
                             .font(.largeTitle)
-                            .foregroundStyle(Color(.systemGray5))
                         Text("No pinned Lens")
                             .font(.title2)
                     }
@@ -41,7 +40,6 @@ struct ContentView: View {
                 } header: {
                     HStack {
                         Image(systemName: "circlebadge.2")
-                            .foregroundStyle(.teal)
                         Text("My Lens")
                     }
                     Text("My Lens")

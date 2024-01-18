@@ -42,17 +42,27 @@ struct LensTrackingView: View {
                                   systemImage: "\(self.lensItem.isPinned ? "pin.slash" : "pin")")
                         }
                         
-                        if lensItem.axis != nil || lensItem.cylinder != nil {
+                        if lensItem.detail.hasAnyValue {
                             Menu {
-                                if let cylinder = lensItem.cylinder {
-                                    Text("Cylinder: \(String(format: "%.1f", cylinder))")
+                                let detail = lensItem.detail
+                                
+                                if !detail.baseCurve.isEmpty {
+                                    Text("Base Curve: \(detail.baseCurve)")
                                 }
                                 
-                                if let axis = lensItem.axis {
-                                    Text("Axis: \(String(format: "%.1f", axis))")
+                                if !detail.dia.isEmpty {
+                                    Text("Dia: -\(detail.dia)")
+                                }
+                                
+                                if !detail.cylinder.isEmpty {
+                                    Text("Cylinder: \(detail.cylinder)")
+                                }
+                                
+                                if !detail.axis.isEmpty {
+                                    Text("Axis: \(detail.baseCurve)")
                                 }
                             } label: {
-                                Text("Show more")
+                                Text("Detail")
                             }
                         }
                         
@@ -73,7 +83,7 @@ struct LensTrackingView: View {
                     .padding(.top, 8)
                 HStack(alignment: .top, spacing: 8.0) {
                     LensDetailRow(image: "hourglass.circle", title: "Duration", value: lensItem.wearDuration.rawValue)
-                    LensDetailRow(image: "dial", title: "Power", value: "\(lensItem.diopter ?? 0)")
+//                    LensDetailRow(image: "dial", title: "Power", value: "\(lensItem.diopter ?? 0)")
                     LensDetailRow(image: "eyes.inverse", title: "Eye Side", value: lensItem.eyeSide.rawValue)
                 }
                 .padding(.top, 8)
@@ -97,7 +107,6 @@ struct LensTrackingView: View {
         } header: {
             HStack {
                 Image(systemName: "pin")
-                    .foregroundStyle(.teal)
                 Text("Pinned Lens")
             }
         }
@@ -181,18 +190,6 @@ extension Button {
 }
 
 #Preview {
-    let lensItem = LensItem(
-        name: "Preview Name",
-        eyeSide: .paired,
-        wearDuration: WearDuration.daily,
-        startDate: Date(),
-        totalNumber: 30,
-        usedNumber: 0,
-        resolvedColor: .fromColor(.red),
-        diopter: 5.0,
-        cylinder: 5.0,
-        axis: 10
-    )
     return LensTrackingView()
-        .environmentObject(lensItem)
+        .environmentObject(SampleData.content[0])
 }

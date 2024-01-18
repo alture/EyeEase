@@ -27,12 +27,5 @@ struct CircleProgressView: View {
 
 #Preview {
     CircleProgressView()
-        .environmentObject(LensItem(
-            name: "",
-            wearDuration: .monthly,
-            startDate: Date(),
-            totalNumber: 30,
-            usedNumber: 10,
-            resolvedColor: ColorComponents.fromColor(.red),
-            diopter: -4.5))
+        .environmentObject(SampleData.content[0])
 }

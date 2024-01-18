@@ -8,14 +8,13 @@
 import SwiftUI
 
 struct LensEditView: View {
-    @State var draftLensItem: LensItem = .init(name: "", startDate: Date(), resolvedColor: .fromColor(.clear))
+    @State var draftLensItem: LensItem = LensItem(name: "Preview Name", startDate: Date(), sphere: Sphere(), detail: LensDetail())
     @EnvironmentObject var lensItem: LensItem
     @Environment(\.dismiss) var dismiss
     @Environment(\.editMode) var editMode
     
     var body: some View {
         NavigationStack {
-            
             LensCreateOrEditView(lensItem: $draftLensItem)
                 .navigationTitle(lensItem.name)
                 .navigationBarTitleDisplayMode(.inline)
@@ -27,7 +26,7 @@ struct LensEditView: View {
                         .foregroundStyle(Color.teal)
                     }
                     
-                    if draftLensItem.isFilled() {
+                    if draftLensItem.isFilled {
                         ToolbarItem(placement: .navigationBarTrailing) {
                             Button(action: {
                                 self.save()
@@ -53,11 +52,9 @@ struct LensEditView: View {
             startDate: lensItem.startDate,
             totalNumber: lensItem.totalNumber,
             usedNumber: lensItem.usedNumber,
-            resolvedColor: lensItem.resolvedColor,
-            diopter: lensItem.diopter,
-            cylinder: lensItem.cylinder,
-            axis: lensItem.axis,
-            isPinned: lensItem.isPinned
+            sphere: lensItem.sphere,
+            isPinned: lensItem.isPinned,
+            detail: lensItem.detail
         )
     }
     
@@ -68,18 +65,13 @@ struct LensEditView: View {
         lensItem.startDate = draftLensItem.startDate
         lensItem.totalNumber = draftLensItem.totalNumber
         lensItem.usedNumber = draftLensItem.usedNumber
-        lensItem.resolvedColor = draftLensItem.resolvedColor
-        lensItem.diopter = draftLensItem.diopter
-        lensItem.cylinder = draftLensItem.cylinder
-        lensItem.axis = draftLensItem.axis
+        lensItem.sphere = draftLensItem.sphere
+        lensItem.detail = draftLensItem.detail
         lensItem.isPinned = draftLensItem.isPinned
     }
 }
 
 #Preview {
     LensEditView()
-        .environmentObject(LensItem(name: "Lens Name",
-                                    wearDuration: .biweekly,
-                                    startDate: Date(),
-                                    resolvedColor: .fromColor(.red)))
+        .environmentObject(SampleData.content[0])
 }

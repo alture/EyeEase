@@ -20,7 +20,6 @@ struct LensItemRow: View {
             HStack(alignment: .top, spacing: 8.0) {
                 if lensItem.isPinned {
                     Image(systemName: "pin")
-                        .foregroundStyle(.teal)
                 }
                 Spacer()
                 
@@ -39,17 +38,28 @@ struct LensItemRow: View {
                     }
                     .foregroundStyle(.teal)
                     
-                    if lensItem.axis != nil || lensItem.cylinder != nil {
+                    if lensItem.detail.hasAnyValue {
                         Menu {
-                            if let cylinder = lensItem.cylinder {
-                                Text("Cylinder: \(String(format: "%.1f", cylinder))")
+                            let detail = lensItem.detail
+                            
+                            if !detail.baseCurve.isEmpty {
+                                Text("Base Curve: \(detail.baseCurve)")
                             }
                             
-                            if let axis = lensItem.axis {
-                                Text("Axis: \(String(format: "%.1f", axis))")
+                            if !detail.dia.isEmpty {
+                                Text("Dia: \(detail.dia)")
                             }
+                            
+                            if !detail.cylinder.isEmpty {
+                                Text("Cylinder: \(detail.cylinder)")
+                            }
+                            
+                            if !detail.axis.isEmpty {
+                                Text("Axis: \(detail.baseCurve)")
+                            }
+                            
                         } label: {
-                            Text("Show more")
+                            Text("Detail")
                         }
                     }
                     
@@ -79,7 +89,7 @@ struct LensItemRow: View {
                 .font(.body)
                 .bold()
 
-            Text("\(lensItem.wearDuration.rawValue) • \(String(format: "%.1f", lensItem.diopter ?? 0)) • \(lensItem.eyeSide.rawValue)")
+            Text("\(lensItem.wearDuration.rawValue) • \(String(format: "%.1f", lensItem.sphere.left)) • \(lensItem.eyeSide.rawValue)")
                 .font(.system(.subheadline, design: .default, weight: .medium))
                 .foregroundStyle(Color(.systemGray2))
         }
@@ -106,16 +116,6 @@ struct LensItemRow: View {
 }
 
 #Preview {
-    let lensItem = LensItem(
-        name: "Preview Name",
-        eyeSide: .paired,
-        startDate: Date(),
-        totalNumber: 0,
-        usedNumber: 0,
-        resolvedColor: .fromColor(.red),
-        diopter: 5,
-        cylinder: 5,
-        axis: 10)
     return LensItemRow()
-        .environmentObject(lensItem)
+        .environmentObject(SampleData.content[0])
 }

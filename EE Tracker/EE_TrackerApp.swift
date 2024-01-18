@@ -25,6 +25,7 @@ struct EE_TrackerApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+//                .environment(\.font, .system(.body, design: .rounded))
         }
         .modelContainer(previewContainer)
     }
