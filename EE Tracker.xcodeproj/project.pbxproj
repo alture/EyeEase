@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		B73708F52B35F65F0013EAC3 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73708F42B35F65F0013EAC3 /* Persistence.swift */; };
+		B73FA0532B5BC20600BCD9A4 /* LensDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73FA0522B5BC20600BCD9A4 /* LensDetailView.swift */; };
+		B74FA83A2B5A84F1001E896F /* LensCarouselView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74FA8392B5A84F1001E896F /* LensCarouselView.swift */; };
+		B74FA83C2B5A946C001E896F /* Bool+Comparable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74FA83B2B5A946C001E896F /* Bool+Comparable.swift */; };
 		B7C08EAF2B1CAAB600DD0BE2 /* EE_TrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C08EAE2B1CAAB600DD0BE2 /* EE_TrackerApp.swift */; };
 		B7C08EB12B1CAAB600DD0BE2 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C08EB02B1CAAB600DD0BE2 /* ContentView.swift */; };
 		B7C08EB52B1CAABA00DD0BE2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B7C08EB42B1CAABA00DD0BE2 /* Assets.xcassets */; };
@@ -27,13 +30,16 @@
 		B7E32D8F2B2528EA00CA0729 /* SettingsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E32D8E2B2528EA00CA0729 /* SettingsModel.swift */; };
 		B7E32DA02B26058500CA0729 /* PreviewSampleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E32D9F2B26058500CA0729 /* PreviewSampleData.swift */; };
 		B7E32DA22B2605AD00CA0729 /* SampleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E32DA12B2605AD00CA0729 /* SampleData.swift */; };
-		B7E32DA42B2629A800CA0729 /* LensDetailHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E32DA32B2629A800CA0729 /* LensDetailHeaderView.swift */; };
+		B7E32DA42B2629A800CA0729 /* LensTrackingTimelineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E32DA32B2629A800CA0729 /* LensTrackingTimelineView.swift */; };
 		B7E32DC22B26523D00CA0729 /* AppVersionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E32DC12B26523D00CA0729 /* AppVersionProvider.swift */; };
 		B7FC52412B36713D009BA759 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B7FC52402B36713D009BA759 /* Launch Screen.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		B73708F42B35F65F0013EAC3 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
+		B73FA0522B5BC20600BCD9A4 /* LensDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LensDetailView.swift; sourceTree = "<group>"; };
+		B74FA8392B5A84F1001E896F /* LensCarouselView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LensCarouselView.swift; sourceTree = "<group>"; };
+		B74FA83B2B5A946C001E896F /* Bool+Comparable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bool+Comparable.swift"; sourceTree = "<group>"; };
 		B7C08EAB2B1CAAB600DD0BE2 /* EE Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "EE Tracker.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B7C08EAE2B1CAAB600DD0BE2 /* EE_TrackerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EE_TrackerApp.swift; sourceTree = "<group>"; };
 		B7C08EB02B1CAAB600DD0BE2 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -54,7 +60,7 @@
 		B7E32D8E2B2528EA00CA0729 /* SettingsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsModel.swift; sourceTree = "<group>"; };
 		B7E32D9F2B26058500CA0729 /* PreviewSampleData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewSampleData.swift; sourceTree = "<group>"; };
 		B7E32DA12B2605AD00CA0729 /* SampleData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleData.swift; sourceTree = "<group>"; };
-		B7E32DA32B2629A800CA0729 /* LensDetailHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LensDetailHeaderView.swift; sourceTree = "<group>"; };
+		B7E32DA32B2629A800CA0729 /* LensTrackingTimelineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LensTrackingTimelineView.swift; sourceTree = "<group>"; };
 		B7E32DC12B26523D00CA0729 /* AppVersionProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppVersionProvider.swift; sourceTree = "<group>"; };
 		B7FC523F2B366E32009BA759 /* EE-Tracker-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "EE-Tracker-Info.plist"; sourceTree = SOURCE_ROOT; };
 		B7FC52402B36713D009BA759 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = "Launch Screen.storyboard"; path = "EE Tracker/Preview Content/Launch Screen.storyboard"; sourceTree = SOURCE_ROOT; };
@@ -179,7 +185,7 @@
 				B7E32D802B2119CD00CA0729 /* LensTrackingView.swift */,
 				B7E32D822B21219B00CA0729 /* LensCreateOrEditView.swift */,
 				B7E32D862B23503600CA0729 /* NewLensView.swift */,
-				B7E32DA32B2629A800CA0729 /* LensDetailHeaderView.swift */,
+				B7E32DA32B2629A800CA0729 /* LensTrackingTimelineView.swift */,
 				B7CC6AEF2B35099D00AD6598 /* LensEditView.swift */,
 			);
 			path = Views;
@@ -198,6 +204,8 @@
 			children = (
 				B7E0754D2B1CDC33001ABFE4 /* LensItemRow.swift */,
 				B7C08EB02B1CAAB600DD0BE2 /* ContentView.swift */,
+				B74FA8392B5A84F1001E896F /* LensCarouselView.swift */,
+				B73FA0522B5BC20600BCD9A4 /* LensDetailView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -226,6 +234,7 @@
 				B7E32D9F2B26058500CA0729 /* PreviewSampleData.swift */,
 				B7E32DA12B2605AD00CA0729 /* SampleData.swift */,
 				B7E32DC12B26523D00CA0729 /* AppVersionProvider.swift */,
+				B74FA83B2B5A946C001E896F /* Bool+Comparable.swift */,
 			);
 			path = Support;
 			sourceTree = "<group>";
@@ -310,17 +319,20 @@
 				B7C08EAF2B1CAAB600DD0BE2 /* EE_TrackerApp.swift in Sources */,
 				B7E32DC22B26523D00CA0729 /* AppVersionProvider.swift in Sources */,
 				B7E32DA22B2605AD00CA0729 /* SampleData.swift in Sources */,
+				B73FA0532B5BC20600BCD9A4 /* LensDetailView.swift in Sources */,
 				B7E32DA02B26058500CA0729 /* PreviewSampleData.swift in Sources */,
 				B7E075532B1D0FF2001ABFE4 /* SettingsView.swift in Sources */,
 				B7CC6AF02B35099E00AD6598 /* LensEditView.swift in Sources */,
-				B7E32DA42B2629A800CA0729 /* LensDetailHeaderView.swift in Sources */,
+				B7E32DA42B2629A800CA0729 /* LensTrackingTimelineView.swift in Sources */,
 				B7E32D8B2B2521B700CA0729 /* EyeSide.swift in Sources */,
 				B7E32D832B21219C00CA0729 /* LensCreateOrEditView.swift in Sources */,
 				B7E075512B1CE214001ABFE4 /* CircleProgressView.swift in Sources */,
 				B7E0754E2B1CDC33001ABFE4 /* LensItemRow.swift in Sources */,
+				B74FA83C2B5A946C001E896F /* Bool+Comparable.swift in Sources */,
 				B7E075552B1D11B2001ABFE4 /* SettingsViewModel.swift in Sources */,
 				B7E32D892B2519E300CA0729 /* DataSourceModel.swift in Sources */,
 				B7E32D812B2119CD00CA0729 /* LensTrackingView.swift in Sources */,
+				B74FA83A2B5A84F1001E896F /* LensCarouselView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

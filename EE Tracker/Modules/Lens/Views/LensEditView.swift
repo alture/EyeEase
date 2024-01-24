@@ -10,8 +10,7 @@ import SwiftUI
 struct LensEditView: View {
     @State var draftLensItem: LensItem = LensItem(name: "Preview Name", startDate: Date(), sphere: Sphere(), detail: LensDetail())
     @EnvironmentObject var lensItem: LensItem
-    @Environment(\.dismiss) var dismiss
-    @Environment(\.editMode) var editMode
+    @Environment(\.presentationMode) var presentation
     
     var body: some View {
         NavigationStack {
@@ -19,18 +18,11 @@ struct LensEditView: View {
                 .navigationTitle(lensItem.name)
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbar {
-                    ToolbarItem(placement: .topBarLeading) {
-                        Button("Cancel") {
-                            self.dismiss()
-                        }
-                        .foregroundStyle(Color.teal)
-                    }
-                    
                     if draftLensItem.isFilled {
                         ToolbarItem(placement: .navigationBarTrailing) {
                             Button(action: {
                                 self.save()
-                                self.dismiss()
+                                self.presentation.wrappedValue.dismiss()
                             }, label: {
                                 Text("Save")
                             })
@@ -53,7 +45,7 @@ struct LensEditView: View {
             totalNumber: lensItem.totalNumber,
             usedNumber: lensItem.usedNumber,
             sphere: lensItem.sphere,
-            isPinned: lensItem.isPinned,
+            isWearing: lensItem.isWearing,
             detail: lensItem.detail
         )
     }
@@ -67,7 +59,7 @@ struct LensEditView: View {
         lensItem.usedNumber = draftLensItem.usedNumber
         lensItem.sphere = draftLensItem.sphere
         lensItem.detail = draftLensItem.detail
-        lensItem.isPinned = draftLensItem.isPinned
+        lensItem.isWearing = draftLensItem.isWearing
     }
 }
 

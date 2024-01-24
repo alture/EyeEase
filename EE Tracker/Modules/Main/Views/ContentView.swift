@@ -7,58 +7,48 @@
 
 import SwiftUI
 import SwiftData
+import UserNotifications
 
 struct ContentView: View {
-    @Query private var lensItems: [LensItem]
+    @Query(sort: \LensItem.startDate) var lensItems: [LensItem]
     @Environment(\.modelContext) private var modelContext
     @State private var isShowingSettings: Bool = false
     @State private var isNewLensShowing: Bool = false
+    @State private var selectedLensItem: LensItem?
     
     var body: some View {
         NavigationStack {
-            List {
-                if let pinnedLensItem = lensItems.first(where: { $0.isPinned }) {
-                    LensTrackingView()
-                        .environmentObject(pinnedLensItem)
-                } else {
-                    VStack(alignment: .center) {
-                        Image(systemName: "pin")
-                            .font(.largeTitle)
-                        Text("No pinned Lens")
-                            .font(.title2)
+            ScrollView {
+                VStack {
+                    LensCarouselView(selectedLens: $selectedLensItem)
+                    if let selectedLensItem {
+                        LensTrackingView(removeAction: postContent)
+                            .environmentObject(selectedLensItem)
+                            .padding(.horizontal)
                     }
+                    Spacer()
                 }
-                Section {
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        HStack(spacing: 10) {
-                            ForEach(lensItems) { lensItem in
-                                LensItemRow()
-                                    .environmentObject(lensItem)
-                            }
-                        }
-                    }
-                } header: {
-                    HStack {
-                        Image(systemName: "circlebadge.2")
-                        Text("My Lens")
-                    }
-                    Text("My Lens")
-                }
-                .listRowBackground(Color(.systemGroupedBackground))
-                .listRowInsets(EdgeInsets())
             }
             .scrollIndicators(.hidden)
             .navigationTitle("EyeEase")
             .toolbar(content: {
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button {
-                        self.isNewLensShowing.toggle()
+                    NavigationLink {
+                        NewLensView()
+                            .modelContainer(modelContext.container)
+                            .onAppear {
+                                self.isNewLensShowing.toggle()
+                            }
+                            .onDisappear {
+                                withAnimation {
+                                    self.isNewLensShowing.toggle()
+                                }
+                            }
                     } label: {
                         Image(systemName: "plus")
                             .font(.title3)
                             .foregroundStyle(Color.teal)
                     }
-
                 }
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
@@ -71,18 +61,21 @@ struct ContentView: View {
                 }
             })
         }
+        .tint(.teal)
         .sheet(isPresented: $isShowingSettings, content: {
             SettingsView()
         })
-        .sheet(isPresented: $isNewLensShowing, content: {
-            NewLensView()
-                .modelContainer(modelContext.container)
-        })
-        .onDisappear(perform: {
-            self.isNewLensShowing = false
-        })
+        .onAppear() {
+            UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { success, error in
+                if success {
+                    print("Permission approvved!")
+                } else if let error = error {
+                    print(error.localizedDescription)
+                }
+            }
+        }
         .overlay(content: {
-            if lensItems.isEmpty {
+            if lensItems.isEmpty && isNewLensShowing == false {
                 ContentUnavailableView(
                     "No tracking lens",
                     systemImage: "clock.arrow.2.circlepath",
@@ -93,8 +86,10 @@ struct ContentView: View {
     }
     
     private func delete(_ item: LensItem) {
+        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [item.id.uuidString])
         withAnimation {
             modelContext.delete(item)
+            selectedLensItem = lensItems.first
         }
     }
     
@@ -102,6 +97,11 @@ struct ContentView: View {
         let formatter = DateFormatter()
         formatter.dateStyle = .medium
         return formatter.string(from: date)
+    }
+    
+    private func postContent() {
+        guard let selectedLensItem else { return }
+        delete(selectedLensItem)
     }
 }
 

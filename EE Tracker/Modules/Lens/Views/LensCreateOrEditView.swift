@@ -86,9 +86,10 @@ struct MainSection: View {
                         .focused($focusField, equals: .name)
                         .foregroundStyle(.teal)
                         .submitLabel(.done)
+                        .fixedSize()
                 }
                 Picker("Usage Period", selection: $lensItem.wearDuration) {
-                    ForEach(WearDuration.allCases) { duration in
+                    ForEach(WearDuration.allCases.filter { $0 != .daily && $0 != .yearly }) { duration in
                         Text(duration.rawValue)
                     }
                 }

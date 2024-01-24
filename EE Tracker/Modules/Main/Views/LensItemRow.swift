@@ -13,12 +13,12 @@ struct LensItemRow: View {
     @State private var showingEdit: Bool = false
     @State private var showingConfirmation: Bool = false
     private var isTracking: Bool {
-        lensItem.isPinned
+        lensItem.isWearing
     }
     var body: some View {
         VStack(alignment: .center) {
             HStack(alignment: .top, spacing: 8.0) {
-                if lensItem.isPinned {
+                if lensItem.isWearing {
                     Image(systemName: "pin")
                 }
                 Spacer()
@@ -31,10 +31,10 @@ struct LensItemRow: View {
                     }
                     
                     Button {
-                        self.lensItem.isPinned.toggle()
+                        self.lensItem.isWearing.toggle()
                     } label: {
-                        Label("\(self.lensItem.isPinned ? "Unpin" : "Pin")",
-                              systemImage: "\(self.lensItem.isPinned ? "pin.slash" : "pin")")
+                        Label("\(self.lensItem.isWearing ? "Unpin" : "Pin")",
+                              systemImage: "\(self.lensItem.isWearing ? "pin.slash" : "pin")")
                     }
                     .foregroundStyle(.teal)
                     

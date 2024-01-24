@@ -1,5 +1,5 @@
 //
-//  LensDetailHeaderView.swift
+//  LensTrackingTimelineView.swift
 //  EE Tracker
 //
 //  Created by Alisher on 10.12.2023.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct LensDetailHeaderView: View {
+struct LensTrackingTimelineView: View {
     @EnvironmentObject var lensItem: LensItem
     var body: some View {
         VStack(alignment: .center, spacing: 20.0) {
@@ -39,7 +39,7 @@ struct LensDetailHeaderView: View {
                                 .bold()
                                 .foregroundStyle(Color(.systemGray2))
                         }
-                        CircleProgressView(lineWidth: 8.0)
+                        CircleProgressView(lineWidth: 10.0)
                             .environmentObject(lensItem)
                     }
                     .frame(width: 130, height: 130)
@@ -70,7 +70,7 @@ struct LensDetailHeaderView: View {
                             .bold()
                             .foregroundStyle(Color(.systemGray2))
                     }
-                    CircleProgressView(lineWidth: 8.0)
+                    CircleProgressView(lineWidth: 10.0)
                         .environmentObject(lensItem)
                     .frame(width: 130, height: 130)
                 }
@@ -104,12 +104,11 @@ struct LensDetailHeaderView: View {
             }
         }
         .frame(minWidth: 0, maxWidth: .infinity)
-        .padding(.vertical, 8)
     }
 
 }
 
 #Preview {
-    return LensDetailHeaderView()
+    return LensTrackingTimelineView()
         .environmentObject(SampleData.content[0])
 }

@@ -6,125 +6,103 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct LensTrackingView: View {
     @EnvironmentObject var lensItem: LensItem
-    @Environment(\.modelContext) private var modelContext
     @State private var isOptionalSectionShowing: Bool = false
-    @State private var showingEdit: Bool = false
     @State private var showingConfirmation: Bool = false
     
+    var removeAction: (() -> Void)
+    
     var body: some View {
-        Section {
-            VStack {
-                HStack(alignment: .top) {
-                    VStack(alignment: .leading) {
-                        Text("\(lensItem.name)")
-                            .font(.title2)
-                            .minimumScaleFactor(0.7)
-                            .fontWeight(.bold)
-                        Text("Started at: \(formattedDate(lensItem.startDate))")
-                            .font(.headline)
-                            .foregroundStyle(.secondary)
-                    }
-                    Spacer()
-                    Menu {
-                        Button {
-                            self.showingEdit.toggle()
-                        } label: {
-                            Label("Edit", systemImage: "pencil")
-                        }
-                        
-                        Button {
-                            self.lensItem.isPinned.toggle()
-                        } label: {
-                            Label("\(self.lensItem.isPinned ? "Unpin" : "Pin")",
-                                  systemImage: "\(self.lensItem.isPinned ? "pin.slash" : "pin")")
-                        }
-                        
-                        if lensItem.detail.hasAnyValue {
-                            Menu {
-                                let detail = lensItem.detail
-                                
-                                if !detail.baseCurve.isEmpty {
-                                    Text("Base Curve: \(detail.baseCurve)")
-                                }
-                                
-                                if !detail.dia.isEmpty {
-                                    Text("Dia: -\(detail.dia)")
-                                }
-                                
-                                if !detail.cylinder.isEmpty {
-                                    Text("Cylinder: \(detail.cylinder)")
-                                }
-                                
-                                if !detail.axis.isEmpty {
-                                    Text("Axis: \(detail.baseCurve)")
-                                }
-                            } label: {
-                                Text("Detail")
-                            }
-                        }
-                        
-                        Divider()
-                        
-                        Button("Delete", role: .destructive) {
-                            self.showingConfirmation.toggle()
-                        }
-                    } label: {
-                        Image(systemName: "ellipsis.circle")
-                            .font(.title2)
-                            .padding(4)
-                    }
-                    .foregroundStyle(.teal)
+        VStack {
+            LensTrackingHeader(
+                showingConfirmation: $showingConfirmation,
+                lensItem: lensItem
+            )
+            LensTrackingTimelineView()
+                .environmentObject(lensItem)
+                .padding(.top)
+            LensInformationView(lensItem: lensItem)
+                .padding(.top)
+            
+            Image(systemName: "ellipsis")
+                .padding(8.0)
+                .font(.title2)
+                .foregroundStyle(Color(.systemGray4))
+            
+            LensDetailView(detail: lensItem.detail)
+            
+            if self.lensItem.usedPeriod == .readyToExpire {
+                NavigationLink {
+                    LensEditView()
+                        .environment(lensItem)
+                } label: {
+                    Text("Replace with new one")
+                        .fontWeight(.semibold)
+                        .frame(minWidth: 0, maxWidth: .infinity, minHeight: 50)
+                        .foregroundStyle(.white)
+                        .background(Color.orange)
+                        .clipShape(RoundedRectangle(cornerRadius: 10.0))
                 }
-                LensDetailHeaderView()
-                    .environmentObject(lensItem)
-                    .padding(.top, 8)
-                HStack(alignment: .top, spacing: 8.0) {
-                    LensDetailRow(image: "hourglass.circle", title: "Duration", value: lensItem.wearDuration.rawValue)
-//                    LensDetailRow(image: "dial", title: "Power", value: "\(lensItem.diopter ?? 0)")
-                    LensDetailRow(image: "eyes.inverse", title: "Eye Side", value: lensItem.eyeSide.rawValue)
-                }
-                .padding(.top, 8)
-                
-                if self.lensItem.isExpired {
-                    Button {
-                        self.lensItem.restart()
-                    } label: {
-                        Text("Change with new one")
-                            .fontWeight(.semibold)
-                            .frame(minWidth: 0, maxWidth: .infinity, minHeight: 50)
-                            .foregroundStyle(.white)
-                            .background(Color.orange)
-                            .clipShape(RoundedRectangle(cornerRadius: 10.0))
-                    }
-                    .buttonStyle(.plain)
-                    .padding(.top)
-                    .padding(.bottom, 8)
-                }
-            }
-        } header: {
-            HStack {
-                Image(systemName: "pin")
-                Text("Pinned Lens")
+                .buttonStyle(.plain)
+                .padding(.top)
+                .padding(.bottom, 8)
             }
         }
+        .padding()
+        .background(Color(.secondarySystemBackground))
+        .clipShape(RoundedRectangle(cornerRadius: 12))
         .confirmationDialog("Delete Confirmation", isPresented: $showingConfirmation) {
             Button("Delete", role: .destructive) {
-                
+                removeAction()
             }
             
             Button("Cancel", role: .cancel) {
                 self.showingConfirmation.toggle()
             }
         } message: {
-            Text("Are you sure to delete this Lens? After that is gonna be unpinned")
+            Text("Are you sure to delete this Lens?")
         }
-        .sheet(isPresented: $showingEdit, content: {
-            LensEditView()
-                .environmentObject(lensItem)
-        })
+    }
+}
+
+struct LensTrackingHeader: View {
+    @Binding var showingConfirmation: Bool
+    var lensItem: LensItem
+    var body: some View {
+        HStack(alignment: .top) {
+            VStack(alignment: .leading) {
+                Text("\(lensItem.name)")
+                    .font(.title2)
+                    .minimumScaleFactor(0.7)
+                    .fontWeight(.bold)
+                Text("Started at: \(formattedDate(lensItem.startDate))")
+                    .font(.headline)
+                    .foregroundStyle(.secondary)
+            }
+            Spacer()
+            Menu {
+                NavigationLink {
+                    LensEditView()
+                        .environmentObject(lensItem)
+                } label: {
+                    Label("Edit", systemImage: "pencil")
+                }
+                
+                Divider()
+                
+                Button("Delete", role: .destructive) {
+                    self.showingConfirmation.toggle()
+                }
+            } label: {
+                Image(systemName: "ellipsis.circle")
+                    .font(.title2)
+                    .padding(4)
+            }
+            .foregroundStyle(.teal)
+        }
     }
     
     private func formattedDate(_ date: Date) -> String {
@@ -134,7 +112,18 @@ struct LensTrackingView: View {
     }
 }
 
-struct LensDetailRow: View {
+struct LensInformationView: View {
+    var lensItem: LensItem
+    var body: some View {
+        HStack(alignment: .top, spacing: 8.0) {
+            LensInformationRow(image: "hourglass.circle", title: "Period", value: lensItem.wearDuration.rawValue)
+            LensInformationRow(image: "dial", title: "Sphere", value: lensItem.sphereDescription)
+            LensInformationRow(image: "eyes.inverse", title: "Eye Side", value: lensItem.eyeSide.rawValue)
+        }
+    }
+}
+
+struct LensInformationRow: View {
     var image: String
     var title: String
     var value: String
@@ -150,10 +139,9 @@ struct LensDetailRow: View {
             Divider()
             
             Text(value)
-                .font(.title3)
                 .bold()
                 .foregroundColor(.primary)
-                .padding(.vertical)
+                .padding(.vertical, 6.0)
             
             Divider()
             
@@ -190,6 +178,6 @@ extension Button {
 }
 
 #Preview {
-    return LensTrackingView()
+    return LensTrackingView(removeAction: {  })
         .environmentObject(SampleData.content[0])
 }

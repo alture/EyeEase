@@ -27,7 +27,7 @@ final class LensItem: ObservableObject {
     var usedNumber: Int
     var sphere: Sphere
     var detail: LensDetail
-    var isPinned: Bool
+    var isWearing: Bool
     
     init(
         id: UUID = UUID(),
@@ -38,7 +38,7 @@ final class LensItem: ObservableObject {
         totalNumber: Int? = nil,
         usedNumber: Int = 0,
         sphere: Sphere,
-        isPinned: Bool = true,
+        isWearing: Bool = false,
         detail: LensDetail) {
             self.id = id
             self.name = name
@@ -48,7 +48,7 @@ final class LensItem: ObservableObject {
             self.totalNumber = totalNumber
             self.usedNumber = usedNumber
             self.sphere = sphere
-            self.isPinned = isPinned
+            self.isWearing = isWearing
             self.detail = detail
         }
 }
@@ -56,7 +56,7 @@ final class LensItem: ObservableObject {
 // MARK: - Identifiable, Hashable
 extension LensItem: Identifiable, Hashable {
     static func == (lhs: LensItem, rhs: LensItem) -> Bool {
-        return lhs.id == rhs.id
+        return lhs.id == rhs.id && lhs.isWearing == rhs.isWearing
     }
     
     func hash(into hasher: inout Hasher) {
@@ -95,22 +95,49 @@ extension LensItem {
         }
     }
     
-    var progressColor: Color {
-        var progress: Int = remainingDays
-        switch wearDuration {
-        case .daily:
-            guard let totalNumber else { return Color.clear }
-            progress = totalNumber - usedNumber
-        default:
-            break
+    var sphereDescription: String {
+        switch eyeSide {
+        case .left:
+            return "L: \(sphere.left)"
+        case .right:
+            return "R: \(sphere.left)"
+        case .both:
+            if sphere.isSame {
+                return "\(sphere.left)"
+            } else {
+                return "\(sphere.left); \(sphere.right)"
+            }
         }
-        switch progress  {
-        case 0...2:
-            return Color.red
-        case 3...6:
-            return Color.yellow
-        default:
+    }
+    
+    var progressColor: Color {
+//        var progress: Int = remainingDays
+//        switch wearDuration {
+//        case .daily:
+//            guard let totalNumber else { return Color.clear }
+//            progress = totalNumber - usedNumber
+//        default:
+//            break
+//        }
+        
+        switch usedPeriod {
+        case .new:
             return Color.green
+        case .used:
+            return Color.yellow
+        case .readyToExpire:
+            return Color.red
+        }
+    }
+    
+    var usedPeriod: UsedPeriod {
+        switch remainingDays  {
+        case 0...2:
+            return .readyToExpire
+        case 3...6:
+            return .used
+        default:
+            return .new
         }
     }
     
@@ -190,4 +217,10 @@ struct LensDetail: Codable {
         self.cylinder = cylinder
         self.axis = axis
     }
+}
+
+enum UsedPeriod {
+    case new
+    case used
+    case readyToExpire
 }
