@@ -31,26 +31,27 @@ final class LensItem: ObservableObject {
     
     init(
         id: UUID = UUID(),
-        name: String,
+        name: String = "",
         eyeSide: EyeSide = .both,
         wearDuration: WearDuration = .monthly,
-        startDate: Date,
+        startDate: Date = Date.now,
         totalNumber: Int? = nil,
         usedNumber: Int = 0,
-        sphere: Sphere,
-        isWearing: Bool = false,
-        detail: LensDetail) {
-            self.id = id
-            self.name = name
-            self.eyeSide = eyeSide
-            self.wearDuration = wearDuration
-            self.startDate = startDate
-            self.totalNumber = totalNumber
-            self.usedNumber = usedNumber
-            self.sphere = sphere
-            self.isWearing = isWearing
-            self.detail = detail
-        }
+        sphere: Sphere = Sphere(),
+        isWearing: Bool = true,
+        detail: LensDetail = LensDetail()
+    ) {
+        self.id = id
+        self.name = name
+        self.eyeSide = eyeSide
+        self.wearDuration = wearDuration
+        self.startDate = startDate
+        self.totalNumber = totalNumber
+        self.usedNumber = usedNumber
+        self.sphere = sphere
+        self.isWearing = isWearing
+        self.detail = detail
+    }
 }
 
 // MARK: - Identifiable, Hashable
@@ -150,7 +151,7 @@ extension LensItem {
         guard let finishDate else { return 0 }
         let currentDate = Date()
         let daysElapsed = Calendar.current.dateComponents([.day], from: currentDate, to: finishDate)
-        return daysElapsed.day ?? 0
+        return max(0, daysElapsed.day ?? 0)
     }
     
     var finishDate: Date? {

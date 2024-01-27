@@ -9,12 +9,12 @@ import SwiftUI
 import UserNotifications
 
 struct NewLensView: View {
-    @State var draftLensItem: LensItem = LensItem(name: "", startDate: Date(), sphere: Sphere(), detail: LensDetail())
+    @State var draftLensItem: LensItem = LensItem(name: "My Lens", startDate: Date(), sphere: Sphere(), detail: LensDetail())
     @Environment(\.dismiss) var dismiss
     @Environment(\.modelContext) var modelContext
     var body: some View {
         NavigationStack {
-            LensCreateOrEditView(lensItem: $draftLensItem)
+            LensCreateOrEditView(lensItem: draftLensItem)
                 .navigationTitle("Create Lens")
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbar {
@@ -61,6 +61,8 @@ struct NewLensView: View {
 }
 
 #Preview {
-    NewLensView()
-        .modelContainer(previewContainer)
+    NavigationStack {
+        NewLensView()
+            .modelContainer(previewContainer)
+    }
 }

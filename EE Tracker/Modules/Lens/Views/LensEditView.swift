@@ -14,7 +14,7 @@ struct LensEditView: View {
     
     var body: some View {
         NavigationStack {
-            LensCreateOrEditView(lensItem: $draftLensItem)
+            LensCreateOrEditView(lensItem: draftLensItem)
                 .navigationTitle(lensItem.name)
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbar {

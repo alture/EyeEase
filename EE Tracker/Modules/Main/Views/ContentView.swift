@@ -13,37 +13,39 @@ struct ContentView: View {
     @Query(sort: \LensItem.startDate) var lensItems: [LensItem]
     @Environment(\.modelContext) private var modelContext
     @State private var isShowingSettings: Bool = false
-    @State private var isNewLensShowing: Bool = false
     @State private var selectedLensItem: LensItem?
     
     var body: some View {
         NavigationStack {
-            ScrollView {
-                VStack {
-                    LensCarouselView(selectedLens: $selectedLensItem)
-                    if let selectedLensItem {
-                        LensTrackingView(removeAction: postContent)
-                            .environmentObject(selectedLensItem)
-                            .padding(.horizontal)
+            Group {
+                if lensItems.isEmpty {
+                    ContentUnavailableView(
+                        "No tracking lens",
+                        systemImage: "clock.arrow.2.circlepath",
+                        description: Text("Add new lense using + button on top")
+                    )
+                } else {
+                    ScrollView {
+                        VStack {
+                            LensCarouselView(selectedLens: $selectedLensItem)
+                            
+                            if let selectedLensItem {
+                                LensTrackingView(removeAction: postContent)
+                                    .environmentObject(selectedLensItem)
+                                    .padding(.horizontal)
+                            }
+                            Spacer()
+                        }
                     }
-                    Spacer()
+                    .scrollIndicators(.hidden)
                 }
             }
-            .scrollIndicators(.hidden)
             .navigationTitle("EyeEase")
             .toolbar(content: {
                 ToolbarItem(placement: .topBarTrailing) {
                     NavigationLink {
-                        NewLensView()
+                        LensCreateOrEditView(lensItem: LensItem(), status: .new)
                             .modelContainer(modelContext.container)
-                            .onAppear {
-                                self.isNewLensShowing.toggle()
-                            }
-                            .onDisappear {
-                                withAnimation {
-                                    self.isNewLensShowing.toggle()
-                                }
-                            }
                     } label: {
                         Image(systemName: "plus")
                             .font(.title3)
@@ -74,15 +76,6 @@ struct ContentView: View {
                 }
             }
         }
-        .overlay(content: {
-            if lensItems.isEmpty && isNewLensShowing == false {
-                ContentUnavailableView(
-                    "No tracking lens",
-                    systemImage: "clock.arrow.2.circlepath",
-                    description: Text("Add new lense using + button on top")
-                )
-            }
-        })
     }
     
     private func delete(_ item: LensItem) {
