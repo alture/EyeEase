@@ -7,7 +7,7 @@
 
 import SwiftUI
 import Combine
-import WidgetKit
+import SwiftData
 
 struct LensCreateOrEditView: View {
     let lensItem: LensItem
@@ -17,8 +17,10 @@ struct LensCreateOrEditView: View {
     @State private var initialUseDate: Date = Date.now
     @State private var sphere: Sphere = Sphere()
     @State private var detail: LensDetail = LensDetail()
+    @State private var isWearing: Bool = true
     var status: Status = .new
     @FocusState private var focusField: FocusableField?
+    @Query private var lensItems: [LensItem]
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
     
@@ -47,7 +49,8 @@ struct LensCreateOrEditView: View {
                     brandName: $brandName,
                     wearDuration: $wearDuration,
                     eyeSide: $eyeSide,
-                    initialUseDate: $initialUseDate
+                    initialUseDate: $initialUseDate,
+                    isWearing: $isWearing
                 )
                 SphereSection(sphere: $sphere)
                 DetailSection(detail: $detail, focusField: _focusField)
@@ -91,6 +94,7 @@ struct LensCreateOrEditView: View {
             initialUseDate = lensItem.startDate
             sphere = lensItem.sphere
             detail = lensItem.detail
+            isWearing = lensItem.isWearing
             
             if status == .change {
                 initialUseDate = Date.now
@@ -106,9 +110,27 @@ struct LensCreateOrEditView: View {
         lensItem.sphere = sphere
         lensItem.detail = detail
         
-        modelContext.insert(lensItem)
+        if !lensItems.contains(where: { $0.isSelected }) {
+            lensItem.isSelected = true
+        }
         
-        WidgetCenter.shared.reloadAllTimelines()
+        if isWearing {
+            let wearingLensesDescriptor = FetchDescriptor<LensItem>(predicate: #Predicate { lensItem in
+                lensItem.isWearing
+            })
+            do {
+                let result = try modelContext.fetch(wearingLensesDescriptor)
+                result.forEach {
+                    $0.isWearing = false
+                }
+            } catch {
+                print("Can't fetch lensItems from DataModel")
+            }
+        }
+        
+        lensItem.isWearing = isWearing
+        modelContext.insert(lensItem)
+//        WidgetCenter.shared.reloadAllTimelines()
     }
     
     private func createNotification(by item: LensItem) {
@@ -173,58 +195,63 @@ struct MainSection: View {
     @Binding var wearDuration: WearDuration
     @Binding var eyeSide: EyeSide
     @Binding var initialUseDate: Date
+    @Binding var isWearing: Bool
     var body: some View {
-            Section {
-                HStack(spacing: 8.0) {
-                    Text("Lens Brand")
-                    TextField("Required", text: $brandName)
-                        .autocorrectionDisabled(true)
-                        .multilineTextAlignment(.trailing)
-                        .focused($focusField, equals: .name)
-                        .foregroundStyle(.teal)
-                        .submitLabel(.done)
-                        .textFieldStyle(.plain)
-                }
-                Picker("Usage Period", selection: $wearDuration) {
-                    ForEach(WearDuration.allCases.filter { $0 != .daily && $0 != .yearly }) { duration in
-                        Text(duration.rawValue)
-                            .tag(duration)
-                    }
-                }
-                
-                Picker("For Which Eye?", selection: $eyeSide) {
-                    ForEach(EyeSide.allCases) { side in
-                        Text(side.rawValue)
-                            .tag(side)
-                    }
-                }
-                
-//                if wearDuration == .daily {
-//                    HStack {
-//                        Text("Quantity of Lenses")
-//                        Spacer()
-//                        TextField("Required", value: $lensItem.totalNumber, format: .number)
-//                            .keyboardType(.asciiCapableNumberPad)
-//                            .autocorrectionDisabled(true)
-//                            .frame(minWidth: 60)
-//                            .multilineTextAlignment(.trailing)
-//                    }
-//                }
-                
-                DatePicker("Initial Use Date", selection: $initialUseDate, displayedComponents: [.date])
-            } header: {
-                HStack {
-                    Image(systemName: "circle.dashed")
-                    Text("Main")
+        Section {
+            LabeledContent("Brand name") {
+                TextField("Required", text: $brandName)
+                    .autocorrectionDisabled(true)
+                    .multilineTextAlignment(.trailing)
+                    .focused($focusField, equals: .name)
+                    .foregroundStyle(.teal)
+                    .submitLabel(.done)
+                    .textFieldStyle(.plain)
+            }
+            Picker("Usage Period", selection: $wearDuration) {
+                ForEach(WearDuration.allCases.filter {
+                    $0 != .daily && $0 != .yearly
+                }) { duration in
+                    Text(duration.rawValue)
+                        .tag(duration)
                 }
             }
+            
+            Picker("For Which Eye?", selection: $eyeSide) {
+                ForEach(EyeSide.allCases) { side in
+                    Text(side.rawValue)
+                        .tag(side)
+                }
+            }
+            
+            //                if wearDuration == .daily {
+            //                    HStack {
+            //                        Text("Quantity of Lenses")
+            //                        Spacer()
+            //                        TextField("Required", value: $lensItem.totalNumber, format: .number)
+            //                            .keyboardType(.asciiCapableNumberPad)
+            //                            .autocorrectionDisabled(true)
+            //                            .frame(minWidth: 60)
+            //                            .multilineTextAlignment(.trailing)
+            //                    }
+            //                }
+            
+            DatePicker("Initial Use Date", selection: $initialUseDate, displayedComponents: [.date])
+            
+            Toggle("Currently wearing", isOn: $isWearing)
+        } header: {
+            HStack {
+                Image(systemName: "circle.dashed")
+                Text("Main")
+            }
+        } footer: {
+            Text("Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum")
+        }
     }
 }
 
 struct SphereSection: View {
     @Binding var sphere: Sphere
     @State private var lastChangedSide: EyeSide = .both
-    @State private var synchronizeValues: Bool = true
     
     var body: some View {
         Section {
@@ -235,7 +262,7 @@ struct SphereSection: View {
                     Divider()
                     PowerPicker(value: $sphere.left)
                         .onChange(of: sphere.left, { oldValue, newValue in
-                            if synchronizeValues, newValue != sphere.right {
+                            if sphere.proportional, newValue != sphere.right {
                                 lastChangedSide = .both
                                 withAnimation {
                                     sphere.right = newValue
@@ -248,9 +275,9 @@ struct SphereSection: View {
                 
                 Button(action: {
                     withAnimation {
-                        self.synchronizeValues.toggle()
+                        self.sphere.proportional.toggle()
                         
-                        if self.synchronizeValues {
+                        if self.sphere.proportional {
                             switch lastChangedSide {
                             case .left:
                                 sphere.right = sphere.left
@@ -260,10 +287,10 @@ struct SphereSection: View {
                         }
                     }
                 }) {
-                    Image(systemName: synchronizeValues ? "link.circle.fill" : "link.circle")
+                    Image(systemName: sphere.proportional ? "link.circle.fill" : "link.circle")
                         .resizable()
                         .frame(width: 24, height: 24)
-                        .foregroundColor(synchronizeValues ? .teal : .gray)
+                        .foregroundColor(sphere.proportional ? .teal : .gray)
                 }
                 .buttonStyle(.plain)
                 .padding()
@@ -276,7 +303,7 @@ struct SphereSection: View {
                     Divider()
                     PowerPicker(value: $sphere.right)
                         .onChange(of: sphere.right) { oldValue, newValue in
-                            if synchronizeValues, newValue != sphere.left {
+                            if sphere.proportional, newValue != sphere.left {
                                 lastChangedSide = .both
                                 withAnimation {
                                     sphere.left = newValue

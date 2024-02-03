@@ -5,7 +5,7 @@
 //  Created by Alisher on 10.12.2023.
 //
 
-import Foundation
+import SwiftUI
 
 enum EyeSide: String, Codable, CaseIterable, Identifiable {
     case left = "Left"
@@ -13,4 +13,14 @@ enum EyeSide: String, Codable, CaseIterable, Identifiable {
     case right = "Right"
     
     var id: Self { self }
+    var image: Image {
+        switch self {
+        case .left:
+            return Image(systemName: "circle.grid.2x1.left.filled")
+        case .both:
+            return Image(systemName: "circle.grid.2x1.fill")
+        case .right:
+            return Image(systemName: "circle.grid.2x1.right.filled")
+        }
+    }
 }

@@ -10,15 +10,10 @@ import SwiftData
 
 struct LensTrackingView: View {
     @EnvironmentObject var lensItem: LensItem
-    @State private var isOptionalSectionShowing: Bool = false
-    @State private var showingConfirmation: Bool = false
-    
-    var removeAction: (() -> Void)
     
     var body: some View {
         VStack {
             LensTrackingHeader(
-                showingConfirmation: $showingConfirmation,
                 lensItem: lensItem
             )
             LensTrackingTimelineView()
@@ -54,25 +49,13 @@ struct LensTrackingView: View {
         .padding()
         .background(Color(.secondarySystemBackground))
         .clipShape(RoundedRectangle(cornerRadius: 12))
-        .confirmationDialog("Delete Confirmation", isPresented: $showingConfirmation) {
-            Button("Delete", role: .destructive) {
-                removeAction()
-            }
-            
-            Button("Cancel", role: .cancel) {
-                self.showingConfirmation.toggle()
-            }
-        } message: {
-            Text("Are you sure to delete this Lens?")
-        }
     }
 }
 
 struct LensTrackingHeader: View {
-    @Binding var showingConfirmation: Bool
     var lensItem: LensItem
     var body: some View {
-        HStack(alignment: .top) {
+        HStack {
             VStack(alignment: .leading) {
                 Text("\(lensItem.name)")
                     .font(.title2)
@@ -82,26 +65,8 @@ struct LensTrackingHeader: View {
                     .font(.headline)
                     .foregroundStyle(.secondary)
             }
+            
             Spacer()
-            Menu {
-                NavigationLink {
-                    LensCreateOrEditView(lensItem: lensItem, status: .edit)
-                        .environmentObject(lensItem)
-                } label: {
-                    Label("Edit", systemImage: "pencil")
-                }
-                
-                Divider()
-                
-                Button("Delete", role: .destructive) {
-                    self.showingConfirmation.toggle()
-                }
-            } label: {
-                Image(systemName: "ellipsis.circle")
-                    .font(.title2)
-                    .padding(4)
-            }
-            .foregroundStyle(.teal)
         }
     }
     
@@ -178,6 +143,6 @@ extension Button {
 }
 
 #Preview {
-    return LensTrackingView(removeAction: {  })
+    return LensTrackingView()
         .environmentObject(SampleData.content[0])
 }

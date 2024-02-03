@@ -22,12 +22,18 @@ final class LensItem: ObservableObject {
     
     var eyeSide: EyeSide
     var wearDuration: WearDuration
-    var startDate: Date
+    var startDate: Date {
+        didSet {
+            self.changeDate = Calendar.current.date(byAdding: .day, value: wearDuration.limit, to: startDate) ?? Date.now
+        }
+    }
+    var changeDate: Date
     var totalNumber: Int?
     var usedNumber: Int
     var sphere: Sphere
     var detail: LensDetail
     var isWearing: Bool
+    var isSelected: Bool 
     
     init(
         id: UUID = UUID(),
@@ -39,7 +45,8 @@ final class LensItem: ObservableObject {
         usedNumber: Int = 0,
         sphere: Sphere = Sphere(),
         isWearing: Bool = true,
-        detail: LensDetail = LensDetail()
+        detail: LensDetail = LensDetail(),
+        isSelected: Bool = false
     ) {
         self.id = id
         self.name = name
@@ -51,6 +58,8 @@ final class LensItem: ObservableObject {
         self.sphere = sphere
         self.isWearing = isWearing
         self.detail = detail
+        self.isSelected = isSelected
+        self.changeDate = Calendar.current.date(byAdding: .day, value: wearDuration.limit, to: startDate) ?? Date.now
     }
 }
 
@@ -142,11 +151,6 @@ extension LensItem {
         }
     }
     
-    var changeDate: Date {
-        let endDate = Calendar.current.date(byAdding: .day, value: wearDuration.limit, to: startDate)
-        return endDate ?? Date()
-    }
-    
     var remainingDays: Int {
         guard let finishDate else { return 0 }
         let currentDate = Date()
@@ -195,10 +199,12 @@ struct Sphere: Codable {
     var right: Float
     
     var isSame: Bool { left == right }
+    var proportional: Bool
     
-    init(left: Float = 0, right: Float = 0) {
+    init(left: Float = 0, right: Float = 0, proportional: Bool = true) {
         self.left = left
         self.right = right
+        self.proportional = proportional
     }
 }
 

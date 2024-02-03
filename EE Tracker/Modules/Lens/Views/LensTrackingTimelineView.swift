@@ -42,7 +42,7 @@ struct LensTrackingTimelineView: View {
                         CircleProgressView(lineWidth: 10.0)
                             .environmentObject(lensItem)
                     }
-                    .frame(width: 130, height: 130)
+//                    .frame(width: 120, height: 120)
                     VStack(alignment: .center, spacing: 4) {
                         Button(action: {
                                 self.lensItem.increaseQuantity(for: lensItem)
@@ -60,20 +60,20 @@ struct LensTrackingTimelineView: View {
                     .frame(minWidth: 0, maxWidth: .infinity)
                 }
             default:
-                ZStack {
-                    VStack(alignment: .center) {
-                        Text("\(lensItem.remainingDays)")
-                            .font(.largeTitle)
-                            .bold()
-                        Text("\(lensItem.remainingDays > 1 ? "days" : "day") left")
-                            .font(.subheadline)
-                            .bold()
-                            .foregroundStyle(Color(.systemGray2))
+                CircleProgressView(lineWidth: 10.0)
+                    .environmentObject(lensItem)
+                    .frame(width: 120, height: 120)
+                    .overlay {
+                        VStack(alignment: .center) {
+                            Text("\(lensItem.remainingDays)")
+                                .font(.largeTitle)
+                                .bold()
+                            Text("\(lensItem.remainingDays > 1 ? "days" : "day") left")
+                                .font(.subheadline)
+                                .bold()
+                                .foregroundStyle(Color(.systemGray2))
+                        }
                     }
-                    CircleProgressView(lineWidth: 10.0)
-                        .environmentObject(lensItem)
-                    .frame(width: 130, height: 130)
-                }
             }
             
             if self.lensItem.isExpired {

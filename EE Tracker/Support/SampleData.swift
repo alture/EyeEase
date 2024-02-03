@@ -21,8 +21,8 @@ struct SampleData {
     }
     static var content: [LensItem] =
     [
-        LensItem(name: "Secon Lense Yota 2", startDate: Date(), sphere: Sphere(left: -4.5, right: -4.25), isWearing: true, detail: LensDetail(baseCurve: "8.6", dia: "13", cylinder: "-2.75", axis: "90")),
-        LensItem(name: "Secon Lense Yota 3", startDate: Calendar.current.date(byAdding: dateComponents, to: Date(), wrappingComponents: false) ?? Date(), sphere: Sphere(), isWearing: false, detail: LensDetail()),
-        LensItem(name: "Secon Lense", startDate: Calendar.current.date(byAdding: dateComponents2, to: Date(), wrappingComponents: false) ?? Date(), sphere: Sphere(), isWearing: false, detail: LensDetail(baseCurve: "8,3", dia: "", cylinder: "-14.5", axis: ""))
+        LensItem(name: "Secon Lense Yota 2", startDate: Date(), sphere: Sphere(left: -4.5, right: -4.25, proportional: false), isWearing: true, detail: LensDetail(baseCurve: "8.6", dia: "13", cylinder: "-2.75", axis: "90"), isSelected: true),
+        LensItem(name: "Secon Lense Yota 3", startDate: Calendar.current.date(byAdding: dateComponents, to: Date(), wrappingComponents: false) ?? Date(), sphere: Sphere(), isWearing: false, detail: LensDetail(), isSelected: false),
+        LensItem(name: "Secon Lense", startDate: Calendar.current.date(byAdding: dateComponents2, to: Date(), wrappingComponents: false) ?? Date(), sphere: Sphere(), isWearing: false, detail: LensDetail(baseCurve: "8,3", dia: "", cylinder: "-14.5", axis: ""), isSelected: false)
     ]
 }

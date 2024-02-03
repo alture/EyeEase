@@ -14,7 +14,7 @@ struct EE_TrackerApp: App {
         let schema = Schema([
             LensItem.self,
         ])
-        let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
+        let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: true)
         do {
             return try ModelContainer(for: schema, configurations: [modelConfiguration])
         } catch {
@@ -28,6 +28,6 @@ struct EE_TrackerApp: App {
                 .fontDesign(.rounded)
 //                .environment(\.font, .system(.body, design: .rounded))
         }
-        .modelContainer(sharedModelContainer)
+        .modelContainer(previewContainer)
     }
 }

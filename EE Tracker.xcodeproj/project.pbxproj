@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B71262C02B66A049009185EE /* LensSortOrder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B71262BF2B66A049009185EE /* LensSortOrder.swift */; };
 		B73708F52B35F65F0013EAC3 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73708F42B35F65F0013EAC3 /* Persistence.swift */; };
 		B73FA0532B5BC20600BCD9A4 /* LensDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73FA0522B5BC20600BCD9A4 /* LensDetailView.swift */; };
 		B74FA83A2B5A84F1001E896F /* LensCarouselView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74FA8392B5A84F1001E896F /* LensCarouselView.swift */; };
@@ -36,6 +37,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B71262BF2B66A049009185EE /* LensSortOrder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LensSortOrder.swift; sourceTree = "<group>"; };
 		B73708F42B35F65F0013EAC3 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
 		B73FA0522B5BC20600BCD9A4 /* LensDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LensDetailView.swift; sourceTree = "<group>"; };
 		B74FA8392B5A84F1001E896F /* LensCarouselView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LensCarouselView.swift; sourceTree = "<group>"; };
@@ -224,6 +226,7 @@
 				B7E075502B1CE214001ABFE4 /* CircleProgressView.swift */,
 				B7E32D8A2B2521B700CA0729 /* EyeSide.swift */,
 				B7E32D8C2B2521DC00CA0729 /* WearDuration.swift */,
+				B71262BF2B66A049009185EE /* LensSortOrder.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -332,6 +335,7 @@
 				B7E075552B1D11B2001ABFE4 /* SettingsViewModel.swift in Sources */,
 				B7E32D892B2519E300CA0729 /* DataSourceModel.swift in Sources */,
 				B7E32D812B2119CD00CA0729 /* LensTrackingView.swift in Sources */,
+				B71262C02B66A049009185EE /* LensSortOrder.swift in Sources */,
 				B74FA83A2B5A84F1001E896F /* LensCarouselView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
