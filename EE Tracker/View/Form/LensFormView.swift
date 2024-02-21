@@ -1,5 +1,5 @@
 //
-//  LensCreateOrEditView.swift
+//  LensFormView.swift
 //  EE Tracker
 //
 //  Created by Alisher on 07.12.2023.
@@ -9,7 +9,7 @@ import SwiftUI
 import Combine
 import SwiftData
 
-struct LensCreateOrEditView: View {
+struct LensFormView: View {
     let lensItem: LensItem
     @State private var brandName: String = ""
     @State private var wearDuration: WearDuration = .monthly
@@ -400,5 +400,5 @@ struct DetailRow: View {
 }
 
 #Preview {
-    return LensCreateOrEditView(lensItem: SampleData.content[0])
+    return LensFormView(lensItem: SampleData.content[0])
 }

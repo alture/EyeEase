@@ -37,7 +37,7 @@ final class LensItem: ObservableObject {
     
     init(
         id: UUID = UUID(),
-        name: String = "",
+        name: String = "Name",
         eyeSide: EyeSide = .both,
         wearDuration: WearDuration = .monthly,
         startDate: Date = Date.now,

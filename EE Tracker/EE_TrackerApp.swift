@@ -26,7 +26,6 @@ struct EE_TrackerApp: App {
         WindowGroup {
             ContentView()
                 .fontDesign(.rounded)
-//                .environment(\.font, .system(.body, design: .rounded))
         }
         .modelContainer(previewContainer)
     }

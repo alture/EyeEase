@@ -14,7 +14,7 @@ struct NewLensView: View {
     @Environment(\.modelContext) var modelContext
     var body: some View {
         NavigationStack {
-            LensCreateOrEditView(lensItem: draftLensItem)
+            LensFormView(lensItem: draftLensItem)
                 .navigationTitle("Create Lens")
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbar {

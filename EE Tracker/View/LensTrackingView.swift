@@ -31,7 +31,7 @@ struct LensTrackingView: View {
             
             if self.lensItem.usedPeriod == .readyToExpire {
                 NavigationLink {
-                    LensCreateOrEditView(lensItem: lensItem, status: .change)
+                    LensFormView(lensItem: lensItem, status: .change)
                         .environment(lensItem)
                 } label: {
                     Text("Replace with new one")

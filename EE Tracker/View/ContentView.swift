@@ -58,12 +58,14 @@ struct ContentView: View {
                                 })
                                 .padding(.top)
                                 .padding(.horizontal)
+                                .transition(AnyTransition.asymmetric(insertion: .move(edge: .bottom), removal: .move(edge: .top)).combined(with: .opacity))
                                 
                                 LensCarouselView(sortOrder: self.sortOrder, didSelectItem: { lensItem in
                                     lensItems.forEach { $0.isSelected = lensItem.id == $0.id }
                                     self.selectedLensItem = lensItems.first(where: { $0.isSelected } )
                                 })
                                     .padding(.bottom, 8)
+                                    .transition(AnyTransition.asymmetric(insertion: .move(edge: .bottom), removal: .move(edge: .top)).combined(with: .opacity))
                                 Divider()
                             }
                             
@@ -71,14 +73,14 @@ struct ContentView: View {
                                 ContentViewHeader(title: "Timeline") {
                                     Menu {
                                         NavigationLink {
-                                            LensCreateOrEditView(lensItem: selectedLensItem, status: .edit)
+                                            LensFormView(lensItem: selectedLensItem, status: .edit)
                                                 .environmentObject(selectedLensItem)
                                         } label: {
                                             Label("Edit", systemImage: "pencil")
                                         }
                                         
                                         NavigationLink {
-                                            LensCreateOrEditView(lensItem: selectedLensItem, status: .change)
+                                            LensFormView(lensItem: selectedLensItem, status: .change)
                                                 .environmentObject(selectedLensItem)
                                         } label: {
                                             Label("Replace with new one", systemImage: "gobackward")
@@ -112,7 +114,7 @@ struct ContentView: View {
             .toolbar(content: {
                 ToolbarItem(placement: .topBarTrailing) {
                     NavigationLink {
-                        LensCreateOrEditView(lensItem: LensItem(), status: .new)
+                        LensFormView(lensItem: LensItem(), status: .new)
                             .modelContainer(modelContext.container)
                             .onDisappear {
                                 self.selectedLensItem = lensItems.first { $0.isSelected }
@@ -153,7 +155,7 @@ struct ContentView: View {
             SettingsView()
         })
         .onAppear() {
-            self.selectedLensItem = lensItems.first(where: { $0.isSelected } )
+            self.selectedLensItem = lensItems.first(where: { $0.isSelected } ) ?? lensItems.first
             UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { success, error in
                 if success {
                     print("Permission approvved!")
