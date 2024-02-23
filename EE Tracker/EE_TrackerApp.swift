@@ -24,9 +24,9 @@ struct EE_TrackerApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            LensDashboardView(modelContext: sharedModelContainer.mainContext)
                 .fontDesign(.rounded)
         }
-        .modelContainer(previewContainer)
+        .modelContainer(sharedModelContainer)
     }
 }

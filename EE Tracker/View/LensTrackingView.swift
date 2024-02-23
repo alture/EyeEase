@@ -9,17 +9,20 @@ import SwiftUI
 import SwiftData
 
 struct LensTrackingView: View {
-    @EnvironmentObject var lensItem: LensItem
+    @Binding var lensItem: LensItem
+    @Binding var showingChangables: Bool
     
     var body: some View {
         VStack {
-            LensTrackingHeader(
-                lensItem: lensItem
-            )
-            LensTrackingTimelineView()
-                .environmentObject(lensItem)
+            LensTrackingHeader(name: lensItem.name, initialDate: lensItem.startDate)
+            
+            LensTrackingTimelineView(lensItem: $lensItem)
                 .padding(.top)
-            LensInformationView(lensItem: lensItem)
+            LensInformationView(
+                wearDuration: lensItem.wearDuration.rawValue,
+                sphereDesc: lensItem.sphereDescription,
+                eyeSide: lensItem.eyeSide.rawValue
+            )
                 .padding(.top)
             
             Image(systemName: "ellipsis")
@@ -30,17 +33,16 @@ struct LensTrackingView: View {
             LensDetailView(detail: lensItem.detail)
             
             if self.lensItem.usedPeriod == .readyToExpire {
-                NavigationLink {
-                    LensFormView(lensItem: lensItem, status: .change)
-                        .environment(lensItem)
-                } label: {
+                Button(action: {
+                    self.showingChangables.toggle()
+                }, label: {
                     Text("Replace with new one")
                         .fontWeight(.semibold)
                         .frame(minWidth: 0, maxWidth: .infinity, minHeight: 50)
                         .foregroundStyle(.white)
                         .background(Color.orange)
                         .clipShape(RoundedRectangle(cornerRadius: 10.0))
-                }
+                })
                 .buttonStyle(.plain)
                 .padding(.top)
                 .padding(.bottom, 8)
@@ -53,15 +55,16 @@ struct LensTrackingView: View {
 }
 
 struct LensTrackingHeader: View {
-    var lensItem: LensItem
+    var name: String
+    var initialDate: Date
     var body: some View {
         HStack {
             VStack(alignment: .leading) {
-                Text("\(lensItem.name)")
+                Text("\(name)")
                     .font(.title2)
                     .minimumScaleFactor(0.7)
                     .fontWeight(.bold)
-                Text("Started at: \(formattedDate(lensItem.startDate))")
+                Text("Started at: \(formattedDate(initialDate))")
                     .font(.headline)
                     .foregroundStyle(.secondary)
             }
@@ -78,12 +81,15 @@ struct LensTrackingHeader: View {
 }
 
 struct LensInformationView: View {
-    var lensItem: LensItem
+    var wearDuration: String
+    var sphereDesc: String
+    var eyeSide: String
+    
     var body: some View {
         HStack(alignment: .top, spacing: 8.0) {
-            LensInformationRow(image: "hourglass.circle", title: "Period", value: lensItem.wearDuration.rawValue)
-            LensInformationRow(image: "dial", title: "Sphere", value: lensItem.sphereDescription)
-            LensInformationRow(image: "eyes.inverse", title: "Eye Side", value: lensItem.eyeSide.rawValue)
+            LensInformationRow(image: "hourglass.circle", title: "Period", value: wearDuration)
+            LensInformationRow(image: "dial", title: "Sphere", value: sphereDesc)
+            LensInformationRow(image: "eyes.inverse", title: "Eye Side", value: eyeSide)
         }
     }
 }
@@ -143,6 +149,10 @@ extension Button {
 }
 
 #Preview {
-    return LensTrackingView()
-        .environmentObject(SampleData.content[0])
+    return LensTrackingView(lensItem: .constant(SampleData.content[0]), showingChangables: .constant(false))
 }
+
+
+//#Preview("With change button") {
+//    return LensTrackingView(lensItem: .constant(SampleData.content[0]), showingChangables: .constant(true))
+//}

@@ -33,7 +33,6 @@ final class LensItem: ObservableObject {
     var sphere: Sphere
     var detail: LensDetail
     var isWearing: Bool
-    var isSelected: Bool 
     
     init(
         id: UUID = UUID(),
@@ -45,8 +44,7 @@ final class LensItem: ObservableObject {
         usedNumber: Int = 0,
         sphere: Sphere = Sphere(),
         isWearing: Bool = true,
-        detail: LensDetail = LensDetail(),
-        isSelected: Bool = false
+        detail: LensDetail = LensDetail()
     ) {
         self.id = id
         self.name = name
@@ -58,7 +56,6 @@ final class LensItem: ObservableObject {
         self.sphere = sphere
         self.isWearing = isWearing
         self.detail = detail
-        self.isSelected = isSelected
         self.changeDate = Calendar.current.date(byAdding: .day, value: wearDuration.limit, to: startDate) ?? Date.now
     }
 }
@@ -121,15 +118,6 @@ extension LensItem {
     }
     
     var progressColor: Color {
-//        var progress: Int = remainingDays
-//        switch wearDuration {
-//        case .daily:
-//            guard let totalNumber else { return Color.clear }
-//            progress = totalNumber - usedNumber
-//        default:
-//            break
-//        }
-        
         switch usedPeriod {
         case .new:
             return Color.green
@@ -194,37 +182,6 @@ extension LensItem {
     
 }
 
-struct Sphere: Codable {
-    var left: Float
-    var right: Float
-    
-    var isSame: Bool { left == right }
-    var proportional: Bool
-    
-    init(left: Float = 0, right: Float = 0, proportional: Bool = true) {
-        self.left = left
-        self.right = right
-        self.proportional = proportional
-    }
-}
-
-struct LensDetail: Codable {
-    var baseCurve: String
-    var dia: String
-    var cylinder: String
-    var axis: String
-    
-    var hasAnyValue: Bool {
-        baseCurve != "" || dia != "" || cylinder != "" || axis != ""
-    }
-    
-    init(baseCurve: String = "", dia: String = "", cylinder: String = "", axis: String = "") {
-        self.baseCurve = baseCurve
-        self.dia = dia
-        self.cylinder = cylinder
-        self.axis = axis
-    }
-}
 
 enum UsedPeriod {
     case new

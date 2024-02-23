@@ -10,35 +10,17 @@ import Combine
 import SwiftData
 
 struct LensFormView: View {
-    let lensItem: LensItem
-    @State private var brandName: String = ""
-    @State private var wearDuration: WearDuration = .monthly
-    @State private var eyeSide: EyeSide = .both
-    @State private var initialUseDate: Date = Date.now
-    @State private var sphere: Sphere = Sphere()
-    @State private var detail: LensDetail = LensDetail()
-    @State private var isWearing: Bool = true
-    var status: Status = .new
     @FocusState private var focusField: FocusableField?
-    @Query private var lensItems: [LensItem]
-    @Environment(\.modelContext) private var modelContext
-    @Environment(\.dismiss) private var dismiss
+    @Environment(\.modelContext) var modelContext
+    @Environment(\.dismiss) var dismiss
     
-    enum Status {
-        case new
-        case edit
-        case change
-        
-        var actionTitle: String {
-            switch self {
-            case .new:
-                return "Add"
-            case .edit:
-                return "Save"
-            case .change:
-                return "Change"
-            }
-        }
+    @Bindable private var viewModel: LensFormViewModel
+    
+    @Binding private var lensItem: LensItem?
+    
+    init(lensItem: Binding<LensItem?> = .constant(nil), status: LensFormViewModel.Status) {
+        self._lensItem = lensItem
+        self.viewModel = LensFormViewModel(lensItem: lensItem.wrappedValue, status: status)
     }
     
     var body: some View {
@@ -46,16 +28,17 @@ struct LensFormView: View {
             Form {
                 MainSection(
                     focusField: _focusField,
-                    brandName: $brandName,
-                    wearDuration: $wearDuration,
-                    eyeSide: $eyeSide,
-                    initialUseDate: $initialUseDate,
-                    isWearing: $isWearing
+                    brandName: $viewModel.brandName,
+                    wearDuration: $viewModel.wearDuration,
+                    eyeSide: $viewModel.eyeSide,
+                    initialUseDate: $viewModel.initialUseDate,
+                    isWearing: $viewModel.isWearing,
+                    isEditable: viewModel.status == .new || viewModel.status == .changeable
                 )
-                SphereSection(sphere: $sphere)
-                DetailSection(detail: $detail, focusField: _focusField)
+                SphereSection(sphere: $viewModel.sphere)
+                DetailSection(detail: $viewModel.detail, focusField: _focusField)
             }
-            .navigationTitle(status == .new ? "New Lense" : lensItem.name)
+            .navigationTitle(viewModel.status == .new ? "New Lense" : viewModel.brandName)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 if focusField != .name {
@@ -72,49 +55,46 @@ struct LensFormView: View {
                 }
                 
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button(status.actionTitle) {
+                    Button(viewModel.status.actionTitle) {
                         save()
                         dismiss()
-                        switch status {
-                        case .new, .change:
-                            createNotification(by: lensItem)
-                        case .edit:
-                            break
-                        }
                     }
-                    .disabled(brandName.isEmpty)
+                    .disabled(!viewModel.isNameValid)
                 }
             }
             .defaultFocus($focusField, .name)
         }
-        .onAppear {
-            brandName = lensItem.name
-            wearDuration = lensItem.wearDuration
-            eyeSide = lensItem.eyeSide
-            initialUseDate = lensItem.startDate
-            sphere = lensItem.sphere
-            detail = lensItem.detail
-            isWearing = lensItem.isWearing
-            
-            if status == .change {
-                initialUseDate = Date.now
-            }
-        }
     }
     
     private func save() {
-        lensItem.name = brandName
-        lensItem.wearDuration = wearDuration
-        lensItem.eyeSide = eyeSide
-        lensItem.startDate = initialUseDate
-        lensItem.sphere = sphere
-        lensItem.detail = detail
-        
-        if !lensItems.contains(where: { $0.isSelected }) {
-            lensItem.isSelected = true
+        if lensItem != nil {
+            lensItem?.name = viewModel.brandName
+            lensItem?.eyeSide = viewModel.eyeSide
+            lensItem?.wearDuration = viewModel.wearDuration
+            lensItem?.startDate = viewModel.initialUseDate
+            lensItem?.sphere = viewModel.sphere
+            lensItem?.isWearing = viewModel.isWearing
+            lensItem?.detail = viewModel.detail
+            
+            viewModel.createNotification(by: lensItem)
+        } else {
+            let newLensItem = LensItem(
+                name: viewModel.brandName,
+                eyeSide: viewModel.eyeSide,
+                wearDuration: viewModel.wearDuration,
+                startDate: viewModel.initialUseDate,
+                sphere: viewModel.sphere,
+                isWearing: viewModel.isWearing,
+                detail: viewModel.detail
+            )
+            
+            modelContext.insert(newLensItem)
+            viewModel.createNotification(by: newLensItem)
         }
         
-        if isWearing {
+
+        
+        if viewModel.isWearing {
             let wearingLensesDescriptor = FetchDescriptor<LensItem>(predicate: #Predicate { lensItem in
                 lensItem.isWearing
             })
@@ -127,29 +107,6 @@ struct LensFormView: View {
                 print("Can't fetch lensItems from DataModel")
             }
         }
-        
-        lensItem.isWearing = isWearing
-        modelContext.insert(lensItem)
-//        WidgetCenter.shared.reloadAllTimelines()
-    }
-    
-    private func createNotification(by item: LensItem) {
-        let content = UNMutableNotificationContent()
-        content.title = "EyeEase"
-        content.body = "\(item.name) will expire today"
-        content.sound = UNNotificationSound.default
-        
-        var dateComponent = DateComponents()
-        dateComponent.day = item.remainingDays
-        dateComponent.hour = 10
-        
-        print(dateComponent.description)
-        
-        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponent, repeats: false)
-//        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 10, repeats: false)
-        let request = UNNotificationRequest(identifier: item.id.uuidString, content: content, trigger: trigger)
-        
-        UNUserNotificationCenter.current().add(request)
     }
 }
 
@@ -196,6 +153,8 @@ struct MainSection: View {
     @Binding var eyeSide: EyeSide
     @Binding var initialUseDate: Date
     @Binding var isWearing: Bool
+    var isEditable: Bool
+    
     var body: some View {
         Section {
             LabeledContent("Brand name") {
@@ -207,6 +166,7 @@ struct MainSection: View {
                     .submitLabel(.done)
                     .textFieldStyle(.plain)
             }
+            
             Picker("Usage Period", selection: $wearDuration) {
                 ForEach(WearDuration.allCases.filter {
                     $0 != .daily && $0 != .yearly
@@ -215,6 +175,7 @@ struct MainSection: View {
                         .tag(duration)
                 }
             }
+                .disabled(!isEditable)
             
             Picker("For Which Eye?", selection: $eyeSide) {
                 ForEach(EyeSide.allCases) { side in
@@ -222,29 +183,19 @@ struct MainSection: View {
                         .tag(side)
                 }
             }
-            
-            //                if wearDuration == .daily {
-            //                    HStack {
-            //                        Text("Quantity of Lenses")
-            //                        Spacer()
-            //                        TextField("Required", value: $lensItem.totalNumber, format: .number)
-            //                            .keyboardType(.asciiCapableNumberPad)
-            //                            .autocorrectionDisabled(true)
-            //                            .frame(minWidth: 60)
-            //                            .multilineTextAlignment(.trailing)
-            //                    }
-            //                }
+                .disabled(!isEditable)
             
             DatePicker("Initial Use Date", selection: $initialUseDate, displayedComponents: [.date])
+                .disabled(!isEditable)
             
-            Toggle("Currently wearing", isOn: $isWearing)
+            Toggle("Showing on lock screen", isOn: $isWearing)
         } header: {
             HStack {
                 Image(systemName: "circle.dashed")
                 Text("Main")
             }
         } footer: {
-            Text("Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum")
+            Text("You need to allow showing widget on lock screen")
         }
     }
 }
@@ -326,37 +277,38 @@ struct SphereSection: View {
 struct DetailSection: View {
     @Binding var detail: LensDetail
     @FocusState var focusField: FocusableField?
+    
     var body: some View {
-         Section {
-             DetailRow(
-                 name: "Base Curve(BC)",
-                 predication: "8.0 - 9.5",
-                 value: $detail.baseCurve,
-                 focusField: _focusField,
-                 focusValue: .bc
-             )
-             DetailRow(
-                 name: "Diameter(DIA)",
-                 predication: "13.0 - 14.5",
-                 value: $detail.dia,
-                 focusField: _focusField,
-                 focusValue: .dia
-             )
-             DetailRow(
-                 name: "Cylinder Power(PWR)",
-                 predication: "-0.75 to -2.75",
-                 value: $detail.cylinder,
-                 focusField: _focusField,
-                 focusValue: .cylinder
-             )
-             DetailRow(
+        Section {
+            DetailRow(
+                name: "Base Curve(BC)",
+                predication: "8.0 - 9.5",
+                value: $detail.baseCurve,
+                focusField: _focusField,
+                focusValue: .bc
+            )
+            DetailRow(
+                name: "Diameter(DIA)",
+                predication: "13.0 - 14.5",
+                value: $detail.dia,
+                focusField: _focusField,
+                focusValue: .dia
+            )
+            DetailRow(
+                name: "Cylinder Power(PWR)",
+                predication: "-0.75 to -2.75",
+                value: $detail.cylinder,
+                focusField: _focusField,
+                focusValue: .cylinder
+            )
+            DetailRow(
                 name: "Axis Orientation",
                 predication: "0 - 180",
                 value: $detail.axis,
                 focusField: _focusField,
                 focusValue: .axis
-             )
-         } header: {
+            )
+        } header: {
              HStack {
                  Image(systemName: "slider.horizontal.3")
                  Text("Details (Optional)")
@@ -399,6 +351,15 @@ struct DetailRow: View {
     }
 }
 
-#Preview {
-    return LensFormView(lensItem: SampleData.content[0])
-}
+#Preview("New", body: {
+    return LensFormView(lensItem: .constant(nil), status: .new)
+})
+
+#Preview("Editable", body: {
+    return LensFormView(lensItem: .constant(SampleData.content[0]), status: .editable)
+})
+
+#Preview("Changeable", body: {
+    return LensFormView(lensItem: .constant(SampleData.content[1]), status: .changeable)
+})
+

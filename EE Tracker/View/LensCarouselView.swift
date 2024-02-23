@@ -6,21 +6,21 @@
 //
 
 import SwiftUI
-import SwiftData
 
 struct LensCarouselView: View {
-    @Query private var lenses: [LensItem]
-    private var didSelectItem: (LensItem) -> Void
+    @Binding private var lenses: [LensItem]
+    @Binding private var selectedLensItem: LensItem?
+    
     var body: some View {
         ScrollViewReader { value in
             ScrollView(.horizontal) {
                 HStack {
                     ForEach(lenses) { item in
-                        LensCarouselRow(item: item)
+                        LensCarouselRow(name: item.name, isSelected: selectedLensItem?.id == item.id, isOnLockScreen: item.isWearing)
                             .id(item.id.uuidString)
                             .onTapGesture {
                                 withAnimation {
-                                    didSelectItem(item)
+                                    selectedLensItem = item
                                     value.scrollTo(item.id.uuidString, anchor: .center)
                                 }
                             }
@@ -28,8 +28,8 @@ struct LensCarouselView: View {
                 }
             }
             .onAppear {
-                if let selectedLens = lenses.first(where: { $0.isSelected }) {
-                    value.scrollTo(selectedLens.id.uuidString, anchor: .center)
+                if let selectedLensItem {
+                    value.scrollTo(selectedLensItem.id.uuidString, anchor: .center)
                 }
             }
             .contentMargins(.horizontal, EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16), for: .scrollContent)
@@ -37,43 +37,32 @@ struct LensCarouselView: View {
         }
     }
     
-    init(sortOrder: LensSortOrder, didSelectItem: @escaping (LensItem) -> Void) {
-        let sortDescriptors: [SortDescriptor<LensItem>] = switch sortOrder {
-        case .newToOlder:
-            [SortDescriptor(\LensItem.startDate, order: .reverse)]
-        case .olderToNew:
-            [SortDescriptor(\LensItem.changeDate)]
-        case .brandName:
-            [SortDescriptor(\LensItem.name)]
-        }
-        
-        _lenses = Query(sort: sortDescriptors, animation: .default)
-        self.didSelectItem = didSelectItem
+    init(lenses: Binding<[LensItem]>, selectedLensItem: Binding<LensItem?>) {
+        self._lenses = lenses
+        self._selectedLensItem = selectedLensItem
     }
-    
-//    private func didSelect(_ item: LensItem) {
-//        lenses.forEach { $0.isSelected = item.id == $0.id }
-//    }
 }
 
 struct LensCarouselRow: View {
-    var item: LensItem
+    var name: String
+    var isSelected: Bool
+    var isOnLockScreen: Bool
     var body: some View {
         HStack {
-            if item.isWearing {
+            if isOnLockScreen {
                 Image(systemName: "eye.fill")
-                    .foregroundStyle(item.isSelected ? .white : Color(.systemGray2))
+                    .foregroundStyle(isSelected ? .white : Color(.systemGray2))
             }
-            Text("\(item.name)")
+            Text("\(name)")
         }
-        .foregroundStyle(item.isSelected ? .white : Color(.systemGray))
+        .foregroundStyle(isSelected ? .white : Color(.systemGray))
         .font(.headline)
         .padding(.horizontal, 16)
         .padding(.vertical, 8)
         
-        .background(item.isSelected ? .teal : .clear)
+        .background(isSelected ? .teal : .clear)
         .overlay(content: {
-            if !item.isSelected {
+            if !isSelected {
                 RoundedRectangle(cornerRadius: 25.0)
                     .stroke(.separator, lineWidth: 4.0)
             }
@@ -83,6 +72,5 @@ struct LensCarouselRow: View {
 }
 
 #Preview {
-    LensCarouselView(sortOrder: .brandName, didSelectItem: { _ in })
-        .modelContainer(previewContainer)
+    LensCarouselView(lenses: .constant(SampleData.content), selectedLensItem: .constant(SampleData.content[0]))
 }

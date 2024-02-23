@@ -11,6 +11,7 @@
 		B73FA0532B5BC20600BCD9A4 /* LensDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73FA0522B5BC20600BCD9A4 /* LensDetailView.swift */; };
 		B74FA83A2B5A84F1001E896F /* LensCarouselView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74FA8392B5A84F1001E896F /* LensCarouselView.swift */; };
 		B74FA83C2B5A946C001E896F /* Bool+Comparable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74FA83B2B5A946C001E896F /* Bool+Comparable.swift */; };
+		B760DC4F2B88CCC000C2C025 /* LensDashboardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B760DC4E2B88CCC000C2C025 /* LensDashboardViewModel.swift */; };
 		B764EC582B73DC810024A166 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B764EC572B73DC810024A166 /* WidgetKit.framework */; };
 		B764EC5A2B73DC810024A166 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B764EC592B73DC810024A166 /* SwiftUI.framework */; };
 		B764EC5D2B73DC810024A166 /* TrackingWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = B764EC5C2B73DC810024A166 /* TrackingWidgetBundle.swift */; };
@@ -19,8 +20,10 @@
 		B764EC652B73DC850024A166 /* TrackingWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = B764EC552B73DC810024A166 /* TrackingWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		B7BF527D2B865D7600FE0162 /* EE-Tracker-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B7FC523F2B366E32009BA759 /* EE-Tracker-Info.plist */; };
 		B7BF527F2B865E6200FE0162 /* LensFormViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7BF527E2B865E6200FE0162 /* LensFormViewModel.swift */; };
+		B7BF52812B86720500FE0162 /* LensDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7BF52802B86720500FE0162 /* LensDetail.swift */; };
+		B7BF52832B86721F00FE0162 /* Sphere.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7BF52822B86721F00FE0162 /* Sphere.swift */; };
 		B7C08EAF2B1CAAB600DD0BE2 /* EE_TrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C08EAE2B1CAAB600DD0BE2 /* EE_TrackerApp.swift */; };
-		B7C08EB12B1CAAB600DD0BE2 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C08EB02B1CAAB600DD0BE2 /* ContentView.swift */; };
+		B7C08EB12B1CAAB600DD0BE2 /* LensDashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C08EB02B1CAAB600DD0BE2 /* LensDashboardView.swift */; };
 		B7C08EB52B1CAABA00DD0BE2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B7C08EB42B1CAABA00DD0BE2 /* Assets.xcassets */; };
 		B7C08EB82B1CAABA00DD0BE2 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B7C08EB72B1CAABA00DD0BE2 /* Preview Assets.xcassets */; };
 		B7C08EC02B1CB73C00DD0BE2 /* LensItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C08EBF2B1CB73C00DD0BE2 /* LensItem.swift */; };
@@ -29,7 +32,6 @@
 		B7E075552B1D11B2001ABFE4 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E075542B1D11B2001ABFE4 /* SettingsViewModel.swift */; };
 		B7E32D812B2119CD00CA0729 /* LensTrackingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E32D802B2119CD00CA0729 /* LensTrackingView.swift */; };
 		B7E32D832B21219C00CA0729 /* LensFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E32D822B21219B00CA0729 /* LensFormView.swift */; };
-		B7E32D872B23503600CA0729 /* NewLensView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E32D862B23503600CA0729 /* NewLensView.swift */; };
 		B7E32D892B2519E300CA0729 /* DataSourceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E32D882B2519E200CA0729 /* DataSourceModel.swift */; };
 		B7E32D8B2B2521B700CA0729 /* EyeSide.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E32D8A2B2521B700CA0729 /* EyeSide.swift */; };
 		B7E32D8D2B2521DC00CA0729 /* WearDuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E32D8C2B2521DC00CA0729 /* WearDuration.swift */; };
@@ -70,6 +72,7 @@
 		B73FA0522B5BC20600BCD9A4 /* LensDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LensDetailView.swift; sourceTree = "<group>"; };
 		B74FA8392B5A84F1001E896F /* LensCarouselView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LensCarouselView.swift; sourceTree = "<group>"; };
 		B74FA83B2B5A946C001E896F /* Bool+Comparable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bool+Comparable.swift"; sourceTree = "<group>"; };
+		B760DC4E2B88CCC000C2C025 /* LensDashboardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LensDashboardViewModel.swift; sourceTree = "<group>"; };
 		B764EC552B73DC810024A166 /* TrackingWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = TrackingWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		B764EC572B73DC810024A166 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		B764EC592B73DC810024A166 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
@@ -78,9 +81,11 @@
 		B764EC602B73DC850024A166 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B764EC622B73DC850024A166 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B7BF527E2B865E6200FE0162 /* LensFormViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LensFormViewModel.swift; sourceTree = "<group>"; };
+		B7BF52802B86720500FE0162 /* LensDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LensDetail.swift; sourceTree = "<group>"; };
+		B7BF52822B86721F00FE0162 /* Sphere.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sphere.swift; sourceTree = "<group>"; };
 		B7C08EAB2B1CAAB600DD0BE2 /* EE Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "EE Tracker.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B7C08EAE2B1CAAB600DD0BE2 /* EE_TrackerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EE_TrackerApp.swift; sourceTree = "<group>"; };
-		B7C08EB02B1CAAB600DD0BE2 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		B7C08EB02B1CAAB600DD0BE2 /* LensDashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LensDashboardView.swift; sourceTree = "<group>"; };
 		B7C08EB42B1CAABA00DD0BE2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B7C08EB72B1CAABA00DD0BE2 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		B7C08EBF2B1CB73C00DD0BE2 /* LensItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LensItem.swift; sourceTree = "<group>"; };
@@ -89,7 +94,6 @@
 		B7E075542B1D11B2001ABFE4 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		B7E32D802B2119CD00CA0729 /* LensTrackingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LensTrackingView.swift; sourceTree = "<group>"; };
 		B7E32D822B21219B00CA0729 /* LensFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LensFormView.swift; sourceTree = "<group>"; };
-		B7E32D862B23503600CA0729 /* NewLensView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewLensView.swift; sourceTree = "<group>"; };
 		B7E32D882B2519E200CA0729 /* DataSourceModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSourceModel.swift; sourceTree = "<group>"; };
 		B7E32D8A2B2521B700CA0729 /* EyeSide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EyeSide.swift; sourceTree = "<group>"; };
 		B7E32D8C2B2521DC00CA0729 /* WearDuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WearDuration.swift; sourceTree = "<group>"; };
@@ -153,9 +157,11 @@
 		B7BF52762B865C7200FE0162 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				B7C08EBF2B1CB73C00DD0BE2 /* LensItem.swift */,
+				B7BF52802B86720500FE0162 /* LensDetail.swift */,
 				B7E32D882B2519E200CA0729 /* DataSourceModel.swift */,
 				B7E32D8E2B2528EA00CA0729 /* SettingsModel.swift */,
-				B7C08EBF2B1CB73C00DD0BE2 /* LensItem.swift */,
+				B7BF52822B86721F00FE0162 /* Sphere.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -163,12 +169,11 @@
 		B7BF52772B865C7B00FE0162 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				B7BF527A2B865D1100FE0162 /* Form */,
+				B7E32D822B21219B00CA0729 /* LensFormView.swift */,
 				B7E075522B1D0FF2001ABFE4 /* SettingsView.swift */,
 				B7E32D802B2119CD00CA0729 /* LensTrackingView.swift */,
-				B7E32D862B23503600CA0729 /* NewLensView.swift */,
 				B7E32DA32B2629A800CA0729 /* LensTrackingTimelineView.swift */,
-				B7C08EB02B1CAAB600DD0BE2 /* ContentView.swift */,
+				B7C08EB02B1CAAB600DD0BE2 /* LensDashboardView.swift */,
 				B74FA8392B5A84F1001E896F /* LensCarouselView.swift */,
 				B73FA0522B5BC20600BCD9A4 /* LensDetailView.swift */,
 			);
@@ -180,16 +185,9 @@
 			children = (
 				B7E075542B1D11B2001ABFE4 /* SettingsViewModel.swift */,
 				B7BF527E2B865E6200FE0162 /* LensFormViewModel.swift */,
+				B760DC4E2B88CCC000C2C025 /* LensDashboardViewModel.swift */,
 			);
 			path = ViewModel;
-			sourceTree = "<group>";
-		};
-		B7BF527A2B865D1100FE0162 /* Form */ = {
-			isa = PBXGroup;
-			children = (
-				B7E32D822B21219B00CA0729 /* LensFormView.swift */,
-			);
-			path = Form;
 			sourceTree = "<group>";
 		};
 		B7C08EA22B1CAAB500DD0BE2 = {
@@ -372,11 +370,13 @@
 			files = (
 				B7E32D8F2B2528EA00CA0729 /* SettingsModel.swift in Sources */,
 				B7C08EC02B1CB73C00DD0BE2 /* LensItem.swift in Sources */,
-				B7E32D872B23503600CA0729 /* NewLensView.swift in Sources */,
 				B7E32D8D2B2521DC00CA0729 /* WearDuration.swift in Sources */,
-				B7C08EB12B1CAAB600DD0BE2 /* ContentView.swift in Sources */,
+				B7BF52832B86721F00FE0162 /* Sphere.swift in Sources */,
+				B7C08EB12B1CAAB600DD0BE2 /* LensDashboardView.swift in Sources */,
+				B760DC4F2B88CCC000C2C025 /* LensDashboardViewModel.swift in Sources */,
 				B7C08EAF2B1CAAB600DD0BE2 /* EE_TrackerApp.swift in Sources */,
 				B7E32DC22B26523D00CA0729 /* AppVersionProvider.swift in Sources */,
+				B7BF52812B86720500FE0162 /* LensDetail.swift in Sources */,
 				B7E32DA22B2605AD00CA0729 /* SampleData.swift in Sources */,
 				B73FA0532B5BC20600BCD9A4 /* LensDetailView.swift in Sources */,
 				B7E32DA02B26058500CA0729 /* PreviewSampleData.swift in Sources */,

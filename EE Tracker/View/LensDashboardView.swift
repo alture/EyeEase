@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  LensDashboardView.swift
 //  EE Tracker
 //
 //  Created by Alisher on 03.12.2023.
@@ -9,19 +9,24 @@ import SwiftUI
 import SwiftData
 import UserNotifications
 
-struct ContentView: View {
-    @Query private var lensItems: [LensItem]
+struct LensDashboardView: View {
     @Environment(\.modelContext) private var modelContext
+    @State private var viewModel: LensDashboardViewModel
+    
     @State private var isShowingSettings: Bool = false
     @State private var showingConfirmation: Bool = false
-    @State private var selectedLensItem: LensItem?
     @State private var isShowingSortButton: Bool = false
-    @State private var sortOrder: LensSortOrder = .olderToNew
+    @State private var showingChangables: Bool = false
+    
+    init(modelContext: ModelContext) {
+        let viewModel = LensDashboardViewModel(modelContext: modelContext)
+        _viewModel = State(initialValue: viewModel)
+    }
     
     var body: some View {
         NavigationStack {
             Group {
-                if lensItems.isEmpty {
+                if viewModel.lensItems.isEmpty {
                     ContentUnavailableView(
                         "No tracking lens",
                         systemImage: "clock.arrow.2.circlepath",
@@ -30,25 +35,20 @@ struct ContentView: View {
                 } else {
                     ScrollView {
                         VStack {
-                            if lensItems.count > 1 {
+                            if viewModel.lensItems.count > 1 {
                                 ContentViewHeader(title: "My Lens", content: {
                                     Menu {
                                         Text("Sort by:")
                                             .foregroundStyle(.secondary)
                                         Divider()
-                                        ForEach(LensSortOrder.allCases) { sortValue in
-                                            Button {
-                                                withAnimation(.easeInOut) {
-                                                    self.sortOrder = sortValue
-                                                }
-                                            } label: {
-                                                HStack {
-                                                    Text(sortValue.rawValue)
-                                                    Spacer()
-                                                    if sortValue.rawValue == self.sortOrder.rawValue {
-                                                        Image(systemName: "checkmark")
-                                                    }
-                                                }
+                                        Picker("Sort Order", selection: $viewModel.sortOrder) {
+                                            Text("New to Older").tag(LensSortOrder.newToOlder)
+                                            Text("Older to New").tag(LensSortOrder.olderToNew)
+                                            Text("Brand Name").tag(LensSortOrder.brandName)
+                                        }
+                                        .onChange(of: self.viewModel.sortOrder) { _, newValue in
+                                            withAnimation {
+                                                self.viewModel.fetchData(selectDefaultLens: false)
                                             }
                                         }
                                     } label: {
@@ -60,50 +60,44 @@ struct ContentView: View {
                                 .padding(.horizontal)
                                 .transition(AnyTransition.asymmetric(insertion: .move(edge: .bottom), removal: .move(edge: .top)).combined(with: .opacity))
                                 
-                                LensCarouselView(sortOrder: self.sortOrder, didSelectItem: { lensItem in
-                                    lensItems.forEach { $0.isSelected = lensItem.id == $0.id }
-                                    self.selectedLensItem = lensItems.first(where: { $0.isSelected } )
-                                })
+                                LensCarouselView(lenses: self.$viewModel.lensItems, selectedLensItem: self.$viewModel.selectedLensItem)
                                     .padding(.bottom, 8)
                                     .transition(AnyTransition.asymmetric(insertion: .move(edge: .bottom), removal: .move(edge: .top)).combined(with: .opacity))
                                 Divider()
                             }
                             
-                            if let selectedLensItem {
-                                ContentViewHeader(title: "Timeline") {
-                                    Menu {
-                                        NavigationLink {
-                                            LensFormView(lensItem: selectedLensItem, status: .edit)
-                                                .environmentObject(selectedLensItem)
-                                        } label: {
-                                            Label("Edit", systemImage: "pencil")
-                                        }
-                                        
-                                        NavigationLink {
-                                            LensFormView(lensItem: selectedLensItem, status: .change)
-                                                .environmentObject(selectedLensItem)
-                                        } label: {
-                                            Label("Replace with new one", systemImage: "gobackward")
-                                        }
-                                        
-                                        Divider()
-                                        
-                                        Button("Delete", role: .destructive) {
-                                            self.showingConfirmation.toggle()
-                                        }
+                            ContentViewHeader(title: "Timeline") {
+                                Menu {
+                                    NavigationLink {
+                                        LensFormView(lensItem: self.$viewModel.selectedLensItem, status: .editable)
                                     } label: {
-                                        Image(systemName: "ellipsis.circle")
-                                            .font(.title2)
+                                        Label("Edit", systemImage: "pencil")
                                     }
+                                    
+                                    NavigationLink {
+                                        LensFormView(lensItem: self.$viewModel.selectedLensItem, status: .changeable)
+                                    } label: {
+                                        Label("Replace with new one", systemImage: "gobackward")
+                                    }
+                                    
+                                    Divider()
+                                    
+                                    Button("Delete", role: .destructive) {
+                                        self.showingConfirmation.toggle()
+                                    }
+                                } label: {
+                                    Image(systemName: "ellipsis.circle")
+                                        .font(.title2)
                                 }
-                                .padding(.top)
-                                .padding(.horizontal)
-                                
-                                LensTrackingView()
-                                    .environmentObject(selectedLensItem)
-                                    .padding(.horizontal)
-                                Spacer()
                             }
+                            .padding(.top)
+                            .padding(.horizontal)
+                            
+                            if let selectedLensItem = viewModel.selectedLensItem {
+                                LensTrackingView(lensItem: .constant(selectedLensItem), showingChangables: self.$showingChangables)
+                                .padding(.horizontal)
+                            }
+                            Spacer()
                         }
                     }
                     .scrollIndicators(.hidden)
@@ -111,13 +105,17 @@ struct ContentView: View {
             }
             .navigationTitle("EyeEase")
             .navigationBarTitleDisplayMode(.inline)
+            .navigationDestination(isPresented: $showingChangables, destination: {
+                LensFormView(lensItem: self.$viewModel.selectedLensItem, status: .changeable)
+            })
             .toolbar(content: {
                 ToolbarItem(placement: .topBarTrailing) {
                     NavigationLink {
-                        LensFormView(lensItem: LensItem(), status: .new)
-                            .modelContainer(modelContext.container)
+                        LensFormView(status: .new)
                             .onDisappear {
-                                self.selectedLensItem = lensItems.first { $0.isSelected }
+                                withAnimation {
+                                    self.viewModel.fetchData()
+                                }
                             }
                     } label: {
                         Image(systemName: "plus")
@@ -138,7 +136,7 @@ struct ContentView: View {
         }
         .confirmationDialog("Delete Confirmation", isPresented: $showingConfirmation) {
             Button("Delete", role: .destructive) {
-                if let selectedLensItem {
+                if let selectedLensItem = viewModel.selectedLensItem  {
                     self.delete(selectedLensItem)
                 }
             }
@@ -155,7 +153,6 @@ struct ContentView: View {
             SettingsView()
         })
         .onAppear() {
-            self.selectedLensItem = lensItems.first(where: { $0.isSelected } ) ?? lensItems.first
             UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { success, error in
                 if success {
                     print("Permission approvved!")
@@ -170,21 +167,8 @@ struct ContentView: View {
     private func delete(_ item: LensItem) {
         UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [item.id.uuidString])
         withAnimation {
-            modelContext.delete(item)
-            lensItems.first?.isSelected = true
-            self.selectedLensItem = lensItems.first(where: { $0.isSelected } )
+            self.viewModel.deleteItem(item)
         }
-    }
-    
-    private func formattedDate(_ date: Date) -> String {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .medium
-        return formatter.string(from: date)
-    }
-    
-    private func postContent() {
-        guard let selectedLensItem else { return }
-        delete(selectedLensItem)
     }
 }
 
@@ -198,12 +182,10 @@ struct ContentViewHeader<Content: View>: View {
                 .bold()
             Spacer()
             content()
-
         }
     }
 }
 
 #Preview {
-    ContentView()
-        .modelContainer(previewContainer)
+    LensDashboardView(modelContext: previewContainer.mainContext)
 }

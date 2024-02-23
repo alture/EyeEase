@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct LensTrackingTimelineView: View {
-    @EnvironmentObject var lensItem: LensItem
+    @Binding var lensItem: LensItem
     var body: some View {
         VStack(alignment: .center, spacing: 20.0) {
             switch lensItem.wearDuration {
@@ -39,10 +39,8 @@ struct LensTrackingTimelineView: View {
                                 .bold()
                                 .foregroundStyle(Color(.systemGray2))
                         }
-                        CircleProgressView(lineWidth: 10.0)
-                            .environmentObject(lensItem)
+                        CircleProgressView(lensItem: $lensItem, lineWidth: 10.0)
                     }
-//                    .frame(width: 120, height: 120)
                     VStack(alignment: .center, spacing: 4) {
                         Button(action: {
                                 self.lensItem.increaseQuantity(for: lensItem)
@@ -60,7 +58,7 @@ struct LensTrackingTimelineView: View {
                     .frame(minWidth: 0, maxWidth: .infinity)
                 }
             default:
-                CircleProgressView(lineWidth: 10.0)
+                CircleProgressView(lensItem: $lensItem, lineWidth: 10.0)
                     .environmentObject(lensItem)
                     .frame(width: 120, height: 120)
                     .overlay {
@@ -109,6 +107,5 @@ struct LensTrackingTimelineView: View {
 }
 
 #Preview {
-    return LensTrackingTimelineView()
-        .environmentObject(SampleData.content[0])
+    return LensTrackingTimelineView(lensItem: .constant(SampleData.content[0]))
 }

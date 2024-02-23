@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CircleProgressView: View {
-    @EnvironmentObject var lensItem: LensItem
+    @Binding var lensItem: LensItem
     var lineWidth: CGFloat = 4.0
     
     var body: some View {
@@ -23,9 +23,13 @@ struct CircleProgressView: View {
                 .animation(.easeInOut, value: lensItem.progress)
         }
     }
+    
+    init(lensItem: Binding<LensItem>, lineWidth: CGFloat = 4.0) {
+        self._lensItem = lensItem
+        self.lineWidth = lineWidth
+    }
 }
 
 #Preview {
-    CircleProgressView()
-        .environmentObject(SampleData.content[0])
+    CircleProgressView(lensItem: .constant(SampleData.content[0]), lineWidth: 4.0)
 }
