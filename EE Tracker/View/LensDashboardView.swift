@@ -13,9 +13,9 @@ struct LensDashboardView: View {
     @Environment(\.modelContext) private var modelContext
     @State private var viewModel: LensDashboardViewModel
     
-    @State private var isShowingSettings: Bool = false
+    @State private var showingSettings: Bool = false
     @State private var showingConfirmation: Bool = false
-    @State private var isShowingSortButton: Bool = false
+    @State private var showingSort: Bool = false
     @State private var showingChangables: Bool = false
     
     init(modelContext: ModelContext) {
@@ -36,60 +36,20 @@ struct LensDashboardView: View {
                     ScrollView {
                         VStack {
                             if viewModel.lensItems.count > 1 {
-                                ContentViewHeader(title: "My Lens", content: {
-                                    Menu {
-                                        Text("Sort by:")
-                                            .foregroundStyle(.secondary)
-                                        Divider()
-                                        Picker("Sort Order", selection: $viewModel.sortOrder) {
-                                            Text("New to Older").tag(LensSortOrder.newToOlder)
-                                            Text("Older to New").tag(LensSortOrder.olderToNew)
-                                            Text("Brand Name").tag(LensSortOrder.brandName)
-                                        }
-                                        .onChange(of: self.viewModel.sortOrder) { _, newValue in
-                                            withAnimation {
-                                                self.viewModel.fetchData(selectDefaultLens: false)
-                                            }
-                                        }
-                                    } label: {
-                                        Image(systemName: "line.3.horizontal.decrease")
-                                            .font(.title2)
-                                    }
-                                })
-                                .padding(.top)
-                                .padding(.horizontal)
-                                .transition(AnyTransition.asymmetric(insertion: .move(edge: .bottom), removal: .move(edge: .top)).combined(with: .opacity))
+                                LensCarouselHeader(viewModel: self.$viewModel)
+                                    .padding(.top)
+                                    .padding(.horizontal)
+                                    .transition(AnyTransition.asymmetric(insertion: .move(edge: .bottom), removal: .move(edge: .top)).combined(with: .opacity))
                                 
                                 LensCarouselView(lenses: self.$viewModel.lensItems, selectedLensItem: self.$viewModel.selectedLensItem)
                                     .padding(.bottom, 8)
                                     .transition(AnyTransition.asymmetric(insertion: .move(edge: .bottom), removal: .move(edge: .top)).combined(with: .opacity))
-                                Divider()
                             }
                             
-                            ContentViewHeader(title: "Timeline") {
-                                Menu {
-                                    NavigationLink {
-                                        LensFormView(lensItem: self.$viewModel.selectedLensItem, status: .editable)
-                                    } label: {
-                                        Label("Edit", systemImage: "pencil")
-                                    }
-                                    
-                                    NavigationLink {
-                                        LensFormView(lensItem: self.$viewModel.selectedLensItem, status: .changeable)
-                                    } label: {
-                                        Label("Replace with new one", systemImage: "gobackward")
-                                    }
-                                    
-                                    Divider()
-                                    
-                                    Button("Delete", role: .destructive) {
-                                        self.showingConfirmation.toggle()
-                                    }
-                                } label: {
-                                    Image(systemName: "ellipsis.circle")
-                                        .font(.title2)
-                                }
-                            }
+                            LensTimelineHeader(
+                                viewModel: self.$viewModel,
+                                showingConfirmation: self.$showingConfirmation
+                            )
                             .padding(.top)
                             .padding(.horizontal)
                             
@@ -125,7 +85,7 @@ struct LensDashboardView: View {
                 }
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
-                        self.isShowingSettings.toggle()
+                        self.showingSettings.toggle()
                     } label: {
                         Image(systemName: "gearshape.fill")
                             .font(.title3)
@@ -149,7 +109,7 @@ struct LensDashboardView: View {
         }
 
         .tint(.teal)
-        .sheet(isPresented: $isShowingSettings, content: {
+        .sheet(isPresented: $showingSettings, content: {
             SettingsView()
         })
         .onAppear() {
@@ -172,20 +132,88 @@ struct LensDashboardView: View {
     }
 }
 
-struct ContentViewHeader<Content: View>: View {
-    var title: String
-    @ViewBuilder var content: () -> Content
+struct LensTimelineHeader: View {
+    @Binding var viewModel: LensDashboardViewModel
+    @Binding var showingConfirmation: Bool
     var body: some View {
-        HStack {
-            Text(title)
+        HStack(alignment: .center) {
+            Text("Timeline")
                 .font(.title)
-                .bold()
+                .fontWeight(.heavy)
+            
             Spacer()
-            content()
+            
+            Menu {
+                NavigationLink {
+                    LensFormView(lensItem: $viewModel.selectedLensItem, status: .editable)
+                } label: {
+                    Label("Edit", systemImage: "pencil")
+                }
+                
+                NavigationLink {
+                    LensFormView(lensItem: $viewModel.selectedLensItem, status: .changeable)
+                } label: {
+                    Label("Replace with new one", systemImage: "gobackward")
+                }
+                
+                Divider()
+                
+                Button("Delete", role: .destructive) {
+                    self.showingConfirmation.toggle()
+                }
+            } label: {
+                Image(systemName: "ellipsis.circle")
+                    .font(.title2)
+            }
         }
+    }
+}
+
+struct LensCarouselHeader: View {
+    @Binding var viewModel: LensDashboardViewModel
+    var body: some View {
+        HStack(alignment: .lastTextBaseline) {
+            VStack(alignment: .leading) {
+                Text(self.getCurrentDate().uppercased())
+                    .font(.caption)
+                    .foregroundStyle(Color.secondary)
+                
+                Text("Today")
+                    .font(.title)
+                    .fontWeight(.heavy)
+            }
+            
+            Spacer()
+            
+            Menu {
+                Text("Sort by:")
+                    .foregroundStyle(.secondary)
+                Divider()
+                Picker("Sort Order", selection: $viewModel.sortOrder) {
+                    Text("New to Older").tag(LensSortOrder.newToOlder)
+                    Text("Older to New").tag(LensSortOrder.olderToNew)
+                    Text("Brand Name").tag(LensSortOrder.brandName)
+                }
+                .onChange(of: self.viewModel.sortOrder) { _, newValue in
+                    withAnimation {
+                        self.viewModel.fetchData(selectDefaultLens: false)
+                    }
+                }
+            } label: {
+                Image(systemName: "line.3.horizontal.decrease")
+                    .font(.title2)
+            }
+        }
+    }
+    
+    private func getCurrentDate(with format: String = "EEEE, MMM, d") -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = format
+        return dateFormatter.string(from: Date())
     }
 }
 
 #Preview {
     LensDashboardView(modelContext: previewContainer.mainContext)
+        .modelContainer(previewContainer)
 }

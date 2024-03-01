@@ -54,6 +54,8 @@ struct LensCarouselRow: View {
                     .foregroundStyle(isSelected ? .white : Color(.systemGray2))
             }
             Text("\(name)")
+                .font(.subheadline)
+                .fontWeight(.medium)
         }
         .foregroundStyle(isSelected ? .white : Color(.systemGray))
         .font(.headline)
