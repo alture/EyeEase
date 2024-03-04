@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import StoreKit
 
 enum ReminderDays: Int, Identifiable, CustomStringConvertible, CaseIterable {
     case one = 1
@@ -16,9 +17,9 @@ enum ReminderDays: Int, Identifiable, CustomStringConvertible, CaseIterable {
     var description: String {
         switch self {
         case .one:
-            return "\(self.rawValue) day"
+            return "\(self.rawValue) day before"
         default:
-            return "\(self.rawValue) days"
+            return "\(self.rawValue) days before"
         }
     }
     
@@ -29,6 +30,9 @@ enum ReminderDays: Int, Identifiable, CustomStringConvertible, CaseIterable {
 
 struct SettingsView: View {
     @Environment(\.dismiss) var dismiss
+    @Environment(\.requestReview) var requestReview
+    @AppStorage("appAppearance") var appAppearance: AppAppearance = .system
+    
     @Bindable private var notificationManager = NotificationManager()
     @State private var pushNotificationAllowed: Bool = false
     @AppStorage("reminderDays") var reminderDays: ReminderDays = .three
@@ -37,11 +41,11 @@ struct SettingsView: View {
         NavigationStack {
             if !pushNotificationAllowed {
                 GroupBox(label:
-                    Label("Enable push notifications", systemImage: "info.circle.fill")
+                    Label("Notifications are disabled", systemImage: "info.circle")
                 ) {
-                    Text("Push notifications are currently disabled. Enable them below to receive timely reminders for changing your contact lenses. Stay on track with your eye care!")
+                    Text("Turn on push notifications below to get reminders for lens replacement. Stay on track with your eye care!")
                         .font(.footnote)
-                        .padding(.top, 4.0)
+                        .padding(.top, 2.0)
                 }
                 .backgroundStyle(Color.yellow.opacity(0.7))
                 .padding(.horizontal)
@@ -50,7 +54,7 @@ struct SettingsView: View {
             Form {
                 Section(
                     header: Text("Application"),
-                    footer: Text("Choose the number of days before the lens replacement reminder")
+                    footer: Text("Set reminder days before lens replacement")
                 ) {
                     LabeledContent {
                         Group {
@@ -79,6 +83,17 @@ struct SettingsView: View {
                         }
                     }
                     
+                    Picker(selection: $appAppearance) {
+                        ForEach(AppAppearance.allCases) { mode in
+                            Text(mode.description).tag(mode)
+                        }
+                    } label: {
+                        HStack {
+                            Image(systemName: "moon")
+                            Text("Appearance")
+                        }
+                    }
+                    
                     Picker(selection: $reminderDays) {
                         ForEach(ReminderDays.allCases) { day in
                             Text(day.description)
@@ -98,29 +113,44 @@ struct SettingsView: View {
                     } label: {
                         HStack {
                             Image(systemName: "gobackward")
-                            Text("Resfore from iCloud")
+                            Text("Restore from iCloud")
                         }
                     }
-                    .foregroundStyle(.primary)
+                    .foregroundStyle(.teal)
                 }
                 
                 
                 if
-                    let termOfURL = URL(string: "mailto:jon.doe@mail.com"),
-                    let writeUsURL = URL(string: "mailto:jon.doe@mail.com") {
+                    let privacyURL = URL(string: "https://www.freeprivacypolicy.com/live/6ae64009-85b9-4a23-92b0-85ef9d702474"),
+                    let writeUsURL = URL(string: "mailto:altore.alisher@gmail.com") {
                     Section(header: Text("About")) {
                         Group {
                             Link(destination: writeUsURL) {
                                 HStack {
                                     Image(systemName: "square.and.pencil")
                                     Text("Write us")
+                                    Spacer()
+                                    Image(systemName: "chevron.right")
                                 }
                             }
                             
-                            Link(destination: termOfURL) {
+                            Link(destination: privacyURL) {
                                 HStack {
-                                    Image(systemName: "doc.text")
-                                    Text("Term of use")
+                                    Image(systemName: "hand.raised")
+                                    Text("Privacy Policy")
+                                    Spacer()
+                                    Image(systemName: "chevron.right")
+                                }
+                            }
+                            
+                            Button {
+                                self.requestReview()
+                            } label: {
+                                HStack {
+                                    Image(systemName: "star")
+                                    Text("Review the app")
+                                    Spacer()
+                                    Image(systemName: "chevron.right")
                                 }
                             }
                             
@@ -131,6 +161,8 @@ struct SettingsView: View {
                                 Text("v\(AppVersionProvider.appVersion())")
                                     .foregroundStyle(Color(.systemGray2))
                             }
+                            
+
                         }
                         .foregroundStyle(.primary)
                     }

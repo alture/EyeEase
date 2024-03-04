@@ -9,21 +9,86 @@ import SwiftUI
 import SwiftData
 
 struct LensTrackingView: View {
-    @Binding var lensItem: LensItem
+    private(set) var lensItem: LensItem
     @Binding var showingChangables: Bool
+    
+    private var lensHasExpired: Bool {
+        switch lensItem.wearDuration {
+        case .daily:
+            //            guard let totalNumber else { return false }
+            //            return totalNumber <= usedNumber
+            return false
+        default:
+            return remainingDays <= 0
+        }
+    }
+    
+    private var readyToExpire: Bool {
+        return remainingDays <= 2
+    }
+    
+    private var remainingDays: Int {
+        let calendar = Calendar.current
+        let currentDate = calendar.startOfDay(for: Date.now)
+        let daysElapsed = calendar.dateComponents([.day], from: currentDate, to: lensItem.changeDate)
+        return max(0, daysElapsed.day ?? 0)
+    }
+    
+    var conditionColor: Color {
+        switch remainingDays {
+        case 0...2:
+            return Color.red
+        case 3...6:
+            return Color.yellow
+        default:
+            return Color.green
+        }
+    }
+    
+    var progressValue: CGFloat {
+        switch lensItem.wearDuration {
+        case .daily:
+            return .zero
+            // return CGFloat(Double(usedNumber) / Double(totalNumber ?? 0))
+        default:
+            return CGFloat(1.0 - Double(remainingDays) / Double(lensItem.wearDuration.limit))
+        }
+    }
+    
+    private var sphereDesc: String {
+        let sphere = lensItem.sphere
+        switch lensItem.eyeSide {
+        case .left:
+            return "L: \(sphere.left)"
+        case .right:
+            return "R: \(sphere.left)"
+        case .both:
+            if sphere.isSame {
+                return "\(sphere.left)"
+            } else {
+                return "\(sphere.left) | \(sphere.right)"
+            }
+        }
+    }
     
     var body: some View {
         VStack {
             LensTrackingHeader(name: lensItem.name, initialDate: lensItem.startDate)
             
-            LensTrackingTimelineView(lensItem: $lensItem)
-                .padding(.top)
+            LensTrackingTimelineView(
+                wearDuration: lensItem.wearDuration,
+                changeDate: lensItem.changeDate,
+                lensHasExpired: lensHasExpired,
+                remainingDays: remainingDays,
+                conditionColor: conditionColor,
+                progressValue: progressValue
+            ).padding(.top)
+            
             LensInformationView(
                 wearDuration: lensItem.wearDuration.rawValue,
-                sphereDesc: lensItem.sphereDescription,
+                sphere: sphereDesc,
                 eyeSide: lensItem.eyeSide.rawValue
-            )
-                .padding(.top)
+            ).padding(.top)
             
             Image(systemName: "ellipsis")
                 .padding(8.0)
@@ -32,7 +97,7 @@ struct LensTrackingView: View {
             
             LensDetailView(detail: lensItem.detail)
             
-            if self.lensItem.usedPeriod == .readyToExpire {
+            if readyToExpire {
                 Button(action: {
                     self.showingChangables.toggle()
                 }, label: {
@@ -64,7 +129,7 @@ struct LensTrackingHeader: View {
                     .font(.title2)
                     .minimumScaleFactor(0.7)
                     .fontWeight(.bold)
-                Text("Started at: \(formattedDate(initialDate))")
+                Text("First use: \(formattedDate(initialDate))")
                     .font(.headline)
                     .foregroundStyle(.secondary)
             }
@@ -82,13 +147,13 @@ struct LensTrackingHeader: View {
 
 struct LensInformationView: View {
     var wearDuration: String
-    var sphereDesc: String
+    var sphere: String
     var eyeSide: String
     
     var body: some View {
         HStack(alignment: .top, spacing: 8.0) {
             LensInformationRow(image: "hourglass.circle", title: "Period", value: wearDuration)
-            LensInformationRow(image: "dial", title: "Sphere", value: sphereDesc)
+            LensInformationRow(image: "dial", title: "Sphere", value: sphere)
             LensInformationRow(image: "eyes.inverse", title: "Eye Side", value: eyeSide)
         }
     }
@@ -148,11 +213,10 @@ extension Button {
     }
 }
 
-#Preview {
-    return LensTrackingView(lensItem: .constant(SampleData.content[0]), showingChangables: .constant(false))
+#Preview("Without change button") {
+    return LensTrackingView(lensItem: SampleData.content[0], showingChangables: .constant(false))
 }
 
-
-//#Preview("With change button") {
-//    return LensTrackingView(lensItem: .constant(SampleData.content[0]), showingChangables: .constant(true))
-//}
+#Preview("With change button") {
+    return LensTrackingView(lensItem: SampleData.content[0], showingChangables: .constant(true))
+}

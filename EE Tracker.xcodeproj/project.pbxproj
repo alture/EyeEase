@@ -13,6 +13,8 @@
 		B74FA83C2B5A946C001E896F /* Bool+Comparable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74FA83B2B5A946C001E896F /* Bool+Comparable.swift */; };
 		B760DC4F2B88CCC000C2C025 /* LensDashboardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B760DC4E2B88CCC000C2C025 /* LensDashboardViewModel.swift */; };
 		B760DC592B95646500C2C025 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B760DC582B95646500C2C025 /* NotificationManager.swift */; };
+		B760DC5D2B959BAB00C2C025 /* AppAppearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = B760DC5C2B959BAB00C2C025 /* AppAppearance.swift */; };
+		B760DC5F2B966EE800C2C025 /* LensTimelineViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B760DC5E2B966EE800C2C025 /* LensTimelineViewModel.swift */; };
 		B764EC582B73DC810024A166 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B764EC572B73DC810024A166 /* WidgetKit.framework */; };
 		B764EC5A2B73DC810024A166 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B764EC592B73DC810024A166 /* SwiftUI.framework */; };
 		B764EC5D2B73DC810024A166 /* TrackingWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = B764EC5C2B73DC810024A166 /* TrackingWidgetBundle.swift */; };
@@ -75,6 +77,8 @@
 		B74FA83B2B5A946C001E896F /* Bool+Comparable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bool+Comparable.swift"; sourceTree = "<group>"; };
 		B760DC4E2B88CCC000C2C025 /* LensDashboardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LensDashboardViewModel.swift; sourceTree = "<group>"; };
 		B760DC582B95646500C2C025 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
+		B760DC5C2B959BAB00C2C025 /* AppAppearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppAppearance.swift; sourceTree = "<group>"; };
+		B760DC5E2B966EE800C2C025 /* LensTimelineViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LensTimelineViewModel.swift; sourceTree = "<group>"; };
 		B764EC552B73DC810024A166 /* TrackingWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = TrackingWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		B764EC572B73DC810024A166 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		B764EC592B73DC810024A166 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
@@ -188,6 +192,7 @@
 				B7E075542B1D11B2001ABFE4 /* SettingsViewModel.swift */,
 				B7BF527E2B865E6200FE0162 /* LensFormViewModel.swift */,
 				B760DC4E2B88CCC000C2C025 /* LensDashboardViewModel.swift */,
+				B760DC5E2B966EE800C2C025 /* LensTimelineViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -215,7 +220,7 @@
 			isa = PBXGroup;
 			children = (
 				B7BF52782B865C7F00FE0162 /* ViewModel */,
-				B7E32D9D2B252BF800CA0729 /* Helpers */,
+				B7E32D9D2B252BF800CA0729 /* ViewHelpers */,
 				B7BF52772B865C7B00FE0162 /* View */,
 				B7BF52762B865C7200FE0162 /* Model */,
 				B7BF52752B865C6A00FE0162 /* Extension */,
@@ -237,7 +242,7 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
-		B7E32D9D2B252BF800CA0729 /* Helpers */ = {
+		B7E32D9D2B252BF800CA0729 /* ViewHelpers */ = {
 			isa = PBXGroup;
 			children = (
 				B7E075502B1CE214001ABFE4 /* CircleProgressView.swift */,
@@ -245,7 +250,7 @@
 				B7E32D8C2B2521DC00CA0729 /* WearDuration.swift */,
 				B71262BF2B66A049009185EE /* LensSortOrder.swift */,
 			);
-			path = Helpers;
+			path = ViewHelpers;
 			sourceTree = "<group>";
 		};
 		B7E32D9E2B26055C00CA0729 /* Support */ = {
@@ -255,6 +260,7 @@
 				B7E32D9F2B26058500CA0729 /* PreviewSampleData.swift */,
 				B7E32DA12B2605AD00CA0729 /* SampleData.swift */,
 				B7E32DC12B26523D00CA0729 /* AppVersionProvider.swift */,
+				B760DC5C2B959BAB00C2C025 /* AppAppearance.swift */,
 			);
 			path = Support;
 			sourceTree = "<group>";
@@ -374,6 +380,7 @@
 				B7E32D8F2B2528EA00CA0729 /* SettingsModel.swift in Sources */,
 				B7C08EC02B1CB73C00DD0BE2 /* LensItem.swift in Sources */,
 				B7E32D8D2B2521DC00CA0729 /* WearDuration.swift in Sources */,
+				B760DC5D2B959BAB00C2C025 /* AppAppearance.swift in Sources */,
 				B7BF52832B86721F00FE0162 /* Sphere.swift in Sources */,
 				B7C08EB12B1CAAB600DD0BE2 /* LensDashboardView.swift in Sources */,
 				B760DC4F2B88CCC000C2C025 /* LensDashboardViewModel.swift in Sources */,
@@ -394,6 +401,7 @@
 				B7E32D812B2119CD00CA0729 /* LensTrackingView.swift in Sources */,
 				B71262C02B66A049009185EE /* LensSortOrder.swift in Sources */,
 				B760DC592B95646500C2C025 /* NotificationManager.swift in Sources */,
+				B760DC5F2B966EE800C2C025 /* LensTimelineViewModel.swift in Sources */,
 				B7BF527F2B865E6200FE0162 /* LensFormViewModel.swift in Sources */,
 				B74FA83A2B5A84F1001E896F /* LensCarouselView.swift in Sources */,
 			);

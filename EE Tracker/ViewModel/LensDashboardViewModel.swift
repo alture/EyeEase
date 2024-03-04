@@ -13,13 +13,13 @@ import Observation
 final class LensDashboardViewModel {
     var lensItems: [LensItem] = []
     var selectedLensItem: LensItem? = nil
-    var sortOrder: LensSortOrder = .olderToNew
+    var sortOrder: LensSortOrder = .oldestFirst
     
     private var sortedLensItem: [LensItem] {
         switch sortOrder {
-        case .olderToNew:
+        case .oldestFirst:
             return lensItems.sorted(using: SortDescriptor(\LensItem.changeDate))
-        case .newToOlder:
+        case .newestFirst:
             return lensItems.sorted(using: SortDescriptor(\LensItem.startDate, order: .reverse))
         case .brandName:
             return lensItems.sorted(using: SortDescriptor(\LensItem.name))
@@ -36,9 +36,9 @@ final class LensDashboardViewModel {
     func fetchData(selectDefaultLens: Bool = true) {
         let sortDescriptors: [SortDescriptor<LensItem>] = {
             switch sortOrder {
-            case .newToOlder:
+            case .newestFirst:
                 return [SortDescriptor(\LensItem.startDate, order: .reverse)]
-            case .olderToNew:
+            case .oldestFirst:
                 return [SortDescriptor(\LensItem.changeDate)]
             case .brandName:
                 return [SortDescriptor(\LensItem.name)]

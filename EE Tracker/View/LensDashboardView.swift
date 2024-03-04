@@ -18,6 +18,7 @@ struct LensDashboardView: View {
     @State private var showingSort: Bool = false
     @State private var showingChangables: Bool = false
     @State private var pushNotificationAllowed: Bool = false
+    @Environment(\.colorScheme) private var colorScheme
     
     init(modelContext: ModelContext) {
         let viewModel = LensDashboardViewModel(modelContext: modelContext)
@@ -55,8 +56,8 @@ struct LensDashboardView: View {
                             .padding(.horizontal)
                             
                             if let selectedLensItem = viewModel.selectedLensItem {
-                                LensTrackingView(lensItem: .constant(selectedLensItem), showingChangables: self.$showingChangables)
-                                .padding(.horizontal)
+                                LensTrackingView(lensItem: selectedLensItem, showingChangables: self.$showingChangables)
+                                    .padding(.horizontal)
                             }
                             Spacer()
                         }
@@ -126,6 +127,7 @@ struct LensDashboardView: View {
         .tint(.teal)
         .sheet(isPresented: $showingSettings, content: {
             SettingsView()
+                .preferredColorScheme(colorScheme)
         })
     }
     
@@ -148,7 +150,7 @@ struct LensTimelineHeader: View {
     @Binding var showingConfirmation: Bool
     var body: some View {
         HStack(alignment: .center) {
-            Text("Timeline")
+            Text("Tracking Overview")
                 .font(.title)
                 .fontWeight(.heavy)
             
@@ -157,12 +159,22 @@ struct LensTimelineHeader: View {
             Menu {
                 NavigationLink {
                     LensFormView(lensItem: $viewModel.selectedLensItem, status: .editable)
+                        .onDisappear {
+                            withAnimation {
+                                self.viewModel.fetchData(selectDefaultLens: false)
+                            }
+                        }
                 } label: {
                     Label("Edit", systemImage: "pencil")
                 }
                 
                 NavigationLink {
                     LensFormView(lensItem: $viewModel.selectedLensItem, status: .changeable)
+                        .onDisappear {
+                            withAnimation {
+                                self.viewModel.fetchData(selectDefaultLens: false)
+                            }
+                        }
                 } label: {
                     Label("Replace with new one", systemImage: "gobackward")
                 }

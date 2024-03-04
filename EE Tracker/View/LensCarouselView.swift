@@ -19,7 +19,7 @@ struct LensCarouselView: View {
                         LensCarouselRow(name: item.name, isSelected: selectedLensItem?.id == item.id, isOnLockScreen: item.isWearing)
                             .id(item.id.uuidString)
                             .onTapGesture {
-                                withAnimation {
+                                withAnimation(.bouncy) {
                                     selectedLensItem = item
                                     value.scrollTo(item.id.uuidString, anchor: .center)
                                 }

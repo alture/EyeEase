@@ -8,8 +8,8 @@
 import Foundation
 
 enum LensSortOrder: String, Identifiable, CaseIterable {
-    case olderToNew = "Old To New"
-    case newToOlder = "New to Old"
+    case oldestFirst = "Olderst First"
+    case newestFirst = "Newest Frist"
     case brandName = "Brand Name"
     
     var id: Self {

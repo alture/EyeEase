@@ -15,8 +15,8 @@ struct LensFormView: View {
     @Environment(\.dismiss) var dismiss
     
     @Bindable private var viewModel: LensFormViewModel
-    
     @Binding private var lensItem: LensItem?
+    @State private var showingAlert = false
     
     init(lensItem: Binding<LensItem?> = .constant(nil), status: LensFormViewModel.Status) {
         self._lensItem = lensItem
@@ -32,13 +32,12 @@ struct LensFormView: View {
                     wearDuration: $viewModel.wearDuration,
                     eyeSide: $viewModel.eyeSide,
                     initialUseDate: $viewModel.initialUseDate,
-                    isWearing: $viewModel.isWearing,
-                    isEditable: viewModel.status == .new || viewModel.status == .changeable
+                    isWearing: $viewModel.isWearing
                 )
                 SphereSection(sphere: $viewModel.sphere)
                 DetailSection(detail: $viewModel.detail, focusField: _focusField)
             }
-            .navigationTitle(viewModel.status == .new ? "New Lense" : viewModel.brandName)
+            .navigationTitle(viewModel.lensItem?.name ?? "New Lense")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 if focusField != .name {
@@ -56,10 +55,21 @@ struct LensFormView: View {
                 
                 ToolbarItem(placement: .topBarTrailing) {
                     Button(viewModel.status.actionTitle) {
-                        save()
-                        dismiss()
+                        if viewModel.isNameValid {
+                            self.save()
+                            self.dismiss()
+                        } else {
+                            self.showingAlert.toggle()
+                        }
                     }
-                    .disabled(!viewModel.isNameValid)
+                    .alert("Brand Name Required", isPresented: $showingAlert, actions: {
+                        Button("Ok", role: .cancel) {
+                            self.showingAlert.toggle()
+                            focusField = .name
+                        }
+                    }, message: {
+                        Text("Please specify the contact lens brand for accurate tracking.")
+                    })
                 }
             }
             .defaultFocus($focusField, .name)
@@ -75,8 +85,9 @@ struct LensFormView: View {
             lensItem?.sphere = viewModel.sphere
             lensItem?.isWearing = viewModel.isWearing
             lensItem?.detail = viewModel.detail
+            lensItem?.changeDate = viewModel.changeDate
             
-            viewModel.createNotification(by: lensItem)
+//            viewModel.createNotification(by: lensItem)
         } else {
             let newLensItem = LensItem(
                 name: viewModel.brandName,
@@ -89,24 +100,23 @@ struct LensFormView: View {
             )
             
             modelContext.insert(newLensItem)
-            viewModel.createNotification(by: newLensItem)
+//            viewModel.createNotification(by: newLensItem)
         }
         
-
         
-        if viewModel.isWearing {
-            let wearingLensesDescriptor = FetchDescriptor<LensItem>(predicate: #Predicate { lensItem in
-                lensItem.isWearing
-            })
-            do {
-                let result = try modelContext.fetch(wearingLensesDescriptor)
-                result.forEach {
-                    $0.isWearing = false
-                }
-            } catch {
-                print("Can't fetch lensItems from DataModel")
-            }
-        }
+//        if viewModel.isWearing {
+//            let wearingLensesDescriptor = FetchDescriptor<LensItem>(predicate: #Predicate { lensItem in
+//                lensItem.isWearing
+//            })
+//            do {
+//                let result = try modelContext.fetch(wearingLensesDescriptor)
+//                result.forEach {
+//                    $0.isWearing = false
+//                }
+//            } catch {
+//                print("Can't fetch lensItems from DataModel")
+//            }
+//        }
     }
 }
 
@@ -153,7 +163,6 @@ struct MainSection: View {
     @Binding var eyeSide: EyeSide
     @Binding var initialUseDate: Date
     @Binding var isWearing: Bool
-    var isEditable: Bool
     
     var body: some View {
         Section {
@@ -171,32 +180,30 @@ struct MainSection: View {
                 ForEach(WearDuration.allCases.filter {
                     $0 != .daily && $0 != .yearly
                 }) { duration in
-                    Text(duration.rawValue)
+                    Text(duration.description)
                         .tag(duration)
                 }
             }
-                .disabled(!isEditable)
             
-            Picker("For Which Eye?", selection: $eyeSide) {
+            Picker("For Which Eye(s)?", selection: $eyeSide) {
                 ForEach(EyeSide.allCases) { side in
                     Text(side.rawValue)
                         .tag(side)
                 }
             }
-                .disabled(!isEditable)
             
-            DatePicker("Initial Use Date", selection: $initialUseDate, displayedComponents: [.date])
-                .disabled(!isEditable)
+            DatePicker("First Use Date", selection: $initialUseDate, in: ...Date.now, displayedComponents: [.date])
             
-            Toggle("Showing on lock screen", isOn: $isWearing)
+//            Toggle("Showing on lock screen", isOn: $isWearing)
         } header: {
             HStack {
                 Image(systemName: "circle.dashed")
                 Text("Main")
             }
-        } footer: {
-            Text("You need to allow showing widget on lock screen")
         }
+//    footer: {
+//            Text("You need to allow showing widget on lock screen")
+//        }
     }
 }
 

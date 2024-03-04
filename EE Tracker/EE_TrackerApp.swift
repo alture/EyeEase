@@ -14,17 +14,20 @@ struct EE_TrackerApp: App {
         let schema = Schema([
             LensItem.self,
         ])
-        let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: true)
+        let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
         do {
             return try ModelContainer(for: schema, configurations: [modelConfiguration])
         } catch {
             fatalError("Could not create ModelContainer: \(error)")
         }
     }()
+    
+    @AppStorage("appAppearance") private var appAppearance: AppAppearance = .system
 
     var body: some Scene {
         WindowGroup {
             LensDashboardView(modelContext: sharedModelContainer.mainContext)
+                .preferredColorScheme(appAppearance == .system ? .none : (appAppearance == .dark ? .dark : .light ))
                 .fontDesign(.rounded)
         }
         .modelContainer(sharedModelContainer)
