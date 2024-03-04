@@ -10,7 +10,7 @@ import SwiftData
 import Observation
 
 @Observable
-final class LensDashboardViewModel: ObservableObject {
+final class LensDashboardViewModel {
     var lensItems: [LensItem] = []
     var selectedLensItem: LensItem? = nil
     var sortOrder: LensSortOrder = .olderToNew
@@ -60,9 +60,4 @@ final class LensDashboardViewModel: ObservableObject {
         modelContext.delete(item)
         fetchData()
     }
-    //        func setNew(sortOrder: LensSortOrder) {
-    //            print("NewOrder: \(sortOrder.rawValue)")
-    //            self.sortOrder = sortOrder
-    //            fetchData()
-    //        }
 }

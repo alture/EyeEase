@@ -62,7 +62,7 @@ struct LensCarouselRow: View {
         .padding(.horizontal, 16)
         .padding(.vertical, 8)
         
-        .background(isSelected ? .teal : .clear)
+        .background(isSelected ? .teal : Color(.systemBackground))
         .overlay(content: {
             if !isSelected {
                 RoundedRectangle(cornerRadius: 25.0)

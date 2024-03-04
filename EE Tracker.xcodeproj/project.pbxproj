@@ -12,6 +12,7 @@
 		B74FA83A2B5A84F1001E896F /* LensCarouselView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74FA8392B5A84F1001E896F /* LensCarouselView.swift */; };
 		B74FA83C2B5A946C001E896F /* Bool+Comparable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74FA83B2B5A946C001E896F /* Bool+Comparable.swift */; };
 		B760DC4F2B88CCC000C2C025 /* LensDashboardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B760DC4E2B88CCC000C2C025 /* LensDashboardViewModel.swift */; };
+		B760DC592B95646500C2C025 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B760DC582B95646500C2C025 /* NotificationManager.swift */; };
 		B764EC582B73DC810024A166 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B764EC572B73DC810024A166 /* WidgetKit.framework */; };
 		B764EC5A2B73DC810024A166 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B764EC592B73DC810024A166 /* SwiftUI.framework */; };
 		B764EC5D2B73DC810024A166 /* TrackingWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = B764EC5C2B73DC810024A166 /* TrackingWidgetBundle.swift */; };
@@ -73,6 +74,7 @@
 		B74FA8392B5A84F1001E896F /* LensCarouselView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LensCarouselView.swift; sourceTree = "<group>"; };
 		B74FA83B2B5A946C001E896F /* Bool+Comparable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bool+Comparable.swift"; sourceTree = "<group>"; };
 		B760DC4E2B88CCC000C2C025 /* LensDashboardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LensDashboardViewModel.swift; sourceTree = "<group>"; };
+		B760DC582B95646500C2C025 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		B764EC552B73DC810024A166 /* TrackingWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = TrackingWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		B764EC572B73DC810024A166 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		B764EC592B73DC810024A166 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
@@ -249,6 +251,7 @@
 		B7E32D9E2B26055C00CA0729 /* Support */ = {
 			isa = PBXGroup;
 			children = (
+				B760DC582B95646500C2C025 /* NotificationManager.swift */,
 				B7E32D9F2B26058500CA0729 /* PreviewSampleData.swift */,
 				B7E32DA12B2605AD00CA0729 /* SampleData.swift */,
 				B7E32DC12B26523D00CA0729 /* AppVersionProvider.swift */,
@@ -390,6 +393,7 @@
 				B7E32D892B2519E300CA0729 /* DataSourceModel.swift in Sources */,
 				B7E32D812B2119CD00CA0729 /* LensTrackingView.swift in Sources */,
 				B71262C02B66A049009185EE /* LensSortOrder.swift in Sources */,
+				B760DC592B95646500C2C025 /* NotificationManager.swift in Sources */,
 				B7BF527F2B865E6200FE0162 /* LensFormViewModel.swift in Sources */,
 				B74FA83A2B5A84F1001E896F /* LensCarouselView.swift in Sources */,
 			);

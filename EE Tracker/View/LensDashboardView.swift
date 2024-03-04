@@ -7,16 +7,17 @@
 
 import SwiftUI
 import SwiftData
-import UserNotifications
 
 struct LensDashboardView: View {
     @Environment(\.modelContext) private var modelContext
     @State private var viewModel: LensDashboardViewModel
+    @Bindable private var notificationManager = NotificationManager()
     
     @State private var showingSettings: Bool = false
     @State private var showingConfirmation: Bool = false
     @State private var showingSort: Bool = false
     @State private var showingChangables: Bool = false
+    @State private var pushNotificationAllowed: Bool = false
     
     init(modelContext: ModelContext) {
         let viewModel = LensDashboardViewModel(modelContext: modelContext)
@@ -87,12 +88,26 @@ struct LensDashboardView: View {
                     Button {
                         self.showingSettings.toggle()
                     } label: {
-                        Image(systemName: "gearshape.fill")
+                        Image(systemName: pushNotificationAllowed ? "gear" : "gear.badge")
                             .font(.title3)
-                            .foregroundStyle(Color.teal)
+                            .symbolRenderingMode(pushNotificationAllowed ? .monochrome : .multicolor)
                     }
                 }
             })
+            .onAppear() {
+                self.notificationManager.requestAuthorization()
+                self.notificationManager.reloadAuthorizationSatus()
+            }
+            .onChange(of: notificationManager.authorizationStatus) { oldValue, newValue in
+                switch newValue {
+                case .notDetermined:
+                    self.pushNotificationAllowed = false
+                case .authorized:
+                    self.pushNotificationAllowed = true
+                default:
+                    break
+                }
+            }
         }
         .confirmationDialog("Delete Confirmation", isPresented: $showingConfirmation) {
             Button("Delete", role: .destructive) {
@@ -112,23 +127,19 @@ struct LensDashboardView: View {
         .sheet(isPresented: $showingSettings, content: {
             SettingsView()
         })
-        .onAppear() {
-            UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { success, error in
-                if success {
-                    print("Permission approvved!")
-                } else if let error = error {
-                    print(error.localizedDescription)
-                }
-            }
-        }
-        
     }
     
     private func delete(_ item: LensItem) {
-        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [item.id.uuidString])
+        notificationManager.removeNotificationRequests(by: item.id.uuidString)
         withAnimation {
             self.viewModel.deleteItem(item)
         }
+    }
+    
+    private func getCurrentDate(with format: String = "EEEE, MMM, d") -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = format
+        return dateFormatter.string(from: Date())
     }
 }
 
@@ -171,6 +182,7 @@ struct LensTimelineHeader: View {
 
 struct LensCarouselHeader: View {
     @Binding var viewModel: LensDashboardViewModel
+    @AppStorage("reminderDays") var reminderDays: ReminderDays = .three
     var body: some View {
         HStack(alignment: .lastTextBaseline) {
             VStack(alignment: .leading) {
@@ -190,9 +202,9 @@ struct LensCarouselHeader: View {
                     .foregroundStyle(.secondary)
                 Divider()
                 Picker("Sort Order", selection: $viewModel.sortOrder) {
-                    Text("New to Older").tag(LensSortOrder.newToOlder)
-                    Text("Older to New").tag(LensSortOrder.olderToNew)
-                    Text("Brand Name").tag(LensSortOrder.brandName)
+                    ForEach(LensSortOrder.allCases) { order in
+                        Text(order.rawValue).tag(order)
+                    }
                 }
                 .onChange(of: self.viewModel.sortOrder) { _, newValue in
                     withAnimation {

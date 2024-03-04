@@ -7,63 +7,81 @@
 
 import SwiftUI
 
-struct SettingsView: View {
-    @State var viewModel: SettingsViewModel = SettingsViewModel(
-        settingsModel: SettingsModel(plan: .free, pushNotificationAllowed: false, reminderDays: 5)
-    )
+enum ReminderDays: Int, Identifiable, CustomStringConvertible, CaseIterable {
+    case one = 1
+    case three = 3
+    case five = 5
+    case seven = 7
     
+    var description: String {
+        switch self {
+        case .one:
+            return "\(self.rawValue) day"
+        default:
+            return "\(self.rawValue) days"
+        }
+    }
+    
+    var id: Self {
+        return self
+    }
+}
+
+struct SettingsView: View {
     @Environment(\.dismiss) var dismiss
+    @Bindable private var notificationManager = NotificationManager()
+    @State private var pushNotificationAllowed: Bool = false
+    @AppStorage("reminderDays") var reminderDays: ReminderDays = .three
+    
     var body: some View {
         NavigationStack {
-            Form {
-                Section(header: Text("Account")) {
-                    if viewModel.settingsModel.plan == .free {
-                        Button {
-                            
-                        } label: {
-                            HStack {
-                                Image(systemName: "plus.square")
-                                Text("Upgrate to Pro")
-                            }
-                        }
-                        .foregroundStyle(Color.teal)
-                        
-                    } else {
-                        HStack {
-                            Image(systemName: "plus.square")
-                            Text("Subscription")
-                            Spacer()
-                            Text("Pro plan")
-                        }
-                    }
-                    
-                    Button {
-                        // Restore Purchases
-                    } label: {
-                        HStack {
-                            Image(systemName: "gobackward")
-                            Text("Restore Purchases")
-                        }
-                    }
-                    .foregroundStyle(.primary)
+            if !pushNotificationAllowed {
+                GroupBox(label:
+                    Label("Enable push notifications", systemImage: "info.circle.fill")
+                ) {
+                    Text("Push notifications are currently disabled. Enable them below to receive timely reminders for changing your contact lenses. Stay on track with your eye care!")
+                        .font(.footnote)
+                        .padding(.top, 4.0)
                 }
-                
+                .backgroundStyle(Color.yellow.opacity(0.7))
+                .padding(.horizontal)
+            }
+            
+            Form {
                 Section(
                     header: Text("Application"),
                     footer: Text("Choose the number of days before the lens replacement reminder")
                 ) {
-                    Toggle(isOn: $viewModel.settingsModel.pushNotificationAllowed, label: {
+                    LabeledContent {
+                        Group {
+                            if pushNotificationAllowed {
+                                Text("Enabled")
+                                    .foregroundStyle(.secondary)
+                            } else {
+                                Button(action: {
+                                    self.notificationManager.openNotificationSettings()
+                                }, label: {
+                                    Text("Open Settings")
+                                })
+                                .buttonStyle(.bordered)
+                                .controlSize(.small)
+                                .foregroundStyle(Color.teal)
+                                
+                            }
+                        }
+                    } label: {
                         HStack {
                             Image(systemName: "app.badge")
                                 .symbolRenderingMode(.palette)
                                 .foregroundStyle(.red, .primary)
-                            Text("Push notification")
+                                .symbolEffect(.pulse, isActive: !pushNotificationAllowed)
+                            Text("Push notifications")
                         }
-                    })
+                    }
                     
-                    Picker(selection: $viewModel.settingsModel.reminderDays) {
-                        ForEach([1, 3, 5, 7], id: \.self) { day in
-                            Text("\(day) \(day == 1 ? "day" : "days")")
+                    Picker(selection: $reminderDays) {
+                        ForEach(ReminderDays.allCases) { day in
+                            Text(day.description)
                                 .tag(day)
                         }
                     } label: {
@@ -74,33 +92,48 @@ struct SettingsView: View {
                     }
                 }
                 
-                Section(header: Text("About")) {
-                    Group {
-                        Link(destination: URL(string: "mailto:jon.doe@mail.com")!) {
-                            HStack {
-                                Image(systemName: "square.and.pencil")
-                                Text("Write us")
-                            }
-                        }
-                        
-                        Button {
-                            
-                        } label: {
-                            HStack {
-                                Image(systemName: "doc.text")
-                                Text("Term of use")
-                            }
-                        }
-                        
+                Section(header: Text("Account")) {
+                    Button {
+                        // Restore Purchases
+                    } label: {
                         HStack {
-                            Image(systemName: "info.circle")
-                            Text("EyeEase - Lenses Tracker")
-                            Spacer()
-                            Text("v\(viewModel.settingsModel.appVersion)")
-                                .foregroundStyle(Color(.systemGray2))
+                            Image(systemName: "gobackward")
+                            Text("Resfore from iCloud")
                         }
                     }
                     .foregroundStyle(.primary)
+                }
+                
+                
+                if
+                    let termOfURL = URL(string: "mailto:jon.doe@mail.com"),
+                    let writeUsURL = URL(string: "mailto:jon.doe@mail.com") {
+                    Section(header: Text("About")) {
+                        Group {
+                            Link(destination: writeUsURL) {
+                                HStack {
+                                    Image(systemName: "square.and.pencil")
+                                    Text("Write us")
+                                }
+                            }
+                            
+                            Link(destination: termOfURL) {
+                                HStack {
+                                    Image(systemName: "doc.text")
+                                    Text("Term of use")
+                                }
+                            }
+                            
+                            HStack {
+                                Image(systemName: "info.circle")
+                                Text("EyeEase - Lenses Tracker")
+                                Spacer()
+                                Text("v\(AppVersionProvider.appVersion())")
+                                    .foregroundStyle(Color(.systemGray2))
+                            }
+                        }
+                        .foregroundStyle(.primary)
+                    }
                 }
             }
             .toolbar(content: {
@@ -114,14 +147,23 @@ struct SettingsView: View {
             })
             .navigationTitle("Settings")
             .toolbarTitleDisplayMode(.inline)
+            .onAppear {
+                self.notificationManager.reloadAuthorizationSatus()
+            }
+            .onChange(of: notificationManager.authorizationStatus, { oldValue, newValue in
+                switch newValue {
+                case .notDetermined:
+                    self.pushNotificationAllowed = false
+                case .authorized:
+                    self.pushNotificationAllowed = true
+                default:
+                    break
+                }
+            })
         }
     }
 }
 
 #Preview {
-    SettingsView(viewModel: SettingsViewModel(settingsModel: SettingsModel(
-        plan: .free,
-        pushNotificationAllowed: false,
-        reminderDays: 5))
-    )
+    SettingsView()
 }
