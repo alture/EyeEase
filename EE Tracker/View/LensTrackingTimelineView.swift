@@ -10,13 +10,13 @@ import SwiftUI
 struct LensTrackingTimelineView: View {
     private(set) var wearDuration: Int
     private(set) var changeDate: Date
-    @Binding var readyToExpire: Bool
+    @Binding var showingChangables: Bool
     
     func getConditionColor(for remainingDays: Int) -> Color {
         switch remainingDays {
-            case 0...2: return Color.red
-            case 3...6: return Color.yellow
-            default:    return Color.green
+        case 0...2: return Color.red
+        case 3...6: return Color.yellow
+        default:    return Color.green
         }
     }
     
@@ -25,6 +25,7 @@ struct LensTrackingTimelineView: View {
             let remainingDays = getRemainingDays(for: Calendar.current.startOfDay(for: context.date))
             let progressValue = getProgressValue(for: remainingDays)
             let hasExpired = remainingDays <= 0
+            let readyToExpire = remainingDays <= 2
             let conditionColor = getConditionColor(for: remainingDays)
             let _ = print(context.date.description(with: .current))
             
@@ -43,20 +44,43 @@ struct LensTrackingTimelineView: View {
                         }
                     }
                 
-                Group {
+                VStack {
                     if hasExpired {
-                        Text("Lens has expired")
-                            .foregroundStyle(.red)
-                            .font(.system(.title3, design: .default, weight: .bold))
-                        
-                    } else {
-                        HStack {
-                            Text("Change on")
-                            Text(changeDate, style: .date)
-                                .foregroundStyle(conditionColor)
+                        HStack(alignment: .lastTextBaseline) {
+                            Text("Expired on")
+                                .font(.title3)
+                                .fontWeight(.semibold)
+                            Text(changeDate.formattedDate())
+                                .font(.title2)
+                                .bold()
+                                .foregroundStyle(.red)
                         }
-                        .font(.system(.title3, design: .default, weight: .bold))
+                    } else {
+                        HStack(alignment: .lastTextBaseline) {
+                            Text("Change on")
+                                .font(.title3)
+                                .fontWeight(.semibold)
+                            Text(changeDate.formattedDate())
+                                .foregroundStyle(conditionColor)
+                                .font(.title2)
+                                .bold()
+                        }
                     }
+                    
+                    if readyToExpire || hasExpired {
+                        Button(action: {
+                            self.showingChangables.toggle()
+                        }, label: {
+                            Text("Change now")
+                                .padding(4)
+                                .fontWeight(.semibold)
+                                .font(.title3)
+                        })
+                        .buttonStyle(.bordered)
+                        .controlSize(.small)
+                        .tint(Color.orange)
+                    }
+                    
                 }
             }
         }
@@ -69,13 +93,8 @@ struct LensTrackingTimelineView: View {
             from: date,
             to: changeDate
         )
-        let remainingDays = max(0, daysInterval.day ?? 0)
-        if !readyToExpire, remainingDays <= 2 {
-//            DispatchQueue.main.async {
-//                self.readyToExpire.toggle()
-//            }
-        }
         
+        let remainingDays = max(0, daysInterval.day ?? 0)
         return remainingDays
     }
     
@@ -86,10 +105,27 @@ struct LensTrackingTimelineView: View {
     }
 }
 
-#Preview {
+#Preview("Not expired") {
     LensTrackingTimelineView(
         wearDuration: SampleData.content[0].wearDuration.limit,
         changeDate: SampleData.content[0].changeDate,
-        readyToExpire: .constant(false)
+        showingChangables: .constant(false)
     )
 }
+
+#Preview("Expired") {
+    LensTrackingTimelineView(
+        wearDuration: SampleData.content[0].wearDuration.limit,
+        changeDate: Date.distantPast,
+        showingChangables: .constant(false)
+    )
+}
+
+#Preview("Ready to expire") {
+    LensTrackingTimelineView(
+        wearDuration: SampleData.content[2].wearDuration.limit,
+        changeDate: SampleData.content[2].changeDate,
+        showingChangables: .constant(false)
+    )
+}
+

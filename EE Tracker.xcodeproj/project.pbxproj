@@ -45,6 +45,7 @@
 		B7E32DA22B2605AD00CA0729 /* SampleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E32DA12B2605AD00CA0729 /* SampleData.swift */; };
 		B7E32DA42B2629A800CA0729 /* LensTrackingTimelineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E32DA32B2629A800CA0729 /* LensTrackingTimelineView.swift */; };
 		B7E32DC22B26523D00CA0729 /* AppVersionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E32DC12B26523D00CA0729 /* AppVersionProvider.swift */; };
+		B7E394152B98A94000113138 /* Date+formatDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E394142B98A94000113138 /* Date+formatDate.swift */; };
 		B7FC52412B36713D009BA759 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B7FC52402B36713D009BA759 /* Launch Screen.storyboard */; };
 /* End PBXBuildFile section */
 
@@ -112,6 +113,7 @@
 		B7E32DA12B2605AD00CA0729 /* SampleData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleData.swift; sourceTree = "<group>"; };
 		B7E32DA32B2629A800CA0729 /* LensTrackingTimelineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LensTrackingTimelineView.swift; sourceTree = "<group>"; };
 		B7E32DC12B26523D00CA0729 /* AppVersionProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppVersionProvider.swift; sourceTree = "<group>"; };
+		B7E394142B98A94000113138 /* Date+formatDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+formatDate.swift"; sourceTree = "<group>"; };
 		B7FC523F2B366E32009BA759 /* EE-Tracker-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "EE-Tracker-Info.plist"; sourceTree = SOURCE_ROOT; };
 		B7FC52402B36713D009BA759 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = "Launch Screen.storyboard"; path = "EE Tracker/Preview Content/Launch Screen.storyboard"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
@@ -160,6 +162,7 @@
 			isa = PBXGroup;
 			children = (
 				B74FA83B2B5A946C001E896F /* Bool+Comparable.swift */,
+				B7E394142B98A94000113138 /* Date+formatDate.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -397,6 +400,7 @@
 				B7E32DA22B2605AD00CA0729 /* SampleData.swift in Sources */,
 				B71524302B97D329005E7A88 /* LensNameFormView.swift in Sources */,
 				B73FA0532B5BC20600BCD9A4 /* LensDetailView.swift in Sources */,
+				B7E394152B98A94000113138 /* Date+formatDate.swift in Sources */,
 				B7E32DA02B26058500CA0729 /* PreviewSampleData.swift in Sources */,
 				B7E075532B1D0FF2001ABFE4 /* SettingsView.swift in Sources */,
 				B7E32DA42B2629A800CA0729 /* LensTrackingTimelineView.swift in Sources */,
@@ -626,6 +630,10 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.alture.EE-Tracker";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -657,6 +665,10 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.alture.EE-Tracker";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

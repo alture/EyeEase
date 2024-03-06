@@ -39,8 +39,8 @@ struct LensTrackingView: View {
             
             LensTrackingTimelineView(
                 wearDuration: lensItem.wearDuration.limit,
-                changeDate: lensItem.changeDate,
-                readyToExpire: $readyToExpire
+                changeDate: lensItem.changeDate, 
+                showingChangables: self.$showingChangables
             ).padding(.top)
             
             LensInformationView(
@@ -55,22 +55,6 @@ struct LensTrackingView: View {
                 .foregroundStyle(Color(.systemGray4))
             
             LensDetailView(detail: lensItem.detail)
-            
-            if readyToExpire {
-                Button(action: {
-                    self.showingChangables.toggle()
-                }, label: {
-                    Text("Replace with new one")
-                        .fontWeight(.semibold)
-                        .frame(minWidth: 0, maxWidth: .infinity, minHeight: 50)
-                        .foregroundStyle(.white)
-                        .background(Color.orange)
-                        .clipShape(RoundedRectangle(cornerRadius: 10.0))
-                })
-                .buttonStyle(.plain)
-                .padding(.top)
-                .padding(.bottom, 8)
-            }
         }
         .padding()
         .background(Color(.secondarySystemBackground))
@@ -80,7 +64,7 @@ struct LensTrackingView: View {
 
 struct LensTrackingHeader: View {
     var name: String
-    var initialDate: Date?
+    var initialDate: Date
     var isWearing: Bool
     
     var body: some View {
@@ -90,16 +74,7 @@ struct LensTrackingHeader: View {
                     .font(.title2)
                     .minimumScaleFactor(0.7)
                     .fontWeight(.bold)
-                
-                Group {
-                    if
-                        let initialDate,
-                        isWearing {
-                        Text("Started at: \(formattedDate(initialDate))")
-                    } else {
-                        Text("Not started")
-                    }
-                }
+                Text("Started at: \(initialDate.formattedDate(with: "MMMM d, yyyy"))")
                 .font(.headline)
                 .foregroundStyle(.secondary)
             }
@@ -108,11 +83,7 @@ struct LensTrackingHeader: View {
         }
     }
     
-    private func formattedDate(_ date: Date) -> String {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .medium
-        return formatter.string(from: date)
-    }
+
 }
 
 struct LensInformationView: View {
@@ -183,10 +154,14 @@ extension Button {
     }
 }
 
-#Preview("Without change button") {
-    return LensTrackingView(lensItem: SampleData.content[0], showingChangables: .constant(false))
+#Preview("Lens Default") {
+    return LensTrackingView(lensItem: SampleData.content[1], showingChangables: .constant(false))
 }
 
-#Preview("With change button") {
-    return LensTrackingView(lensItem: SampleData.content[0], showingChangables: .constant(true))
+#Preview("Lens Ready to expire") {
+    return LensTrackingView(lensItem: SampleData.content[2], showingChangables: .constant(false))
+}
+
+#Preview("Lens Expired") {
+    return LensTrackingView(lensItem: SampleData.content[3], showingChangables: .constant(false))
 }

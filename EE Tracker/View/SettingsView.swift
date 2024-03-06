@@ -177,6 +177,7 @@ struct SettingsView: View {
                         }
                 }
             })
+            .tint(Color.teal)
             .navigationTitle("Settings")
             .toolbarTitleDisplayMode(.inline)
             .onAppear {

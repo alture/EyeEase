@@ -119,7 +119,6 @@ struct LensDashboardView: View {
         } message: {
             Text("Are you sure to delete this Lens?")
         }
-
         .tint(.teal)
         .sheet(isPresented: $showingSettings, content: {
             SettingsView()
@@ -172,7 +171,7 @@ struct LensTimelineHeader: View {
                             }
                         }
                 } label: {
-                    Label("Replace with new one", systemImage: "gobackward")
+                    Label("Change with new one", systemImage: "gobackward")
                 }
                 
                 Divider()
