@@ -19,7 +19,7 @@ final class LensFormViewModel {
     var initialUseDate: Date = Calendar.current.startOfDay(for: Date.now)
     var sphere: Sphere = Sphere()
     var detail: LensDetail = LensDetail()
-    var isWearing: Bool = true
+    var isWearing: Bool = false
     
     @ObservationIgnored
     var changeDate: Date {

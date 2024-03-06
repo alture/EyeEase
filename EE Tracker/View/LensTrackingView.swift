@@ -11,49 +11,7 @@ import SwiftData
 struct LensTrackingView: View {
     private(set) var lensItem: LensItem
     @Binding var showingChangables: Bool
-    
-    private var lensHasExpired: Bool {
-        switch lensItem.wearDuration {
-        case .daily:
-            //            guard let totalNumber else { return false }
-            //            return totalNumber <= usedNumber
-            return false
-        default:
-            return remainingDays <= 0
-        }
-    }
-    
-    private var readyToExpire: Bool {
-        return remainingDays <= 2
-    }
-    
-    private var remainingDays: Int {
-        let calendar = Calendar.current
-        let currentDate = calendar.startOfDay(for: Date.now)
-        let daysElapsed = calendar.dateComponents([.day], from: currentDate, to: lensItem.changeDate)
-        return max(0, daysElapsed.day ?? 0)
-    }
-    
-    var conditionColor: Color {
-        switch remainingDays {
-        case 0...2:
-            return Color.red
-        case 3...6:
-            return Color.yellow
-        default:
-            return Color.green
-        }
-    }
-    
-    var progressValue: CGFloat {
-        switch lensItem.wearDuration {
-        case .daily:
-            return .zero
-            // return CGFloat(Double(usedNumber) / Double(totalNumber ?? 0))
-        default:
-            return CGFloat(1.0 - Double(remainingDays) / Double(lensItem.wearDuration.limit))
-        }
-    }
+    @State var readyToExpire: Bool = false
     
     private var sphereDesc: String {
         let sphere = lensItem.sphere
@@ -73,15 +31,16 @@ struct LensTrackingView: View {
     
     var body: some View {
         VStack {
-            LensTrackingHeader(name: lensItem.name, initialDate: lensItem.startDate)
+            LensTrackingHeader(
+                name: lensItem.name,
+                initialDate: lensItem.startDate,
+                isWearing: lensItem.isWearing
+            )
             
             LensTrackingTimelineView(
-                wearDuration: lensItem.wearDuration,
+                wearDuration: lensItem.wearDuration.limit,
                 changeDate: lensItem.changeDate,
-                lensHasExpired: lensHasExpired,
-                remainingDays: remainingDays,
-                conditionColor: conditionColor,
-                progressValue: progressValue
+                readyToExpire: $readyToExpire
             ).padding(.top)
             
             LensInformationView(
@@ -121,7 +80,9 @@ struct LensTrackingView: View {
 
 struct LensTrackingHeader: View {
     var name: String
-    var initialDate: Date
+    var initialDate: Date?
+    var isWearing: Bool
+    
     var body: some View {
         HStack {
             VStack(alignment: .leading) {
@@ -129,9 +90,18 @@ struct LensTrackingHeader: View {
                     .font(.title2)
                     .minimumScaleFactor(0.7)
                     .fontWeight(.bold)
-                Text("First use: \(formattedDate(initialDate))")
-                    .font(.headline)
-                    .foregroundStyle(.secondary)
+                
+                Group {
+                    if
+                        let initialDate,
+                        isWearing {
+                        Text("Started at: \(formattedDate(initialDate))")
+                    } else {
+                        Text("Not started")
+                    }
+                }
+                .font(.headline)
+                .foregroundStyle(.secondary)
             }
             
             Spacer()

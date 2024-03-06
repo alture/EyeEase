@@ -17,6 +17,8 @@ struct LensFormView: View {
     @Bindable private var viewModel: LensFormViewModel
     @Binding private var lensItem: LensItem?
     @State private var showingAlert = false
+    @State private var showingNameForm: Bool = false
+    @State private var sheetHeight: CGFloat = .zero
     
     init(lensItem: Binding<LensItem?> = .constant(nil), status: LensFormViewModel.Status) {
         self._lensItem = lensItem
@@ -25,54 +27,71 @@ struct LensFormView: View {
     
     var body: some View {
         NavigationStack {
-            Form {
-                MainSection(
-                    focusField: _focusField,
-                    brandName: $viewModel.brandName,
-                    wearDuration: $viewModel.wearDuration,
-                    eyeSide: $viewModel.eyeSide,
-                    initialUseDate: $viewModel.initialUseDate,
-                    isWearing: $viewModel.isWearing
-                )
-                SphereSection(sphere: $viewModel.sphere)
-                DetailSection(detail: $viewModel.detail, focusField: _focusField)
-            }
-            .navigationTitle(viewModel.lensItem?.name ?? "New Lense")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                if focusField != .name {
-                    ToolbarItem(placement: .keyboard) {
-                        HStack {
-                            Spacer()
-                            Button {
-                                focusField = nil
-                            } label: {
-                                Text("Done")
+            ZStack {
+                Form {
+                    MainSection(
+                        focusField: _focusField,
+                        brandName: $viewModel.brandName,
+                        wearDuration: $viewModel.wearDuration,
+                        eyeSide: $viewModel.eyeSide,
+                        initialUseDate: $viewModel.initialUseDate,
+                        isWearing: $viewModel.isWearing,
+                        showingNameForm: $showingNameForm
+                    )
+                    SphereSection(sphere: $viewModel.sphere)
+                    DetailSection(detail: $viewModel.detail, focusField: _focusField)
+                }
+                .navigationTitle(viewModel.lensItem?.name ?? "New Lense")
+                .navigationBarTitleDisplayMode(.inline)
+                .defaultFocus($focusField, .bc)
+                .toolbar {
+                    if !showingNameForm {
+                        ToolbarItem(placement: .keyboard) {
+                            HStack {
+                                Spacer()
+                                Button {
+                                    focusField = nil
+                                } label: {
+                                    Text("Done")
+                                }
                             }
                         }
                     }
+                    
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Button(viewModel.status.actionTitle) {
+                            if viewModel.isNameValid {
+                                self.save()
+                                self.dismiss()
+                            } else {
+                                self.showingAlert.toggle()
+                            }
+                        }
+                        .alert("Please enter the name", isPresented: $showingAlert, actions: {
+                            Button("Ok", role: .cancel) {
+                                self.showingAlert.toggle()
+                                self.showingNameForm.toggle()
+                            }
+                        }, message: {
+                            Text("Please specify the contact lens brand for accurate tracking.")
+                        })
+                    }
                 }
                 
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button(viewModel.status.actionTitle) {
-                        if viewModel.isNameValid {
-                            self.save()
-                            self.dismiss()
-                        } else {
-                            self.showingAlert.toggle()
+                if showingNameForm {
+                    BlankView(bgColor: .black)
+                        .opacity(0.2)
+                        .onTapGesture {
+                            withAnimation {
+                                self.showingNameForm = false
+                            }
                         }
-                    }
-                    .alert("Brand Name Required", isPresented: $showingAlert, actions: {
-                        Button("Ok", role: .cancel) {
-                            self.showingAlert.toggle()
-                            focusField = .name
-                        }
-                    }, message: {
-                        Text("Please specify the contact lens brand for accurate tracking.")
-                    })
+                    
+                    LensNameFormView(isShow: $showingNameForm, name: $viewModel.brandName)
+                        .transition(.asymmetric(insertion: .move(edge: .bottom), removal: .move(edge: .top)))
                 }
             }
-            .defaultFocus($focusField, .name)
+            .animation(.interpolatingSpring(stiffness: 200.0, damping: 25.0, initialVelocity: 10.0), value: showingNameForm)
         }
     }
     
@@ -121,7 +140,6 @@ struct LensFormView: View {
 }
 
 enum FocusableField:  Hashable {
-    case name
     case bc
     case dia
     case cylinder
@@ -129,8 +147,6 @@ enum FocusableField:  Hashable {
     
     var unitDescription: String {
            switch self {
-           case .name:
-               return ""
            case .bc, .dia:
                return "mm"
            case .cylinder:
@@ -163,17 +179,17 @@ struct MainSection: View {
     @Binding var eyeSide: EyeSide
     @Binding var initialUseDate: Date
     @Binding var isWearing: Bool
+    @Binding var showingNameForm: Bool
     
     var body: some View {
         Section {
-            LabeledContent("Brand name") {
-                TextField("Required", text: $brandName)
-                    .autocorrectionDisabled(true)
-                    .multilineTextAlignment(.trailing)
-                    .focused($focusField, equals: .name)
-                    .foregroundStyle(.teal)
-                    .submitLabel(.done)
-                    .textFieldStyle(.plain)
+            LabeledContent("Name") {
+                Button(brandName.isEmpty ? "Set Name" : brandName) {
+                    self.showingNameForm.toggle()
+                }
+                .buttonStyle(.bordered)
+                .controlSize(.small)
+                .tint(Color.teal)
             }
             
             Picker("Usage Period", selection: $wearDuration) {
@@ -192,18 +208,15 @@ struct MainSection: View {
                 }
             }
             
-            DatePicker("First Use Date", selection: $initialUseDate, in: ...Date.now, displayedComponents: [.date])
-            
-//            Toggle("Showing on lock screen", isOn: $isWearing)
+            DatePicker("Initial Use Date", selection: $initialUseDate, in: ...Date.now, displayedComponents: [.date])
         } header: {
             HStack {
                 Image(systemName: "circle.dashed")
                 Text("Main")
             }
+        } footer: {
+            Text("Lens tracking starts automatically from the selected date")
         }
-//    footer: {
-//            Text("You need to allow showing widget on lock screen")
-//        }
     }
 }
 
@@ -302,7 +315,7 @@ struct DetailSection: View {
                 focusValue: .dia
             )
             DetailRow(
-                name: "Cylinder Power(PWR)",
+                name: "Cylinder (CYL)",
                 predication: "-0.75 to -2.75",
                 value: $detail.cylinder,
                 focusField: _focusField,
@@ -357,6 +370,8 @@ struct DetailRow: View {
         }
     }
 }
+
+
 
 #Preview("New", body: {
     return LensFormView(lensItem: .constant(nil), status: .new)

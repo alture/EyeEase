@@ -37,25 +37,21 @@ struct LensDashboardView: View {
                 } else {
                     ScrollView {
                         VStack {
-                            if viewModel.lensItems.count > 1 {
-                                LensCarouselHeader(viewModel: self.$viewModel)
-                                    .padding(.top)
-                                    .padding(.horizontal)
-                                    .transition(AnyTransition.asymmetric(insertion: .move(edge: .bottom), removal: .move(edge: .top)).combined(with: .opacity))
-                                
-                                LensCarouselView(lenses: self.$viewModel.lensItems, selectedLensItem: self.$viewModel.selectedLensItem)
-                                    .padding(.bottom, 8)
-                                    .transition(AnyTransition.asymmetric(insertion: .move(edge: .bottom), removal: .move(edge: .top)).combined(with: .opacity))
-                            }
+                            LensCarouselHeader(viewModel: self.$viewModel)
+                                .padding([.top, .horizontal])
+                            
+                            LensCarouselView(lenses: self.$viewModel.lensItems, selectedLensItem: self.$viewModel.selectedLensItem)
+                                .padding(.bottom, 8)
                             
                             LensTimelineHeader(
                                 viewModel: self.$viewModel,
                                 showingConfirmation: self.$showingConfirmation
                             )
-                            .padding(.top)
-                            .padding(.horizontal)
+                            .padding([.top, .horizontal])
                             
                             if let selectedLensItem = viewModel.selectedLensItem {
+                                let _ = print("Start: \(selectedLensItem.startDate.description(with: .current))")
+                                let _ = print("End: \(selectedLensItem.changeDate.description(with: .current))")
                                 LensTrackingView(lensItem: selectedLensItem, showingChangables: self.$showingChangables)
                                     .padding(.horizontal)
                             }

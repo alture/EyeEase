@@ -16,7 +16,7 @@ struct LensCarouselView: View {
             ScrollView(.horizontal) {
                 HStack {
                     ForEach(lenses) { item in
-                        LensCarouselRow(name: item.name, isSelected: selectedLensItem?.id == item.id, isOnLockScreen: item.isWearing)
+                        LensCarouselRow(name: item.name, isSelected: selectedLensItem?.id == item.id, isWearing: item.isWearing)
                             .id(item.id.uuidString)
                             .onTapGesture {
                                 withAnimation(.bouncy) {
@@ -46,10 +46,10 @@ struct LensCarouselView: View {
 struct LensCarouselRow: View {
     var name: String
     var isSelected: Bool
-    var isOnLockScreen: Bool
+    var isWearing: Bool
     var body: some View {
         HStack {
-            if isOnLockScreen {
+            if isWearing {
                 Image(systemName: "eye.fill")
                     .foregroundStyle(isSelected ? .white : Color(.systemGray2))
             }

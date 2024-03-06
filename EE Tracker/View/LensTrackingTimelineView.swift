@@ -8,64 +8,27 @@
 import SwiftUI
 
 struct LensTrackingTimelineView: View {
-    private(set) var wearDuration: WearDuration
+    private(set) var wearDuration: Int
     private(set) var changeDate: Date
-    private(set) var lensHasExpired: Bool
-    private(set) var remainingDays: Int
-    private(set) var conditionColor: Color
-    private(set) var progressValue: CGFloat
+    @Binding var readyToExpire: Bool
+    
+    func getConditionColor(for remainingDays: Int) -> Color {
+        switch remainingDays {
+            case 0...2: return Color.red
+            case 3...6: return Color.yellow
+            default:    return Color.green
+        }
+    }
     
     var body: some View {
-        VStack(alignment: .center, spacing: 20.0) {
-            switch wearDuration {
-            case .daily:
-//                HStack(alignment: .firstTextBaseline) {
-//                    VStack(alignment: .center, spacing: 4) {
-//                        Button(action: {
-//                            self.lensItem.decreaseQuantity(for: lensItem)
-//                            UIImpactFeedbackGenerator().impactOccurred()
-//                        }, label: {
-//                            Image(systemName: "minus.circle")
-//                                .font(.largeTitle)
-//                        })
-//                        .customDisabled(!(lensItem.usedNumber > 0))
-//                        
-//                        Text("Undo")
-//                            .font(.headline)
-//                            .foregroundStyle(.secondary)
-//                    }
-//                    .frame(minWidth: 0, maxWidth: .infinity)
-//                    ZStack {
-//                        VStack {
-//                            Text("\(lensItem.usedNumber)")
-//                                .font(.largeTitle)
-//                                .bold()
-//                            Text("Lens used")
-//                                .font(.subheadline)
-//                                .bold()
-//                                .foregroundStyle(Color(.systemGray2))
-//                        }
-//                        CircleProgressView(lensItem: $lensItem, lineWidth: 10.0)
-//                    }
-//                    VStack(alignment: .center, spacing: 4) {
-//                        Button(action: {
-//                                self.lensItem.increaseQuantity(for: lensItem)
-//                            UIImpactFeedbackGenerator().impactOccurred()
-//                        }, label: {
-//                            Image(systemName: "plus.circle")
-//                                .font(.largeTitle)
-//                        })
-//                        .customDisabled(lensItem.usedNumber >= lensItem.totalNumber ?? 0)
-//                        
-//                        Text("Pick Up")
-//                            .font(.headline)
-//                            .foregroundStyle(.secondary)
-//                    }
-//                    .frame(minWidth: 0, maxWidth: .infinity)
-//                }
-                EmptyView()
-            default:
-                
+        TimelineView(.everyMinute) { context in
+            let remainingDays = getRemainingDays(for: Calendar.current.startOfDay(for: context.date))
+            let progressValue = getProgressValue(for: remainingDays)
+            let hasExpired = remainingDays <= 0
+            let conditionColor = getConditionColor(for: remainingDays)
+            let _ = print(context.date.description(with: .current))
+            
+            VStack(alignment: .center, spacing: 20.0) {
                 CircleProgressView(progressValue: progressValue, lineWidth: 10, progressColor: conditionColor)
                     .frame(width: 120, height: 120)
                     .overlay {
@@ -79,48 +42,54 @@ struct LensTrackingTimelineView: View {
                                 .foregroundStyle(Color(.systemGray2))
                         }
                     }
-            }
-            
-            if self.lensHasExpired {
-                Text("Lens has expired")
-                    .foregroundStyle(.red)
-                    .font(.system(.title3, design: .default, weight: .bold))
                 
-            } else {
-                switch wearDuration {
-                case .daily:
-//                    HStack {
-//                        Text("You have")
-//                        if let totalNumber = lensItem.totalNumber {
-//                            Text("\(totalNumber - lensItem.usedNumber)")
-//                                .foregroundStyle(lensItem.progressColor)
-//                        }
-//                        Text("lens in case")
-//                    }
-//                    .font(.system(.title3, design: .default, weight: .bold))
-                    EmptyView()
-                default:
-                    HStack {
-                        Text("Change on")
-                        Text(changeDate, style: .date)
-                            .foregroundStyle(conditionColor)
+                Group {
+                    if hasExpired {
+                        Text("Lens has expired")
+                            .foregroundStyle(.red)
+                            .font(.system(.title3, design: .default, weight: .bold))
+                        
+                    } else {
+                        HStack {
+                            Text("Change on")
+                            Text(changeDate, style: .date)
+                                .foregroundStyle(conditionColor)
+                        }
+                        .font(.system(.title3, design: .default, weight: .bold))
                     }
-                    .font(.system(.title3, design: .default, weight: .bold))
                 }
             }
         }
-        .frame(minWidth: 0, maxWidth: .infinity)
     }
-
+    
+    private func getRemainingDays(for date: Date) -> Int {
+        let calendar = Calendar.current
+        let daysInterval = calendar.dateComponents(
+            [.day],
+            from: date,
+            to: changeDate
+        )
+        let remainingDays = max(0, daysInterval.day ?? 0)
+        if !readyToExpire, remainingDays <= 2 {
+//            DispatchQueue.main.async {
+//                self.readyToExpire.toggle()
+//            }
+        }
+        
+        return remainingDays
+    }
+    
+    private func getProgressValue(for remainingDays: Int) -> CGFloat {
+        return CGFloat(
+            1.0 - Double(remainingDays) / Double(wearDuration)
+        )
+    }
 }
 
 #Preview {
-    return LensTrackingTimelineView(
-        wearDuration: .biweekly,
-        changeDate: Calendar.current.date(byAdding: .day, value: 14, to: Date.now)!,
-        lensHasExpired: false,
-        remainingDays: 14,
-        conditionColor: .green,
-        progressValue: 0.0
+    LensTrackingTimelineView(
+        wearDuration: SampleData.content[0].wearDuration.limit,
+        changeDate: SampleData.content[0].changeDate,
+        readyToExpire: .constant(false)
     )
 }

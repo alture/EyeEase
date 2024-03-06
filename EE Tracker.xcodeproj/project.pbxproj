@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		B71262C02B66A049009185EE /* LensSortOrder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B71262BF2B66A049009185EE /* LensSortOrder.swift */; };
+		B71524302B97D329005E7A88 /* LensNameFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B715242F2B97D329005E7A88 /* LensNameFormView.swift */; };
+		B71524342B97E3C1005E7A88 /* BlankView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B71524332B97E3C1005E7A88 /* BlankView.swift */; };
 		B73FA0532B5BC20600BCD9A4 /* LensDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73FA0522B5BC20600BCD9A4 /* LensDetailView.swift */; };
 		B74FA83A2B5A84F1001E896F /* LensCarouselView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74FA8392B5A84F1001E896F /* LensCarouselView.swift */; };
 		B74FA83C2B5A946C001E896F /* Bool+Comparable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74FA83B2B5A946C001E896F /* Bool+Comparable.swift */; };
@@ -72,6 +74,8 @@
 
 /* Begin PBXFileReference section */
 		B71262BF2B66A049009185EE /* LensSortOrder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LensSortOrder.swift; sourceTree = "<group>"; };
+		B715242F2B97D329005E7A88 /* LensNameFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LensNameFormView.swift; sourceTree = "<group>"; };
+		B71524332B97E3C1005E7A88 /* BlankView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlankView.swift; sourceTree = "<group>"; };
 		B73FA0522B5BC20600BCD9A4 /* LensDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LensDetailView.swift; sourceTree = "<group>"; };
 		B74FA8392B5A84F1001E896F /* LensCarouselView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LensCarouselView.swift; sourceTree = "<group>"; };
 		B74FA83B2B5A946C001E896F /* Bool+Comparable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bool+Comparable.swift"; sourceTree = "<group>"; };
@@ -182,6 +186,7 @@
 				B7C08EB02B1CAAB600DD0BE2 /* LensDashboardView.swift */,
 				B74FA8392B5A84F1001E896F /* LensCarouselView.swift */,
 				B73FA0522B5BC20600BCD9A4 /* LensDetailView.swift */,
+				B715242F2B97D329005E7A88 /* LensNameFormView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -249,6 +254,7 @@
 				B7E32D8A2B2521B700CA0729 /* EyeSide.swift */,
 				B7E32D8C2B2521DC00CA0729 /* WearDuration.swift */,
 				B71262BF2B66A049009185EE /* LensSortOrder.swift */,
+				B71524332B97E3C1005E7A88 /* BlankView.swift */,
 			);
 			path = ViewHelpers;
 			sourceTree = "<group>";
@@ -378,6 +384,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B7E32D8F2B2528EA00CA0729 /* SettingsModel.swift in Sources */,
+				B71524342B97E3C1005E7A88 /* BlankView.swift in Sources */,
 				B7C08EC02B1CB73C00DD0BE2 /* LensItem.swift in Sources */,
 				B7E32D8D2B2521DC00CA0729 /* WearDuration.swift in Sources */,
 				B760DC5D2B959BAB00C2C025 /* AppAppearance.swift in Sources */,
@@ -388,6 +395,7 @@
 				B7E32DC22B26523D00CA0729 /* AppVersionProvider.swift in Sources */,
 				B7BF52812B86720500FE0162 /* LensDetail.swift in Sources */,
 				B7E32DA22B2605AD00CA0729 /* SampleData.swift in Sources */,
+				B71524302B97D329005E7A88 /* LensNameFormView.swift in Sources */,
 				B73FA0532B5BC20600BCD9A4 /* LensDetailView.swift in Sources */,
 				B7E32DA02B26058500CA0729 /* PreviewSampleData.swift in Sources */,
 				B7E075532B1D0FF2001ABFE4 /* SettingsView.swift in Sources */,
