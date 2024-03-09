@@ -53,7 +53,7 @@ struct LensDashboardView: View {
                     .scrollIndicators(.hidden)
                 }
             }
-            .navigationTitle("EyeEase")
+            .navigationTitle("Eye Ease")
             .navigationBarTitleDisplayMode(.inline)
             .navigationDestination(isPresented: $viewModel.showingChangables, destination: {
                 LensFormView(lensItem: self.$viewModel.selectedLensItem, status: .changeable)

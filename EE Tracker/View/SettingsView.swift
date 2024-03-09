@@ -155,7 +155,7 @@ struct SettingsView: View {
                             
                             HStack {
                                 Image(systemName: "info.circle")
-                                Text("EyeEase - Lenses Tracker")
+                                Text("Eye Ease - Lenses Tracker")
                                 Spacer()
                                 Text("v\(AppVersionProvider.appVersion())")
                                     .foregroundStyle(Color(.systemGray2))
