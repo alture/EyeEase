@@ -102,16 +102,20 @@ final class NotificationManager: ObservableObject {
 
     private func createNotificationContent(for item: LensItem, referenceDate: Date) -> UNMutableNotificationContent {
         let content = UNMutableNotificationContent()
-        content.title = "Eye Ease"
         let calendar = Calendar.current
+        let lensLabel = item.eyeSide == .both ? "lenses" : "lens"
         
         if let dayBeforeChangeDate = calendar.date(byAdding: .day, value: -1, to: item.changeDate),
            calendar.isDate(referenceDate, inSameDayAs: dayBeforeChangeDate) {
-            content.body = "\"\(item.name)\" lenses expire tomorrow! Make sure to have a new pair ready"
+            content.title = "Prepare New Lenses"
+            content.body = "Replace your \"\(item.name)\" \(lensLabel) by tomorrow"
         } else if calendar.isDate(referenceDate, inSameDayAs: item.changeDate) {
-            content.body = "Time for a change! \"\(item.name)\" has expired"
+            content.title = "Time for a Сhange!"
+            content.body = "Your \"\(item.name)\" \(lensLabel) has expired"
         } else {
-            content.body = "\"\(item.name)\" lenses expire on \(item.changeDate.formattedDate()). Check your supplies"
+            let verbForm = lensLabel == "lens" ? "needs" : "need"
+            content.title = "Prepare New Lenses"
+            content.body = "Your \"\(item.name)\" \(lensLabel) \(verbForm) replacing on \(item.changeDate.formattedDate())"
         }
 
         content.sound = UNNotificationSound.default
