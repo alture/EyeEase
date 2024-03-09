@@ -27,7 +27,6 @@ struct LensTrackingTimelineView: View {
             let hasExpired = remainingDays <= 0
             let readyToExpire = remainingDays <= 2
             let conditionColor = getConditionColor(for: remainingDays)
-            let _ = print(context.date.description(with: .current))
             
             VStack(alignment: .center, spacing: 20.0) {
                 CircleProgressView(progressValue: progressValue, lineWidth: 10, progressColor: conditionColor)

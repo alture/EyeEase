@@ -44,8 +44,6 @@ struct LensDashboardView: View {
                             .padding([.top, .horizontal])
                             
                             if let selectedLensItem = viewModel.selectedLensItem {
-                                let _ = print("Start: \(selectedLensItem.startDate.description(with: .current))")
-                                let _ = print("End: \(selectedLensItem.changeDate.description(with: .current))")
                                 LensTrackingView(lensItem: selectedLensItem, showingChangables: self.$viewModel.showingChangables)
                                     .padding(.horizontal)
                             }

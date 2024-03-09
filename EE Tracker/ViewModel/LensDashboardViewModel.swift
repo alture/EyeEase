@@ -105,7 +105,6 @@ final class LensDashboardViewModel {
     
     private func setupNotificationRemainderDaysObserver() {
         notificationManager.reminderDaysPublisher
-            .print()
             .sink { [weak self] _ in
                 guard let self else { return }
                 self.notificationManager.reloadLocalNotificationCenter()
