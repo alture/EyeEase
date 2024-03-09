@@ -13,4 +13,22 @@ extension Date {
         dateFormatter.dateFormat = format
         return dateFormatter.string(from: self)
     }
+    
+    func relativeFormattedDate(with format: String = "EEEE, MMM d") -> String {
+        let calendar = Calendar.current
+        
+        if calendar.isDateInToday(self) {
+            return "Today"
+        } else if calendar.isDateInYesterday(self) {
+            return "Yesterday"
+        } else if calendar.isDateInTomorrow(self) {
+            return "Tomorrow"
+        } else {
+            return self.formattedDate(with: format)
+        }
+    }
+    
+    var startOfDay: Self {
+        Calendar.current.startOfDay(for: self)
+    }
 }

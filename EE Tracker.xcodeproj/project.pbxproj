@@ -16,7 +16,6 @@
 		B760DC4F2B88CCC000C2C025 /* LensDashboardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B760DC4E2B88CCC000C2C025 /* LensDashboardViewModel.swift */; };
 		B760DC592B95646500C2C025 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B760DC582B95646500C2C025 /* NotificationManager.swift */; };
 		B760DC5D2B959BAB00C2C025 /* AppAppearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = B760DC5C2B959BAB00C2C025 /* AppAppearance.swift */; };
-		B760DC5F2B966EE800C2C025 /* LensTimelineViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B760DC5E2B966EE800C2C025 /* LensTimelineViewModel.swift */; };
 		B764EC582B73DC810024A166 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B764EC572B73DC810024A166 /* WidgetKit.framework */; };
 		B764EC5A2B73DC810024A166 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B764EC592B73DC810024A166 /* SwiftUI.framework */; };
 		B764EC5D2B73DC810024A166 /* TrackingWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = B764EC5C2B73DC810024A166 /* TrackingWidgetBundle.swift */; };
@@ -40,12 +39,13 @@
 		B7E32D892B2519E300CA0729 /* DataSourceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E32D882B2519E200CA0729 /* DataSourceModel.swift */; };
 		B7E32D8B2B2521B700CA0729 /* EyeSide.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E32D8A2B2521B700CA0729 /* EyeSide.swift */; };
 		B7E32D8D2B2521DC00CA0729 /* WearDuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E32D8C2B2521DC00CA0729 /* WearDuration.swift */; };
-		B7E32D8F2B2528EA00CA0729 /* SettingsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E32D8E2B2528EA00CA0729 /* SettingsModel.swift */; };
 		B7E32DA02B26058500CA0729 /* PreviewSampleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E32D9F2B26058500CA0729 /* PreviewSampleData.swift */; };
 		B7E32DA22B2605AD00CA0729 /* SampleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E32DA12B2605AD00CA0729 /* SampleData.swift */; };
 		B7E32DA42B2629A800CA0729 /* LensTrackingTimelineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E32DA32B2629A800CA0729 /* LensTrackingTimelineView.swift */; };
 		B7E32DC22B26523D00CA0729 /* AppVersionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E32DC12B26523D00CA0729 /* AppVersionProvider.swift */; };
 		B7E394152B98A94000113138 /* Date+formatDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E394142B98A94000113138 /* Date+formatDate.swift */; };
+		B7E394172B98FFC900113138 /* CustomTimelineSchedules.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E394162B98FFC900113138 /* CustomTimelineSchedules.swift */; };
+		B7E3941B2B990C2900113138 /* AppStorageKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E3941A2B990C2900113138 /* AppStorageKeys.swift */; };
 		B7FC52412B36713D009BA759 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B7FC52402B36713D009BA759 /* Launch Screen.storyboard */; };
 /* End PBXBuildFile section */
 
@@ -83,7 +83,6 @@
 		B760DC4E2B88CCC000C2C025 /* LensDashboardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LensDashboardViewModel.swift; sourceTree = "<group>"; };
 		B760DC582B95646500C2C025 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		B760DC5C2B959BAB00C2C025 /* AppAppearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppAppearance.swift; sourceTree = "<group>"; };
-		B760DC5E2B966EE800C2C025 /* LensTimelineViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LensTimelineViewModel.swift; sourceTree = "<group>"; };
 		B764EC552B73DC810024A166 /* TrackingWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = TrackingWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		B764EC572B73DC810024A166 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		B764EC592B73DC810024A166 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
@@ -108,12 +107,13 @@
 		B7E32D882B2519E200CA0729 /* DataSourceModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSourceModel.swift; sourceTree = "<group>"; };
 		B7E32D8A2B2521B700CA0729 /* EyeSide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EyeSide.swift; sourceTree = "<group>"; };
 		B7E32D8C2B2521DC00CA0729 /* WearDuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WearDuration.swift; sourceTree = "<group>"; };
-		B7E32D8E2B2528EA00CA0729 /* SettingsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsModel.swift; sourceTree = "<group>"; };
 		B7E32D9F2B26058500CA0729 /* PreviewSampleData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewSampleData.swift; sourceTree = "<group>"; };
 		B7E32DA12B2605AD00CA0729 /* SampleData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleData.swift; sourceTree = "<group>"; };
 		B7E32DA32B2629A800CA0729 /* LensTrackingTimelineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LensTrackingTimelineView.swift; sourceTree = "<group>"; };
 		B7E32DC12B26523D00CA0729 /* AppVersionProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppVersionProvider.swift; sourceTree = "<group>"; };
 		B7E394142B98A94000113138 /* Date+formatDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+formatDate.swift"; sourceTree = "<group>"; };
+		B7E394162B98FFC900113138 /* CustomTimelineSchedules.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTimelineSchedules.swift; sourceTree = "<group>"; };
+		B7E3941A2B990C2900113138 /* AppStorageKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStorageKeys.swift; sourceTree = "<group>"; };
 		B7FC523F2B366E32009BA759 /* EE-Tracker-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "EE-Tracker-Info.plist"; sourceTree = SOURCE_ROOT; };
 		B7FC52402B36713D009BA759 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = "Launch Screen.storyboard"; path = "EE Tracker/Preview Content/Launch Screen.storyboard"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
@@ -163,6 +163,7 @@
 			children = (
 				B74FA83B2B5A946C001E896F /* Bool+Comparable.swift */,
 				B7E394142B98A94000113138 /* Date+formatDate.swift */,
+				B7E394162B98FFC900113138 /* CustomTimelineSchedules.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -173,7 +174,6 @@
 				B7C08EBF2B1CB73C00DD0BE2 /* LensItem.swift */,
 				B7BF52802B86720500FE0162 /* LensDetail.swift */,
 				B7E32D882B2519E200CA0729 /* DataSourceModel.swift */,
-				B7E32D8E2B2528EA00CA0729 /* SettingsModel.swift */,
 				B7BF52822B86721F00FE0162 /* Sphere.swift */,
 			);
 			path = Model;
@@ -200,7 +200,6 @@
 				B7E075542B1D11B2001ABFE4 /* SettingsViewModel.swift */,
 				B7BF527E2B865E6200FE0162 /* LensFormViewModel.swift */,
 				B760DC4E2B88CCC000C2C025 /* LensDashboardViewModel.swift */,
-				B760DC5E2B966EE800C2C025 /* LensTimelineViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -270,6 +269,7 @@
 				B7E32DA12B2605AD00CA0729 /* SampleData.swift */,
 				B7E32DC12B26523D00CA0729 /* AppVersionProvider.swift */,
 				B760DC5C2B959BAB00C2C025 /* AppAppearance.swift */,
+				B7E3941A2B990C2900113138 /* AppStorageKeys.swift */,
 			);
 			path = Support;
 			sourceTree = "<group>";
@@ -386,7 +386,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B7E32D8F2B2528EA00CA0729 /* SettingsModel.swift in Sources */,
 				B71524342B97E3C1005E7A88 /* BlankView.swift in Sources */,
 				B7C08EC02B1CB73C00DD0BE2 /* LensItem.swift in Sources */,
 				B7E32D8D2B2521DC00CA0729 /* WearDuration.swift in Sources */,
@@ -398,6 +397,7 @@
 				B7E32DC22B26523D00CA0729 /* AppVersionProvider.swift in Sources */,
 				B7BF52812B86720500FE0162 /* LensDetail.swift in Sources */,
 				B7E32DA22B2605AD00CA0729 /* SampleData.swift in Sources */,
+				B7E3941B2B990C2900113138 /* AppStorageKeys.swift in Sources */,
 				B71524302B97D329005E7A88 /* LensNameFormView.swift in Sources */,
 				B73FA0532B5BC20600BCD9A4 /* LensDetailView.swift in Sources */,
 				B7E394152B98A94000113138 /* Date+formatDate.swift in Sources */,
@@ -413,9 +413,9 @@
 				B7E32D812B2119CD00CA0729 /* LensTrackingView.swift in Sources */,
 				B71262C02B66A049009185EE /* LensSortOrder.swift in Sources */,
 				B760DC592B95646500C2C025 /* NotificationManager.swift in Sources */,
-				B760DC5F2B966EE800C2C025 /* LensTimelineViewModel.swift in Sources */,
 				B7BF527F2B865E6200FE0162 /* LensFormViewModel.swift in Sources */,
 				B74FA83A2B5A84F1001E896F /* LensCarouselView.swift in Sources */,
+				B7E394172B98FFC900113138 /* CustomTimelineSchedules.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

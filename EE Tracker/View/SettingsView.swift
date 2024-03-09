@@ -31,11 +31,10 @@ enum ReminderDays: Int, Identifiable, CustomStringConvertible, CaseIterable {
 struct SettingsView: View {
     @Environment(\.dismiss) var dismiss
     @Environment(\.requestReview) var requestReview
-    @AppStorage("appAppearance") var appAppearance: AppAppearance = .system
+    @AppStorage(AppStorageKeys.appAppearance) var appAppearance: AppAppearance = .system
     
-    @Bindable private var notificationManager = NotificationManager()
+    @ObservedObject var notificationManager: NotificationManager
     @State private var pushNotificationAllowed: Bool = false
-    @AppStorage("reminderDays") var reminderDays: ReminderDays = .three
     
     var body: some View {
         NavigationStack {
@@ -94,7 +93,7 @@ struct SettingsView: View {
                         }
                     }
                     
-                    Picker(selection: $reminderDays) {
+                    Picker(selection: $notificationManager.reminderDays) {
                         ForEach(ReminderDays.allCases) { day in
                             Text(day.description)
                                 .tag(day)
@@ -182,21 +181,26 @@ struct SettingsView: View {
             .toolbarTitleDisplayMode(.inline)
             .onAppear {
                 self.notificationManager.reloadAuthorizationSatus()
+                self.switchAuthorizationStatus(notificationManager.authorizationStatus)
             }
             .onChange(of: notificationManager.authorizationStatus, { oldValue, newValue in
-                switch newValue {
-                case .notDetermined:
-                    self.pushNotificationAllowed = false
-                case .authorized:
-                    self.pushNotificationAllowed = true
-                default:
-                    break
-                }
+                self.switchAuthorizationStatus(newValue)
             })
+        }
+    }
+    
+    private func switchAuthorizationStatus(_ authorizationStatus: UNAuthorizationStatus? = nil) {
+        switch authorizationStatus {
+        case .notDetermined:
+            self.pushNotificationAllowed = false
+        case .authorized, .provisional:
+            self.pushNotificationAllowed = true
+        default:
+            break
         }
     }
 }
 
 #Preview {
-    SettingsView()
+    SettingsView(notificationManager: NotificationManager())
 }

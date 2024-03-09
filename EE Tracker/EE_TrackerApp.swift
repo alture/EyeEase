@@ -22,7 +22,7 @@ struct EE_TrackerApp: App {
         }
     }()
     
-    @AppStorage("appAppearance") private var appAppearance: AppAppearance = .system
+    @AppStorage(AppStorageKeys.appAppearance) private var appAppearance: AppAppearance = .system
 
     var body: some Scene {
         WindowGroup {

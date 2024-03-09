@@ -28,7 +28,7 @@ final class LensItem: ObservableObject {
         name: String = "",
         eyeSide: EyeSide = .both,
         wearDuration: WearDuration = .monthly,
-        startDate: Date = Calendar.current.startOfDay(for: Date.now),
+        startDate: Date = Date.now.startOfDay,
         totalNumber: Int? = nil,
         usedNumber: Int = 0,
         sphere: Sphere = Sphere(),

@@ -16,7 +16,7 @@ final class LensFormViewModel {
     var brandName: String = ""
     var wearDuration: WearDuration = .monthly
     var eyeSide: EyeSide = .both
-    var initialUseDate: Date = Calendar.current.startOfDay(for: Date.now)
+    var initialUseDate: Date = Date.now.startOfDay
     var sphere: Sphere = Sphere()
     var detail: LensDetail = LensDetail()
     var isWearing: Bool = false
@@ -31,6 +31,9 @@ final class LensFormViewModel {
     
     @ObservationIgnored
     private(set) var lensItem: LensItem?
+    
+    @ObservationIgnored
+    private var notificationManger: NotificationManager = NotificationManager()
     
     // Output
     var isNameValid: Bool {
@@ -54,29 +57,14 @@ final class LensFormViewModel {
         }
     }
     
-//    func createNotification(by item: LensItem?) {
-//        guard let item else { return }
-//        let content = UNMutableNotificationContent()
-//        content.title = "EyeEase"
-//        content.body = "\(item.name) will expire today"
-//        content.sound = UNNotificationSound.default
-//        
-//        var dateComponent = DateComponents()
-//        dateComponent.day = item.remainingDays
-//        dateComponent.hour = 10
-//        
-//        print(dateComponent.description)
-//        
-//        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponent, repeats: false)
-////        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 10, repeats: false)
-//        let request = UNNotificationRequest(identifier: item.id.uuidString, content: content, trigger: trigger)
-//        
-//        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [item.id.uuidString])
-//        UNUserNotificationCenter.current().add(request)
-//    }
+    func createNotification(by item: LensItem?) {
+        guard let item else { return }
+        
+        notificationManger.scheduleNotificationIfNeeded(for: item)
+    }
     
     init(lensItem: LensItem?, status: Status) {
-        let dateByStartOfDay = Calendar.current.startOfDay(for: Date.now)
+        let dateByStartOfDay = Date.now.startOfDay
         self.brandName = lensItem?.name ?? ""
         self.wearDuration = lensItem?.wearDuration ?? .monthly
         self.eyeSide = lensItem?.eyeSide ?? .both

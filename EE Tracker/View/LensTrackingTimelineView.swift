@@ -22,7 +22,7 @@ struct LensTrackingTimelineView: View {
     
     var body: some View {
         TimelineView(.everyMinute) { context in
-            let remainingDays = getRemainingDays(for: Calendar.current.startOfDay(for: context.date))
+            let remainingDays = getRemainingDays(for: context.date.startOfDay)
             let progressValue = getProgressValue(for: remainingDays)
             let hasExpired = remainingDays <= 0
             let readyToExpire = remainingDays <= 2
@@ -50,7 +50,7 @@ struct LensTrackingTimelineView: View {
                             Text("Expired on")
                                 .font(.title3)
                                 .fontWeight(.semibold)
-                            Text(changeDate.formattedDate())
+                            Text(changeDate.relativeFormattedDate())
                                 .font(.title2)
                                 .bold()
                                 .foregroundStyle(.red)
@@ -60,7 +60,7 @@ struct LensTrackingTimelineView: View {
                             Text("Change on")
                                 .font(.title3)
                                 .fontWeight(.semibold)
-                            Text(changeDate.formattedDate())
+                            Text(changeDate.relativeFormattedDate())
                                 .foregroundStyle(conditionColor)
                                 .font(.title2)
                                 .bold()

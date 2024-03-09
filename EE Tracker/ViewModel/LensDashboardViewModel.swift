@@ -7,13 +7,21 @@
 
 import SwiftUI
 import SwiftData
-import Observation
+import Combine
 
 @Observable
 final class LensDashboardViewModel {
     var lensItems: [LensItem] = []
     var selectedLensItem: LensItem? = nil
     var sortOrder: LensSortOrder = .oldestFirst
+    
+    var notificationManager = NotificationManager()
+    
+    var showingSettings: Bool = false
+    var showingConfirmation: Bool = false
+    var showingSort: Bool = false
+    var showingChangables: Bool = false
+    var pushNotificationAllowed: Bool = false
     
     private var sortedLensItem: [LensItem] {
         switch sortOrder {
@@ -28,9 +36,14 @@ final class LensDashboardViewModel {
     
     private(set) var modelContext: ModelContext
     
+    @ObservationIgnored
+    private var cancellables = Set<AnyCancellable>()
+    
     init(modelContext: ModelContext) {
         self.modelContext = modelContext
-        fetchData()
+        self.fetchData()
+        self.setupNotificationStatusObserver()
+        self.setupNotificationRemainderDaysObserver()
     }
     
     func fetchData(selectDefaultLens: Bool = true) {
@@ -57,7 +70,46 @@ final class LensDashboardViewModel {
     }
     
     func deleteItem(_ item: LensItem) {
-        modelContext.delete(item)
-        fetchData()
+        withAnimation {
+            modelContext.delete(item)
+            fetchData()
+        }
+        notificationManager.cancelNotification(for: item.id.uuidString)
+    }
+    
+    func reloadAuthorizationSatus() {
+        notificationManager.reloadAuthorizationSatus()
+    }
+    
+    private func setupNotificationStatusObserver() {
+        notificationManager.$authorizationStatus
+            .removeDuplicates()
+            .receive(on: RunLoop.main)
+            .sink { [weak self] status in
+                guard let self else { return }
+                
+                switch status {
+                case .notDetermined:
+                    self.pushNotificationAllowed = false
+                    self.notificationManager.requestAuthorization()
+                case .authorized, .provisional:
+                    self.pushNotificationAllowed = true
+                    self.notificationManager.reloadLocalNotificationCenter(by: lensItems)
+                default:
+                    break
+                }
+            }
+            .store(in: &cancellables)
+    }
+    
+    private func setupNotificationRemainderDaysObserver() {
+        notificationManager.reminderDaysPublisher
+            .print()
+            .sink { [weak self] _ in
+                guard let self else { return }
+                self.notificationManager.reloadLocalNotificationCenter()
+                self.notificationManager.updateNotificationsForChangedReminderDays(for: lensItems)
+            }
+            .store(in: &cancellables)
     }
 }

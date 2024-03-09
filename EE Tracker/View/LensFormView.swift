@@ -106,7 +106,7 @@ struct LensFormView: View {
             lensItem?.detail = viewModel.detail
             lensItem?.changeDate = viewModel.changeDate
             
-//            viewModel.createNotification(by: lensItem)
+            viewModel.createNotification(by: lensItem)
         } else {
             let newLensItem = LensItem(
                 name: viewModel.brandName,
@@ -119,23 +119,8 @@ struct LensFormView: View {
             )
             
             modelContext.insert(newLensItem)
-//            viewModel.createNotification(by: newLensItem)
+            viewModel.createNotification(by: newLensItem)
         }
-        
-        
-//        if viewModel.isWearing {
-//            let wearingLensesDescriptor = FetchDescriptor<LensItem>(predicate: #Predicate { lensItem in
-//                lensItem.isWearing
-//            })
-//            do {
-//                let result = try modelContext.fetch(wearingLensesDescriptor)
-//                result.forEach {
-//                    $0.isWearing = false
-//                }
-//            } catch {
-//                print("Can't fetch lensItems from DataModel")
-//            }
-//        }
     }
 }
 
@@ -266,7 +251,6 @@ struct SphereSection: View {
                 .buttonStyle(.plain)
                 .padding()
                 .padding(.top, 44)
-                
                 
                 VStack {
                     Text("Right")

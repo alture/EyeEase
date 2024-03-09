@@ -11,13 +11,7 @@ import SwiftData
 struct LensDashboardView: View {
     @Environment(\.modelContext) private var modelContext
     @State private var viewModel: LensDashboardViewModel
-    @Bindable private var notificationManager = NotificationManager()
     
-    @State private var showingSettings: Bool = false
-    @State private var showingConfirmation: Bool = false
-    @State private var showingSort: Bool = false
-    @State private var showingChangables: Bool = false
-    @State private var pushNotificationAllowed: Bool = false
     @Environment(\.colorScheme) private var colorScheme
     
     init(modelContext: ModelContext) {
@@ -45,14 +39,14 @@ struct LensDashboardView: View {
                             
                             LensTimelineHeader(
                                 viewModel: self.$viewModel,
-                                showingConfirmation: self.$showingConfirmation
+                                showingConfirmation: self.$viewModel.showingConfirmation
                             )
                             .padding([.top, .horizontal])
                             
                             if let selectedLensItem = viewModel.selectedLensItem {
                                 let _ = print("Start: \(selectedLensItem.startDate.description(with: .current))")
                                 let _ = print("End: \(selectedLensItem.changeDate.description(with: .current))")
-                                LensTrackingView(lensItem: selectedLensItem, showingChangables: self.$showingChangables)
+                                LensTrackingView(lensItem: selectedLensItem, showingChangables: self.$viewModel.showingChangables)
                                     .padding(.horizontal)
                             }
                             Spacer()
@@ -63,7 +57,7 @@ struct LensDashboardView: View {
             }
             .navigationTitle("EyeEase")
             .navigationBarTitleDisplayMode(.inline)
-            .navigationDestination(isPresented: $showingChangables, destination: {
+            .navigationDestination(isPresented: $viewModel.showingChangables, destination: {
                 LensFormView(lensItem: self.$viewModel.selectedLensItem, status: .changeable)
             })
             .toolbar(content: {
@@ -83,30 +77,19 @@ struct LensDashboardView: View {
                 }
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
-                        self.showingSettings.toggle()
+                        self.viewModel.showingSettings.toggle()
                     } label: {
-                        Image(systemName: pushNotificationAllowed ? "gear" : "gear.badge")
+                        Image(systemName: viewModel.pushNotificationAllowed ? "gear" : "gear.badge")
                             .font(.title3)
-                            .symbolRenderingMode(pushNotificationAllowed ? .monochrome : .multicolor)
+                            .symbolRenderingMode(viewModel.pushNotificationAllowed ? .monochrome : .multicolor)
                     }
                 }
             })
             .onAppear() {
-                self.notificationManager.requestAuthorization()
-                self.notificationManager.reloadAuthorizationSatus()
-            }
-            .onChange(of: notificationManager.authorizationStatus) { oldValue, newValue in
-                switch newValue {
-                case .notDetermined:
-                    self.pushNotificationAllowed = false
-                case .authorized:
-                    self.pushNotificationAllowed = true
-                default:
-                    break
-                }
+                self.viewModel.reloadAuthorizationSatus()
             }
         }
-        .confirmationDialog("Delete Confirmation", isPresented: $showingConfirmation) {
+        .confirmationDialog("Delete Confirmation", isPresented: $viewModel.showingConfirmation) {
             Button("Delete", role: .destructive) {
                 if let selectedLensItem = viewModel.selectedLensItem  {
                     self.delete(selectedLensItem)
@@ -114,29 +97,20 @@ struct LensDashboardView: View {
             }
             
             Button("Cancel", role: .cancel) {
-                self.showingConfirmation.toggle()
+                self.viewModel.showingConfirmation.toggle()
             }
         } message: {
             Text("Are you sure to delete this Lens?")
         }
         .tint(.teal)
-        .sheet(isPresented: $showingSettings, content: {
-            SettingsView()
+        .sheet(isPresented: $viewModel.showingSettings, content: {
+            SettingsView(notificationManager: viewModel.notificationManager)
                 .preferredColorScheme(colorScheme)
         })
     }
     
     private func delete(_ item: LensItem) {
-        notificationManager.removeNotificationRequests(by: item.id.uuidString)
-        withAnimation {
-            self.viewModel.deleteItem(item)
-        }
-    }
-    
-    private func getCurrentDate(with format: String = "EEEE, MMM, d") -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = format
-        return dateFormatter.string(from: Date())
+        self.viewModel.deleteItem(item)
     }
 }
 
@@ -177,7 +151,7 @@ struct LensTimelineHeader: View {
                 Divider()
                 
                 Button("Delete", role: .destructive) {
-                    self.showingConfirmation.toggle()
+                    self.viewModel.showingConfirmation.toggle()
                 }
             } label: {
                 Image(systemName: "ellipsis.circle")
@@ -189,13 +163,15 @@ struct LensTimelineHeader: View {
 
 struct LensCarouselHeader: View {
     @Binding var viewModel: LensDashboardViewModel
-    @AppStorage("reminderDays") var reminderDays: ReminderDays = .three
+    
     var body: some View {
         HStack(alignment: .lastTextBaseline) {
             VStack(alignment: .leading) {
-                Text(self.getCurrentDate().uppercased())
-                    .font(.caption)
-                    .foregroundStyle(Color.secondary)
+                TimelineView(.everyMinute) { context in
+                    Text(context.date.formattedDate())
+                        .font(.caption)
+                        .foregroundStyle(Color.secondary)
+                }
                 
                 Text("Today")
                     .font(.title)
@@ -223,12 +199,6 @@ struct LensCarouselHeader: View {
                     .font(.title2)
             }
         }
-    }
-    
-    private func getCurrentDate(with format: String = "EEEE, MMM, d") -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = format
-        return dateFormatter.string(from: Date())
     }
 }
 

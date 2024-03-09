@@ -74,9 +74,11 @@ struct LensTrackingHeader: View {
                     .font(.title2)
                     .minimumScaleFactor(0.7)
                     .fontWeight(.bold)
-                Text("Started at: \(initialDate.formattedDate(with: "MMMM d, yyyy"))")
-                .font(.headline)
-                .foregroundStyle(.secondary)
+                TimelineView(.everyMinute) { context in
+                    Text("Started at \(initialDate.relativeFormattedDate(with: "MMMM d, yyyy"))")
+                        .font(.headline)
+                        .foregroundStyle(.secondary)
+                }
             }
             
             Spacer()
