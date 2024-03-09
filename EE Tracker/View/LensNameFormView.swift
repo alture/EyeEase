@@ -84,7 +84,7 @@ struct LensNameFormView: View {
                 
             }
             .padding()
-            .background(Color(.secondarySystemGroupedBackground))
+            .background(Color(.tertiarySystemBackground))
             .cornerRadius(10, antialiased: true)
             .padding(.bottom, isEditing ? 320 : 0)
             .animation(.easeInOut(duration: 0.2), value: isEditing)

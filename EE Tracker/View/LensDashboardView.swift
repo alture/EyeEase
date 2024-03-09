@@ -130,7 +130,7 @@ struct LensTimelineHeader: View {
                     LensFormView(lensItem: $viewModel.selectedLensItem, status: .editable)
                         .onDisappear {
                             withAnimation {
-                                self.viewModel.fetchData(selectDefaultLens: false)
+                                self.viewModel.fetchData()
                             }
                         }
                 } label: {
@@ -141,7 +141,7 @@ struct LensTimelineHeader: View {
                     LensFormView(lensItem: $viewModel.selectedLensItem, status: .changeable)
                         .onDisappear {
                             withAnimation {
-                                self.viewModel.fetchData(selectDefaultLens: false)
+                                self.viewModel.fetchData()
                             }
                         }
                 } label: {
@@ -191,7 +191,7 @@ struct LensCarouselHeader: View {
                 }
                 .onChange(of: self.viewModel.sortOrder) { _, newValue in
                     withAnimation {
-                        self.viewModel.fetchData(selectDefaultLens: false)
+                        self.viewModel.fetchData()
                     }
                 }
             } label: {

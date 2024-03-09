@@ -46,7 +46,7 @@ final class LensDashboardViewModel {
         self.setupNotificationRemainderDaysObserver()
     }
     
-    func fetchData(selectDefaultLens: Bool = true) {
+    func fetchData() {
         let sortDescriptors: [SortDescriptor<LensItem>] = {
             switch sortOrder {
             case .newestFirst:
@@ -61,8 +61,8 @@ final class LensDashboardViewModel {
         let fetchDescriptor = FetchDescriptor(predicate: nil, sortBy: sortDescriptors)
         do {
             lensItems = try modelContext.fetch(fetchDescriptor)
-            if selectDefaultLens {
-                self.selectedLensItem = lensItems.first
+            if selectedLensItem == nil {
+                selectedLensItem = lensItems.first
             }
         } catch {
             print("Can't load items from modelContext: \(error)")
@@ -70,6 +70,7 @@ final class LensDashboardViewModel {
     }
     
     func deleteItem(_ item: LensItem) {
+        selectedLensItem = nil
         withAnimation {
             modelContext.delete(item)
             fetchData()
