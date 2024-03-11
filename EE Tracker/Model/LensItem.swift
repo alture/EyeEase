@@ -11,17 +11,19 @@ import SwiftUI
 
 @Model
 final class LensItem: ObservableObject {
-    @Attribute(.unique) var id: UUID
-    var name: String
-    var eyeSide: EyeSide
-    var wearDuration: WearDuration
-    var startDate: Date
-    var changeDate: Date
+    var id: UUID = UUID()
+    var name: String = ""
+    var eyeSide: EyeSide = EyeSide.both
+    var wearDuration: WearDuration = WearDuration.biweekly
+    var startDate: Date = Date.now
+    var changeDate: Date = Date.distantPast
     var totalNumber: Int?
-    var usedNumber: Int
-    var sphere: Sphere
-    var detail: LensDetail
-    var isWearing: Bool
+    var usedNumber: Int = 0
+    @Relationship(deleteRule: .cascade, inverse: \Sphere.lensItem)
+    var sphere: Sphere? = nil
+    @Relationship(deleteRule: .cascade, inverse: \LensDetail.lensItem)
+    var detail: LensDetail? = nil
+    var isWearing: Bool = false
     
     init(
         id: UUID = UUID(),
@@ -31,9 +33,9 @@ final class LensItem: ObservableObject {
         startDate: Date = Date.now.startOfDay,
         totalNumber: Int? = nil,
         usedNumber: Int = 0,
-        sphere: Sphere = Sphere(),
+        sphere: Sphere? = nil,
         isWearing: Bool = false,
-        detail: LensDetail = LensDetail()
+        detail: LensDetail? = nil
     ) {
         self.id = id
         self.name = name
@@ -52,7 +54,7 @@ final class LensItem: ObservableObject {
 // MARK: - Identifiable, Hashable
 extension LensItem: Identifiable, Hashable {
     static func == (lhs: LensItem, rhs: LensItem) -> Bool {
-        return lhs.id == rhs.id && lhs.isWearing == rhs.isWearing
+        return lhs.id == rhs.id 
     }
     
     func hash(into hasher: inout Hasher) {

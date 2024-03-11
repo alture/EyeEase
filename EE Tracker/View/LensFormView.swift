@@ -41,7 +41,7 @@ struct LensFormView: View {
                     SphereSection(sphere: $viewModel.sphere)
                     DetailSection(detail: $viewModel.detail, focusField: _focusField)
                 }
-                .navigationTitle(viewModel.lensItem?.name ?? "New Lense")
+                .navigationTitle(lensItem?.name ?? "New Lense")
                 .navigationBarTitleDisplayMode(.inline)
                 .defaultFocus($focusField, .bc)
                 .toolbar {

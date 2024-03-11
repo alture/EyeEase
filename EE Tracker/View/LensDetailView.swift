@@ -47,8 +47,8 @@ struct LensDetailRow: View {
 
 #Preview {
     Group {
-        LensDetailView(detail: SampleData.content[0].detail)
-        LensDetailView(detail: SampleData.content[1].detail)
-        LensDetailView(detail: SampleData.content[2].detail)
+        LensDetailView(detail: SampleData.content[0].detail ?? LensDetail())
+        LensDetailView(detail: SampleData.content[1].detail ?? LensDetail())
+        LensDetailView(detail: SampleData.content[2].detail ?? LensDetail())
     }
 }

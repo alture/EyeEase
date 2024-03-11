@@ -30,9 +30,6 @@ final class LensFormViewModel {
     private(set) var status: Status = .new
     
     @ObservationIgnored
-    private(set) var lensItem: LensItem?
-    
-    @ObservationIgnored
     private var notificationManger: NotificationManager = NotificationManager()
     
     // Output

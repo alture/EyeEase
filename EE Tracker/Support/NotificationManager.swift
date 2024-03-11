@@ -148,6 +148,13 @@ final class NotificationManager: ObservableObject {
         }
     }
     
+    func updateNotifications(for item: LensItem) {
+        let dayBeforeId = "\(item.id.uuidString)-day-before"
+        let dayOfId = "\(item.id.uuidString)-day-of"
+        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [dayBeforeId, dayOfId])
+        scheduleNotificationIfNeeded(for: item)
+    }
+    
     func updateNotificationsForChangedReminderDays(for lensItems: [LensItem]) {
         UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
         scheduleNotificationsForAllItems(lensItems)

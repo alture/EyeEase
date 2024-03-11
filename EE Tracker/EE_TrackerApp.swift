@@ -13,6 +13,8 @@ struct EE_TrackerApp: App {
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
             LensItem.self,
+            Sphere.self,
+            LensDetail.self
         ])
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
         do {

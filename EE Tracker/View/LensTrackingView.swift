@@ -14,7 +14,7 @@ struct LensTrackingView: View {
     @State var readyToExpire: Bool = false
     
     private var sphereDesc: String {
-        let sphere = lensItem.sphere
+        guard let sphere = lensItem.sphere else { return "" }
         switch lensItem.eyeSide {
         case .left:
             return "L: \(sphere.left)"
@@ -54,7 +54,9 @@ struct LensTrackingView: View {
                 .font(.title2)
                 .foregroundStyle(Color(.systemGray4))
             
-            LensDetailView(detail: lensItem.detail)
+            if let detail = lensItem.detail {
+                LensDetailView(detail: detail)
+            }
         }
         .padding()
         .background(Color(.secondarySystemBackground))

@@ -6,17 +6,21 @@
 //
 
 import Foundation
+import SwiftData
 
-struct Sphere: Codable {
-    var left: Float
-    var right: Float
+@Model
+final class Sphere {
+    var left: Float = 0.0
+    var right: Float = 0.0
     
     var isSame: Bool { left == right }
-    var proportional: Bool
+    var proportional: Bool = false
+    var lensItem: LensItem?
     
-    init(left: Float = 0, right: Float = 0, proportional: Bool = true) {
+    init(left: Float = 0, right: Float = 0, proportional: Bool = true, lensItem: LensItem? = nil) {
         self.left = left
         self.right = right
         self.proportional = proportional
+        self.lensItem = lensItem
     }
 }

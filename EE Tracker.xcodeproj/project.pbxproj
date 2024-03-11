@@ -74,6 +74,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		B70D06DA2B9E2091004E9092 /* EE TrackerDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "EE TrackerDebug.entitlements"; sourceTree = "<group>"; };
 		B71262BF2B66A049009185EE /* LensSortOrder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LensSortOrder.swift; sourceTree = "<group>"; };
 		B715242F2B97D329005E7A88 /* LensNameFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LensNameFormView.swift; sourceTree = "<group>"; };
 		B71524332B97E3C1005E7A88 /* BlankView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlankView.swift; sourceTree = "<group>"; };
@@ -99,6 +100,7 @@
 		B7C08EB42B1CAABA00DD0BE2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B7C08EB72B1CAABA00DD0BE2 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		B7C08EBF2B1CB73C00DD0BE2 /* LensItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LensItem.swift; sourceTree = "<group>"; };
+		B7DAA1412B9E03CE005B9A7F /* EE TrackerRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "EE TrackerRelease.entitlements"; sourceTree = "<group>"; };
 		B7E075502B1CE214001ABFE4 /* CircleProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleProgressView.swift; sourceTree = "<group>"; };
 		B7E075522B1D0FF2001ABFE4 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		B7E075542B1D11B2001ABFE4 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
@@ -226,6 +228,8 @@
 		B7C08EAD2B1CAAB600DD0BE2 /* EE Tracker */ = {
 			isa = PBXGroup;
 			children = (
+				B70D06DA2B9E2091004E9092 /* EE TrackerDebug.entitlements */,
+				B7DAA1412B9E03CE005B9A7F /* EE TrackerRelease.entitlements */,
 				B7BF52782B865C7F00FE0162 /* ViewModel */,
 				B7E32D9D2B252BF800CA0729 /* ViewHelpers */,
 				B7BF52772B865C7B00FE0162 /* View */,
@@ -611,6 +615,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "EE Tracker/EE TrackerDebug.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"EE Tracker/Preview Content\"";
@@ -648,6 +653,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "EE Tracker/EE TrackerRelease.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"EE Tracker/Preview Content\"";
