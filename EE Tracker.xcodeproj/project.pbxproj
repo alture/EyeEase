@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B70D06DE2B9FE745004E9092 /* StoreKitTestCertificate.cer in Resources */ = {isa = PBXBuildFile; fileRef = B70D06DD2B9FE745004E9092 /* StoreKitTestCertificate.cer */; };
+		B70D06E02B9FEB3C004E9092 /* PassStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = B70D06DF2B9FEB3C004E9092 /* PassStatus.swift */; };
+		B70D06E62B9FED48004E9092 /* PassStatusModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B70D06E52B9FED48004E9092 /* PassStatusModel.swift */; };
+		B70D06E82B9FF1AF004E9092 /* SubscriptionShopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B70D06E72B9FF1AF004E9092 /* SubscriptionShopView.swift */; };
+		B70D06EA2B9FF654004E9092 /* ProductSubscription.swift in Sources */ = {isa = PBXBuildFile; fileRef = B70D06E92B9FF654004E9092 /* ProductSubscription.swift */; };
 		B71262C02B66A049009185EE /* LensSortOrder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B71262BF2B66A049009185EE /* LensSortOrder.swift */; };
 		B71524302B97D329005E7A88 /* LensNameFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B715242F2B97D329005E7A88 /* LensNameFormView.swift */; };
 		B71524342B97E3C1005E7A88 /* BlankView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B71524332B97E3C1005E7A88 /* BlankView.swift */; };
@@ -75,6 +80,12 @@
 
 /* Begin PBXFileReference section */
 		B70D06DA2B9E2091004E9092 /* EE TrackerDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "EE TrackerDebug.entitlements"; sourceTree = "<group>"; };
+		B70D06DB2B9FE52C004E9092 /* EyeEaseStore.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; name = EyeEaseStore.storekit; path = "EE Tracker/Store/EyeEaseStore.storekit"; sourceTree = SOURCE_ROOT; };
+		B70D06DD2B9FE745004E9092 /* StoreKitTestCertificate.cer */ = {isa = PBXFileReference; lastKnownFileType = file; path = StoreKitTestCertificate.cer; sourceTree = "<group>"; };
+		B70D06DF2B9FEB3C004E9092 /* PassStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassStatus.swift; sourceTree = "<group>"; };
+		B70D06E52B9FED48004E9092 /* PassStatusModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassStatusModel.swift; sourceTree = "<group>"; };
+		B70D06E72B9FF1AF004E9092 /* SubscriptionShopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionShopView.swift; sourceTree = "<group>"; };
+		B70D06E92B9FF654004E9092 /* ProductSubscription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductSubscription.swift; sourceTree = "<group>"; };
 		B71262BF2B66A049009185EE /* LensSortOrder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LensSortOrder.swift; sourceTree = "<group>"; };
 		B715242F2B97D329005E7A88 /* LensNameFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LensNameFormView.swift; sourceTree = "<group>"; };
 		B71524332B97E3C1005E7A88 /* BlankView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlankView.swift; sourceTree = "<group>"; };
@@ -140,6 +151,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B70D06DC2B9FE735004E9092 /* Store */ = {
+			isa = PBXGroup;
+			children = (
+				B70D06DB2B9FE52C004E9092 /* EyeEaseStore.storekit */,
+				B70D06DD2B9FE745004E9092 /* StoreKitTestCertificate.cer */,
+				B70D06DF2B9FEB3C004E9092 /* PassStatus.swift */,
+				B70D06E52B9FED48004E9092 /* PassStatusModel.swift */,
+				B70D06E72B9FF1AF004E9092 /* SubscriptionShopView.swift */,
+				B70D06E92B9FF654004E9092 /* ProductSubscription.swift */,
+			);
+			path = Store;
+			sourceTree = "<group>";
+		};
 		B764EC562B73DC810024A166 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -228,6 +252,7 @@
 		B7C08EAD2B1CAAB600DD0BE2 /* EE Tracker */ = {
 			isa = PBXGroup;
 			children = (
+				B70D06DC2B9FE735004E9092 /* Store */,
 				B70D06DA2B9E2091004E9092 /* EE TrackerDebug.entitlements */,
 				B7DAA1412B9E03CE005B9A7F /* EE TrackerRelease.entitlements */,
 				B7BF52782B865C7F00FE0162 /* ViewModel */,
@@ -367,6 +392,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B70D06DE2B9FE745004E9092 /* StoreKitTestCertificate.cer in Resources */,
 				B7FC52412B36713D009BA759 /* Launch Screen.storyboard in Resources */,
 				B7C08EB82B1CAABA00DD0BE2 /* Preview Assets.xcassets in Resources */,
 				B7C08EB52B1CAABA00DD0BE2 /* Assets.xcassets in Resources */,
@@ -398,6 +424,7 @@
 				B7C08EB12B1CAAB600DD0BE2 /* LensDashboardView.swift in Sources */,
 				B760DC4F2B88CCC000C2C025 /* LensDashboardViewModel.swift in Sources */,
 				B7C08EAF2B1CAAB600DD0BE2 /* EE_TrackerApp.swift in Sources */,
+				B70D06E02B9FEB3C004E9092 /* PassStatus.swift in Sources */,
 				B7E32DC22B26523D00CA0729 /* AppVersionProvider.swift in Sources */,
 				B7BF52812B86720500FE0162 /* LensDetail.swift in Sources */,
 				B7E32DA22B2605AD00CA0729 /* SampleData.swift in Sources */,
@@ -406,17 +433,20 @@
 				B73FA0532B5BC20600BCD9A4 /* LensDetailView.swift in Sources */,
 				B7E394152B98A94000113138 /* Date+formatDate.swift in Sources */,
 				B7E32DA02B26058500CA0729 /* PreviewSampleData.swift in Sources */,
+				B70D06E82B9FF1AF004E9092 /* SubscriptionShopView.swift in Sources */,
 				B7E075532B1D0FF2001ABFE4 /* SettingsView.swift in Sources */,
 				B7E32DA42B2629A800CA0729 /* LensTrackingTimelineView.swift in Sources */,
 				B7E32D8B2B2521B700CA0729 /* EyeSide.swift in Sources */,
 				B7E32D832B21219C00CA0729 /* LensFormView.swift in Sources */,
 				B7E075512B1CE214001ABFE4 /* CircleProgressView.swift in Sources */,
 				B74FA83C2B5A946C001E896F /* Bool+Comparable.swift in Sources */,
+				B70D06EA2B9FF654004E9092 /* ProductSubscription.swift in Sources */,
 				B7E075552B1D11B2001ABFE4 /* SettingsViewModel.swift in Sources */,
 				B7E32D892B2519E300CA0729 /* DataSourceModel.swift in Sources */,
 				B7E32D812B2119CD00CA0729 /* LensTrackingView.swift in Sources */,
 				B71262C02B66A049009185EE /* LensSortOrder.swift in Sources */,
 				B760DC592B95646500C2C025 /* NotificationManager.swift in Sources */,
+				B70D06E62B9FED48004E9092 /* PassStatusModel.swift in Sources */,
 				B7BF527F2B865E6200FE0162 /* LensFormViewModel.swift in Sources */,
 				B74FA83A2B5A84F1001E896F /* LensCarouselView.swift in Sources */,
 				B7E394172B98FFC900113138 /* CustomTimelineSchedules.swift in Sources */,

@@ -6,13 +6,21 @@
 //
 
 import SwiftUI
+import StoreKit
 import SwiftData
 
 struct LensDashboardView: View {
     @Environment(\.modelContext) private var modelContext
     @State private var viewModel: LensDashboardViewModel
     
+    @State private var presentingSubscriptionSheet = false
+    @State private var showingSubscription: Bool = false
+    @Environment(PassStatusModel.self) var passStatusModel: PassStatusModel
+    @Environment(\.passIDs) private var passIDs
+    @State private var passStatus: PassStatus = .notSubscribed
+    
     @Environment(\.colorScheme) private var colorScheme
+    @State private var status: EntitlementTaskState<PassStatus> = .loading
     
     init(modelContext: ModelContext) {
         let viewModel = LensDashboardViewModel(modelContext: modelContext)
@@ -83,10 +91,15 @@ struct LensDashboardView: View {
                     }
                 }
             })
-            .onAppear() {
-                self.viewModel.reloadAuthorizationSatus()
-            }
         }
+        .onAppear() {
+            self.viewModel.reloadAuthorizationSatus()
+            ProductSubscription.createSharedInstance()
+        }
+        .manageSubscriptionsSheet(
+            isPresented: $presentingSubscriptionSheet,
+            subscriptionGroupID: passIDs.group
+        )
         .confirmationDialog("Delete Confirmation", isPresented: $viewModel.showingConfirmation) {
             Button("Delete", role: .destructive) {
                 if let selectedLensItem = viewModel.selectedLensItem  {
@@ -102,9 +115,41 @@ struct LensDashboardView: View {
         }
         .tint(.teal)
         .sheet(isPresented: $viewModel.showingSettings, content: {
-            SettingsView(notificationManager: viewModel.notificationManager)
-                .preferredColorScheme(colorScheme)
+            SettingsView(
+                passStatus: $passStatus,
+                notificationManager: viewModel.notificationManager,
+                showingSubscription: $showingSubscription
+            )
+            .preferredColorScheme(colorScheme)
         })
+        .sheet(isPresented: $showingSubscription) {
+            SubscriptionShopView()
+        }
+        .subscriptionStatusTask(for: passIDs.group) { taskStatus in
+            self.status = await taskStatus.map { statuses in
+                await ProductSubscription.shared.status(
+                    for: statuses,
+                    ids: passIDs
+                )
+            }
+            
+            switch self.status {
+            case .loading:
+                break
+            case .failure(let error):
+                passStatusModel.passStatus = .notSubscribed
+                passStatus = .notSubscribed
+                print("Failed to check subscription status: \(error)")
+            case .success(let value):
+                passStatusModel.passStatus = value
+                passStatus = value
+            @unknown default: break
+            }
+        }
+        .task {
+            await ProductSubscription.shared.observeTransactionUpdates()
+            await ProductSubscription.shared.checkForUnfinishedTransactions()
+        }
     }
     
     private func delete(_ item: LensItem) {
@@ -203,4 +248,5 @@ struct LensCarouselHeader: View {
 #Preview {
     LensDashboardView(modelContext: previewContainer.mainContext)
         .modelContainer(previewContainer)
+        .environment(PassStatusModel())
 }

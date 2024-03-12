@@ -31,14 +31,18 @@ enum ReminderDays: Int, Identifiable, CustomStringConvertible, CaseIterable {
 struct SettingsView: View {
     @Environment(\.dismiss) var dismiss
     @Environment(\.requestReview) var requestReview
+    @Binding var passStatus: PassStatus
     @AppStorage(AppStorageKeys.appAppearance) var appAppearance: AppAppearance = .system
     
     @ObservedObject var notificationManager: NotificationManager
     @State private var pushNotificationAllowed: Bool = false
+    @Binding var showingSubscription: Bool
+    
+    var isSubscribed: Bool = false
     
     var body: some View {
         NavigationStack {
-            if !pushNotificationAllowed {
+            if !pushNotificationAllowed && !(passStatus == .notSubscribed) {
                 GroupBox(label:
                     Label("Notifications are disabled", systemImage: "info.circle")
                 ) {
@@ -51,6 +55,47 @@ struct SettingsView: View {
             }
             
             Form {
+                Section(header: Text("Account")) {
+                    Button {
+                        self.dismiss()
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                            self.showingSubscription.toggle()
+                        }
+                    } label: {
+                        HStack {
+                            Image(systemName: "plus.square")
+                            
+                            Group {
+                                if passStatus == .notSubscribed {
+                                    Text("Upgrate to Plus")
+                                } else {
+                                    Text("Eye Ease+")
+                                    Spacer()
+                                    Text("\(passStatus.description) plan")
+                                        .foregroundStyle(.gray)
+                                }
+                            }
+                        }
+                    }
+                    .foregroundStyle(passStatus == .notSubscribed ? .teal : .primary)
+                    
+                    Button {
+                        Task {
+                            do {
+                                try await AppStore.sync()
+                            } catch {
+                                print(error)
+                            }
+                        }
+                    } label: {
+                        HStack {
+                            Image(systemName: "gobackward")
+                            Text("Restore Purchases")
+                        }
+                    }
+                    .foregroundStyle(Color.primary)
+                }
+                
                 Section(
                     header: Text("Application"),
                     footer: Text("Set reminder days before lens replacement")
@@ -58,7 +103,7 @@ struct SettingsView: View {
                     LabeledContent {
                         Group {
                             if pushNotificationAllowed {
-                                Text("Enabled")
+                                Text("Allowed")
                                     .foregroundStyle(.secondary)
                             } else {
                                 Button(action: {
@@ -105,19 +150,6 @@ struct SettingsView: View {
                         }
                     }
                 }
-                
-                Section(header: Text("Account")) {
-                    Button {
-                        // Restore Purchases
-                    } label: {
-                        HStack {
-                            Image(systemName: "gobackward")
-                            Text("Restore from iCloud")
-                        }
-                    }
-                    .foregroundStyle(.teal)
-                }
-                
                 
                 if
                     let privacyURL = URL(string: "https://www.freeprivacypolicy.com/live/6ae64009-85b9-4a23-92b0-85ef9d702474"),
@@ -202,5 +234,9 @@ struct SettingsView: View {
 }
 
 #Preview {
-    SettingsView(notificationManager: NotificationManager())
+    SettingsView(
+        passStatus: .constant(.notSubscribed),
+        notificationManager: NotificationManager(),
+        showingSubscription: .constant(true)
+    )
 }

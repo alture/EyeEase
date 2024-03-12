@@ -33,5 +33,6 @@ struct EE_TrackerApp: App {
                 .fontDesign(.rounded)
         }
         .modelContainer(sharedModelContainer)
+        .environment(PassStatusModel())
     }
 }

@@ -37,7 +37,7 @@
                             </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Bcu-3y-fUS"/>
-                        <color key="backgroundColor" systemColor="systemGray6Color"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="bXx-rB-GXt" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="4GP-tI-8ti"/>
                             <constraint firstItem="bXx-rB-GXt" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="U4J-hu-c2Z"/>
@@ -51,8 +51,8 @@
     </scenes>
     <resources>
         <image name="Logo" width="1024" height="1024"/>
-        <systemColor name="systemGray6Color">
-            <color red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemTealColor">
             <color red="0.18823529410000001" green="0.69019607839999997" blue="0.78039215689999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
