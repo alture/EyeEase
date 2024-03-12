@@ -21,12 +21,6 @@
 		B760DC4F2B88CCC000C2C025 /* LensDashboardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B760DC4E2B88CCC000C2C025 /* LensDashboardViewModel.swift */; };
 		B760DC592B95646500C2C025 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B760DC582B95646500C2C025 /* NotificationManager.swift */; };
 		B760DC5D2B959BAB00C2C025 /* AppAppearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = B760DC5C2B959BAB00C2C025 /* AppAppearance.swift */; };
-		B764EC582B73DC810024A166 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B764EC572B73DC810024A166 /* WidgetKit.framework */; };
-		B764EC5A2B73DC810024A166 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B764EC592B73DC810024A166 /* SwiftUI.framework */; };
-		B764EC5D2B73DC810024A166 /* TrackingWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = B764EC5C2B73DC810024A166 /* TrackingWidgetBundle.swift */; };
-		B764EC5F2B73DC810024A166 /* TrackingWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = B764EC5E2B73DC810024A166 /* TrackingWidget.swift */; };
-		B764EC612B73DC850024A166 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B764EC602B73DC850024A166 /* Assets.xcassets */; };
-		B764EC652B73DC850024A166 /* TrackingWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = B764EC552B73DC810024A166 /* TrackingWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		B7BF527D2B865D7600FE0162 /* EE-Tracker-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B7FC523F2B366E32009BA759 /* EE-Tracker-Info.plist */; };
 		B7BF527F2B865E6200FE0162 /* LensFormViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7BF527E2B865E6200FE0162 /* LensFormViewModel.swift */; };
 		B7BF52812B86720500FE0162 /* LensDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7BF52802B86720500FE0162 /* LensDetail.swift */; };
@@ -54,16 +48,6 @@
 		B7FC52412B36713D009BA759 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B7FC52402B36713D009BA759 /* Launch Screen.storyboard */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		B764EC632B73DC850024A166 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B7C08EA32B1CAAB500DD0BE2 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = B764EC542B73DC810024A166;
-			remoteInfo = TrackingWidgetExtension;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXCopyFilesBuildPhase section */
 		B764EC662B73DC850024A166 /* Embed Foundation Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -71,7 +55,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				B764EC652B73DC850024A166 /* TrackingWidgetExtension.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -95,13 +78,7 @@
 		B760DC4E2B88CCC000C2C025 /* LensDashboardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LensDashboardViewModel.swift; sourceTree = "<group>"; };
 		B760DC582B95646500C2C025 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		B760DC5C2B959BAB00C2C025 /* AppAppearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppAppearance.swift; sourceTree = "<group>"; };
-		B764EC552B73DC810024A166 /* TrackingWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = TrackingWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
-		B764EC572B73DC810024A166 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		B764EC592B73DC810024A166 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
-		B764EC5C2B73DC810024A166 /* TrackingWidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackingWidgetBundle.swift; sourceTree = "<group>"; };
-		B764EC5E2B73DC810024A166 /* TrackingWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackingWidget.swift; sourceTree = "<group>"; };
-		B764EC602B73DC850024A166 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		B764EC622B73DC850024A166 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B7BF527E2B865E6200FE0162 /* LensFormViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LensFormViewModel.swift; sourceTree = "<group>"; };
 		B7BF52802B86720500FE0162 /* LensDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LensDetail.swift; sourceTree = "<group>"; };
 		B7BF52822B86721F00FE0162 /* Sphere.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sphere.swift; sourceTree = "<group>"; };
@@ -132,15 +109,6 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		B764EC522B73DC810024A166 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				B764EC5A2B73DC810024A166 /* SwiftUI.framework in Frameworks */,
-				B764EC582B73DC810024A166 /* WidgetKit.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		B7C08EA82B1CAAB600DD0BE2 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -167,21 +135,9 @@
 		B764EC562B73DC810024A166 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				B764EC572B73DC810024A166 /* WidgetKit.framework */,
 				B764EC592B73DC810024A166 /* SwiftUI.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		B764EC5B2B73DC810024A166 /* TrackingWidget */ = {
-			isa = PBXGroup;
-			children = (
-				B764EC5C2B73DC810024A166 /* TrackingWidgetBundle.swift */,
-				B764EC5E2B73DC810024A166 /* TrackingWidget.swift */,
-				B764EC602B73DC850024A166 /* Assets.xcassets */,
-				B764EC622B73DC850024A166 /* Info.plist */,
-			);
-			path = TrackingWidget;
 			sourceTree = "<group>";
 		};
 		B7BF52752B865C6A00FE0162 /* Extension */ = {
@@ -234,7 +190,6 @@
 			isa = PBXGroup;
 			children = (
 				B7C08EAD2B1CAAB600DD0BE2 /* EE Tracker */,
-				B764EC5B2B73DC810024A166 /* TrackingWidget */,
 				B764EC562B73DC810024A166 /* Frameworks */,
 				B7C08EAC2B1CAAB600DD0BE2 /* Products */,
 			);
@@ -244,7 +199,6 @@
 			isa = PBXGroup;
 			children = (
 				B7C08EAB2B1CAAB600DD0BE2 /* EE Tracker.app */,
-				B764EC552B73DC810024A166 /* TrackingWidgetExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -306,23 +260,6 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		B764EC542B73DC810024A166 /* TrackingWidgetExtension */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = B764EC692B73DC850024A166 /* Build configuration list for PBXNativeTarget "TrackingWidgetExtension" */;
-			buildPhases = (
-				B764EC512B73DC810024A166 /* Sources */,
-				B764EC522B73DC810024A166 /* Frameworks */,
-				B764EC532B73DC810024A166 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = TrackingWidgetExtension;
-			productName = TrackingWidgetExtension;
-			productReference = B764EC552B73DC810024A166 /* TrackingWidgetExtension.appex */;
-			productType = "com.apple.product-type.app-extension";
-		};
 		B7C08EAA2B1CAAB600DD0BE2 /* EE Tracker */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = B7C08EBB2B1CAABA00DD0BE2 /* Build configuration list for PBXNativeTarget "EE Tracker" */;
@@ -335,7 +272,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				B764EC642B73DC850024A166 /* PBXTargetDependency */,
 			);
 			name = "EE Tracker";
 			productName = "EE Tracker";
@@ -352,9 +288,6 @@
 				LastSwiftUpdateCheck = 1520;
 				LastUpgradeCheck = 1500;
 				TargetAttributes = {
-					B764EC542B73DC810024A166 = {
-						CreatedOnToolsVersion = 15.2;
-					};
 					B7C08EAA2B1CAAB600DD0BE2 = {
 						CreatedOnToolsVersion = 15.0.1;
 					};
@@ -374,20 +307,11 @@
 			projectRoot = "";
 			targets = (
 				B7C08EAA2B1CAAB600DD0BE2 /* EE Tracker */,
-				B764EC542B73DC810024A166 /* TrackingWidgetExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		B764EC532B73DC810024A166 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				B764EC612B73DC850024A166 /* Assets.xcassets in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		B7C08EA92B1CAAB600DD0BE2 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -403,15 +327,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		B764EC512B73DC810024A166 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				B764EC5F2B73DC810024A166 /* TrackingWidget.swift in Sources */,
-				B764EC5D2B73DC810024A166 /* TrackingWidgetBundle.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		B7C08EA72B1CAAB600DD0BE2 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -455,71 +370,7 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
-/* Begin PBXTargetDependency section */
-		B764EC642B73DC850024A166 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = B764EC542B73DC810024A166 /* TrackingWidgetExtension */;
-			targetProxy = B764EC632B73DC850024A166 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
-
 /* Begin XCBuildConfiguration section */
-		B764EC672B73DC850024A166 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = FNS9H7J227;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = TrackingWidget/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = TrackingWidget;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.alture.EE-Tracker.TrackingWidget";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		B764EC682B73DC850024A166 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = FNS9H7J227;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = TrackingWidget/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = TrackingWidget;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.alture.EE-Tracker.TrackingWidget";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Release;
-		};
 		B7C08EB92B1CAABA00DD0BE2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -642,7 +493,6 @@
 		B7C08EBC2B1CAABA00DD0BE2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "EE Tracker/EE TrackerDebug.entitlements";
@@ -680,7 +530,6 @@
 		B7C08EBD2B1CAABA00DD0BE2 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "EE Tracker/EE TrackerRelease.entitlements";
@@ -718,15 +567,6 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		B764EC692B73DC850024A166 /* Build configuration list for PBXNativeTarget "TrackingWidgetExtension" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				B764EC672B73DC850024A166 /* Debug */,
-				B764EC682B73DC850024A166 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		B7C08EA62B1CAAB500DD0BE2 /* Build configuration list for PBXProject "EE Tracker" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
