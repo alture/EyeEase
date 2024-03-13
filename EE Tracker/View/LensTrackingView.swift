@@ -14,7 +14,7 @@ struct LensTrackingView: View {
     @State var readyToExpire: Bool = false
     
     private var sphereDesc: String {
-        guard let sphere = lensItem.sphere else { return "" }
+        guard let sphere = lensItem.sphere else { return "Not set" }
         switch lensItem.eyeSide {
         case .left:
             return "L: \(sphere.left)"

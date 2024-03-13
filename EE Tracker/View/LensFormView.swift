@@ -17,7 +17,7 @@ struct LensFormView: View {
     @Bindable private var viewModel: LensFormViewModel
     @Binding private var lensItem: LensItem?
     @State private var showingAlert = false
-    @State private var showingNameForm: Bool = false
+    @State private var showingSphereSection: Bool = false
     @State private var sheetHeight: CGFloat = .zero
     
     init(lensItem: Binding<LensItem?> = .constant(nil), status: LensFormViewModel.Status) {
@@ -27,71 +27,92 @@ struct LensFormView: View {
     
     var body: some View {
         NavigationStack {
-            ZStack {
-                Form {
-                    MainSection(
-                        focusField: _focusField,
-                        brandName: $viewModel.brandName,
-                        wearDuration: $viewModel.wearDuration,
-                        eyeSide: $viewModel.eyeSide,
-                        initialUseDate: $viewModel.initialUseDate,
-                        isWearing: $viewModel.isWearing,
-                        showingNameForm: $showingNameForm
-                    )
-                    SphereSection(sphere: $viewModel.sphere)
-                    DetailSection(detail: $viewModel.detail, focusField: _focusField)
+            Form {
+                MainSection(
+                    focusField: _focusField,
+                    brandName: $viewModel.brandName,
+                    wearDuration: $viewModel.wearDuration,
+                    eyeSide: $viewModel.eyeSide,
+                    initialUseDate: $viewModel.initialUseDate,
+                    isWearing: $viewModel.isWearing
+                )
+                
+                DetailSection(
+                    detail: $viewModel.detail,
+                    sphere: $viewModel.sphere,
+                    focusField: _focusField,
+                    showingSphereSection: $showingSphereSection
+                )
+            }
+            .navigationTitle(lensItem?.name ?? "New Lense")
+            .navigationBarTitleDisplayMode(.inline)
+            .defaultFocus($focusField, .bc)
+            .onChange(of: showingSphereSection, { oldValue, newValue in
+                if newValue {
+                    self.focusField = nil
                 }
-                .navigationTitle(lensItem?.name ?? "New Lense")
-                .navigationBarTitleDisplayMode(.inline)
-                .defaultFocus($focusField, .bc)
-                .toolbar {
-                    if !showingNameForm {
-                        ToolbarItem(placement: .keyboard) {
-                            HStack {
-                                Spacer()
-                                Button {
-                                    focusField = nil
-                                } label: {
-                                    Text("Done")
-                                }
-                            }
-                        }
+            })
+            .sheet(isPresented: $showingSphereSection, content: {
+                SphereSection(sphere: self.viewModel.sphere) { sphere in
+                    self.viewModel.sphere = sphere
+                }
+                .overlay {
+                    GeometryReader { geometry in
+                        Color.clear.preference(key: InnerHeightPreferenceKey.self, value: geometry.size.height)
                     }
-                    
-                    ToolbarItem(placement: .topBarTrailing) {
-                        Button(viewModel.status.actionTitle) {
-                            if viewModel.isNameValid {
-                                self.save()
-                                self.dismiss()
-                            } else {
-                                self.showingAlert.toggle()
+                }
+                .onPreferenceChange(InnerHeightPreferenceKey.self) { newHeight in
+                    sheetHeight = newHeight
+                }
+                .presentationDetents([.height(sheetHeight)])
+            })
+            .toolbar {
+                if focusField != .name {
+                    ToolbarItem(placement: .keyboard) {
+                        HStack {
+                            Spacer()
+                            
+                            
+                            // Prev
+                            Button("", systemImage: "chevron.up") {
+                                self.focusField?.prev()
+                            }
+                            .disabled(self.focusField == .bc)
+                            
+                            // Next
+                            Button("", systemImage: "chevron.down") {
+                                self.focusField?.next()
+                            }
+                            .disabled(self.focusField == .axis)
+                            
+                            // Close keyboard
+                            Button("", systemImage: "keyboard.chevron.compact.down") {
+                                self.focusField = nil
                             }
                         }
-                        .alert("Please enter the name", isPresented: $showingAlert, actions: {
-                            Button("Ok", role: .cancel) {
-                                self.showingAlert.toggle()
-                                self.showingNameForm.toggle()
-                            }
-                        }, message: {
-                            Text("Please specify the contact lens brand for accurate tracking.")
-                        })
                     }
                 }
                 
-                if showingNameForm {
-                    BlankView(bgColor: .black)
-                        .opacity(0.2)
-                        .onTapGesture {
-                            withAnimation {
-                                self.showingNameForm = false
-                            }
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button(viewModel.status.actionTitle) {
+                        if viewModel.isNameValid {
+                            self.save()
+                            self.dismiss()
+                        } else {
+                            self.showingAlert.toggle()
                         }
-                    
-                    LensNameFormView(isShow: $showingNameForm, name: $viewModel.brandName)
-                        .transition(.asymmetric(insertion: .move(edge: .bottom), removal: .move(edge: .top)))
+                    }
+                    .alert("Please enter the name", isPresented: $showingAlert, actions: {
+                        Button("Ok", role: .cancel) {
+                            self.showingAlert.toggle()
+                            self.focusField = .name
+                        }
+                    }, message: {
+                        Text("Please specify the contact lens brand for accurate tracking.")
+                    })
                 }
             }
-            .animation(.interpolatingSpring(stiffness: 200.0, damping: 25.0, initialVelocity: 10.0), value: showingNameForm)
+            .defaultFocus($focusField, .name)
         }
     }
     
@@ -124,22 +145,55 @@ struct LensFormView: View {
     }
 }
 
-enum FocusableField:  Hashable {
+enum FocusableField: Hashable {
+    case name
     case bc
     case dia
     case cylinder
     case axis
     
     var unitDescription: String {
-           switch self {
-           case .bc, .dia:
-               return "mm"
-           case .cylinder:
-               return "D"
-           case .axis:
-               return "°"
-           }
-       }
+        switch self {
+        case .bc, .dia:
+            return "mm"
+        case .cylinder:
+            return "D"
+        case .axis:
+            return "°"
+        case .name:
+            return ""
+        }
+    }
+    
+    mutating func next() {
+        switch self {
+        case .name:
+            break
+        case .bc:
+            self = .dia
+        case .dia:
+            self = .cylinder
+        case .cylinder:
+            self = .axis
+        case .axis:
+            break
+        }
+    }
+    
+    mutating func prev() {
+        switch self {
+        case .name:
+            break
+        case .bc:
+            break
+        case .dia:
+            self = .bc
+        case .cylinder:
+            self = .dia
+        case .axis:
+            self = .cylinder
+        }
+    }
 }
 
 struct PowerPicker: View {
@@ -152,7 +206,7 @@ struct PowerPicker: View {
             }
         }
         .pickerStyle(WheelPickerStyle())
-        .frame(height: 100)
+        .frame(height: 180)
         .padding(.all, -8)
     }
 }
@@ -164,18 +218,17 @@ struct MainSection: View {
     @Binding var eyeSide: EyeSide
     @Binding var initialUseDate: Date
     @Binding var isWearing: Bool
-    @Binding var showingNameForm: Bool
     
     var body: some View {
         Section {
-            LabeledContent("Name") {
-                Button(brandName.isEmpty ? "Set Name" : brandName) {
-                    self.showingNameForm.toggle()
-                    self.focusField = nil
-                }
-                .buttonStyle(.bordered)
-                .controlSize(.small)
-                .tint(Color.teal)
+            LabeledContent("Brand name") {
+                TextField("Required", text: $brandName)
+                    .autocorrectionDisabled(true)
+                    .multilineTextAlignment(.trailing)
+                    .focused($focusField, equals: .name)
+                    .foregroundStyle(.teal)
+                    .submitLabel(.done)
+                    .textFieldStyle(.plain)
             }
             
             Picker("Usage Period", selection: $wearDuration) {
@@ -207,14 +260,28 @@ struct MainSection: View {
 }
 
 struct SphereSection: View {
-    @Binding var sphere: Sphere
+    @State private var sphere: Sphere = Sphere()
     @State private var lastChangedSide: EyeSide = .both
+    @Environment(\.dismiss) private var dismiss
+    private var completion: (Sphere?) -> Void
     
     var body: some View {
-        Section {
+        VStack {
+            HStack(alignment: .top) {
+                Text("Set Sphere")
+                    .font(.system(.title2, design: .rounded, weight: .bold))
+                Spacer()
+                Button(action: {
+                    self.dismiss()
+                }, label: {
+                    Image(systemName: "xmark.circle.fill")
+                        .font(.title2)
+                })
+            }
+            .padding(.bottom)
             HStack {
                 VStack {
-                    Text("Left")
+                    Text("Left Eye")
                         .bold()
                     Divider()
                     PowerPicker(value: $sphere.left)
@@ -254,7 +321,7 @@ struct SphereSection: View {
                 .padding(.top, 44)
                 
                 VStack {
-                    Text("Right")
+                    Text("Right Eye")
                         .bold()
                     Divider()
                     PowerPicker(value: $sphere.right)
@@ -270,21 +337,72 @@ struct SphereSection: View {
                         }
                 }
             }
-        } header: {
-            HStack {
-                Image(systemName: "eyes")
-                Text("Sphere")
+            
+            Button(action: {
+                if self.sphere.left == 0.0, self.sphere.isSame {
+                    self.completion(nil)
+                } else {
+                    self.completion(self.sphere)
+                }
+                self.dismiss()
+            }, label: {
+                Text("Save")
+                    .font(.headline)
+                    .frame(minWidth: 0, maxWidth: .infinity)
+                    .padding()
+                    .foregroundStyle(.white)
+                    .background(.teal)
+                    .cornerRadius(10)
+            })
+            .padding(.bottom)
+            
+            Button("Reset") {
+                withAnimation {
+                    self.sphere.left = 0.0
+                    self.sphere.right = 0.0
+                }
+                
+                self.completion(nil)
             }
-        }
+            .buttonStyle(.plain)
+            .foregroundStyle(.red)
+        }.padding()
+    }
+    
+    init(sphere: Sphere? = nil, _ completion: @escaping (Sphere?) -> Void) {
+        self.completion = completion
+        self.sphere.left = sphere?.left ?? 0.0
+        self.sphere.right = sphere?.right ?? 0.0
+        self.sphere.proportional = sphere?.proportional ?? false
     }
 }
 
 struct DetailSection: View {
     @Binding var detail: LensDetail
+    @Binding var sphere: Sphere?
     @FocusState var focusField: FocusableField?
+    @Binding var showingSphereSection: Bool
+    
+    private var sphereDesc: String {
+        guard let sphere else { return "" }
+        if sphere.isSame {
+            return "Both: \(sphere.left)"
+        } else {
+            return "Left: \(sphere.left) | Right: \(sphere.right)"
+        }
+    }
     
     var body: some View {
         Section {
+            LabeledContent("Sphere(PWR)") {
+                Button(sphere != nil ? sphereDesc : "Set Sphere") {
+                    self.showingSphereSection.toggle()
+                }
+                .buttonStyle(.bordered)
+                .controlSize(.small)
+                .tint(Color.teal)
+            }
+            
             DetailRow(
                 name: "Base Curve(BC)",
                 predication: "8.0 - 9.5",
@@ -314,11 +432,11 @@ struct DetailSection: View {
                 focusValue: .axis
             )
         } header: {
-             HStack {
-                 Image(systemName: "slider.horizontal.3")
-                 Text("Details (Optional)")
-             }
-         }
+            HStack {
+                Image(systemName: "slider.horizontal.3")
+                Text("Details (Optional)")
+            }
+        }
     }
 }
 
@@ -329,9 +447,7 @@ struct DetailRow: View {
     @FocusState var focusField: FocusableField?
     var focusValue: FocusableField
     var body: some View {
-        HStack {
-            Text(name)
-            Spacer()
+        LabeledContent(name) {
             HStack(spacing: 4) {
                 TextField(predication, text: $value)
                     .focused($focusField, equals: focusValue)
@@ -368,5 +484,9 @@ struct DetailRow: View {
 
 #Preview("Changeable", body: {
     return LensFormView(lensItem: .constant(SampleData.content[1]), status: .changeable)
+})
+
+#Preview("Sphere Section", body: {
+    return SphereSection() { _ in }
 })
 

@@ -17,7 +17,7 @@ final class LensFormViewModel {
     var wearDuration: WearDuration = .monthly
     var eyeSide: EyeSide = .both
     var initialUseDate: Date = Date.now.startOfDay
-    var sphere: Sphere = Sphere()
+    var sphere: Sphere? = nil
     var detail: LensDetail = LensDetail()
     var isWearing: Bool = false
     
@@ -72,7 +72,7 @@ final class LensFormViewModel {
             self.initialUseDate = lensItem?.startDate ?? dateByStartOfDay
         }
         
-        self.sphere = lensItem?.sphere ?? Sphere()
+        self.sphere = lensItem?.sphere 
         self.detail = lensItem?.detail ?? LensDetail()
         self.isWearing = lensItem?.isWearing ?? false
         self.status = status

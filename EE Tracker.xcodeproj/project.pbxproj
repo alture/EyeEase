@@ -45,6 +45,7 @@
 		B7E394152B98A94000113138 /* Date+formatDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E394142B98A94000113138 /* Date+formatDate.swift */; };
 		B7E394172B98FFC900113138 /* CustomTimelineSchedules.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E394162B98FFC900113138 /* CustomTimelineSchedules.swift */; };
 		B7E3941B2B990C2900113138 /* AppStorageKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E3941A2B990C2900113138 /* AppStorageKeys.swift */; };
+		B7F555862BA160550069D38E /* PreferenceKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F555852BA160550069D38E /* PreferenceKeys.swift */; };
 		B7FC52412B36713D009BA759 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B7FC52402B36713D009BA759 /* Launch Screen.storyboard */; };
 /* End PBXBuildFile section */
 
@@ -104,6 +105,7 @@
 		B7E394142B98A94000113138 /* Date+formatDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+formatDate.swift"; sourceTree = "<group>"; };
 		B7E394162B98FFC900113138 /* CustomTimelineSchedules.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTimelineSchedules.swift; sourceTree = "<group>"; };
 		B7E3941A2B990C2900113138 /* AppStorageKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStorageKeys.swift; sourceTree = "<group>"; };
+		B7F555852BA160550069D38E /* PreferenceKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferenceKeys.swift; sourceTree = "<group>"; };
 		B7FC523F2B366E32009BA759 /* EE-Tracker-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "EE-Tracker-Info.plist"; sourceTree = SOURCE_ROOT; };
 		B7FC52402B36713D009BA759 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = "Launch Screen.storyboard"; path = "EE Tracker/Preview Content/Launch Screen.storyboard"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
@@ -253,6 +255,7 @@
 				B7E32DC12B26523D00CA0729 /* AppVersionProvider.swift */,
 				B760DC5C2B959BAB00C2C025 /* AppAppearance.swift */,
 				B7E3941A2B990C2900113138 /* AppStorageKeys.swift */,
+				B7F555852BA160550069D38E /* PreferenceKeys.swift */,
 			);
 			path = Support;
 			sourceTree = "<group>";
@@ -348,6 +351,7 @@
 				B73FA0532B5BC20600BCD9A4 /* LensDetailView.swift in Sources */,
 				B7E394152B98A94000113138 /* Date+formatDate.swift in Sources */,
 				B7E32DA02B26058500CA0729 /* PreviewSampleData.swift in Sources */,
+				B7F555862BA160550069D38E /* PreferenceKeys.swift in Sources */,
 				B70D06E82B9FF1AF004E9092 /* SubscriptionShopView.swift in Sources */,
 				B7E075532B1D0FF2001ABFE4 /* SettingsView.swift in Sources */,
 				B7E32DA42B2629A800CA0729 /* LensTrackingTimelineView.swift in Sources */,

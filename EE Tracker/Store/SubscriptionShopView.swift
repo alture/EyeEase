@@ -39,7 +39,7 @@ struct SubscriptionShopContent: View {
                     .multilineTextAlignment(.center)
 
             }
-            .padding(.bottom)
+            .padding(.bottom, 20)
             
             ForEach(SubscriptionShopFeature.allCases) { feature in
                 SubscriptionShopFeatureRow(feature: feature)
@@ -71,9 +71,9 @@ enum SubscriptionShopFeature: CaseIterable, Identifiable {
         case .reminder:
             return "Stay on track with timely reminders."
         case .detailSection:
-            return "Add lens specifications such as Base Curve, Axis etc."
+            return "Add lens specifications such as Sphere, Base Curve, Axis etc."
         case .moreThanOne:
-            return "Manage and track multiple lenses ease."
+            return "Manage and track multiple lenses"
         }
     }
     
