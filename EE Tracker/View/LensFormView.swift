@@ -171,6 +171,7 @@ struct MainSection: View {
             LabeledContent("Name") {
                 Button(brandName.isEmpty ? "Set Name" : brandName) {
                     self.showingNameForm.toggle()
+                    self.focusField = nil
                 }
                 .buttonStyle(.bordered)
                 .controlSize(.small)

@@ -108,14 +108,14 @@ final class NotificationManager: ObservableObject {
         if let dayBeforeChangeDate = calendar.date(byAdding: .day, value: -1, to: item.changeDate),
            calendar.isDate(referenceDate, inSameDayAs: dayBeforeChangeDate) {
             content.title = "Prepare New Lenses"
-            content.body = "Replace your \"\(item.name)\" \(lensLabel) by tomorrow"
+            content.body = "Replace your \"\(item.name)\" \(lensLabel) by tomorrow."
         } else if calendar.isDate(referenceDate, inSameDayAs: item.changeDate) {
             content.title = "Time for a Сhange!"
-            content.body = "Your \"\(item.name)\" \(lensLabel) has expired"
+            content.body = "Your \"\(item.name)\" \(lensLabel) has expired."
         } else {
             let verbForm = lensLabel == "lens" ? "needs" : "need"
             content.title = "Prepare New Lenses"
-            content.body = "Your \"\(item.name)\" \(lensLabel) \(verbForm) replacing on \(item.changeDate.formattedDate())"
+            content.body = "Your \"\(item.name)\" \(lensLabel) \(verbForm) replacing on \(item.changeDate.formattedDate())."
         }
 
         content.sound = UNNotificationSound.default

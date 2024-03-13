@@ -15,76 +15,125 @@ struct SubscriptionShopView: View {
             SubscriptionShopContent()
         }
         .storeButton(.visible, for: .redeemCode)
+        .tint(Color.teal)
     }
 }
 
 struct SubscriptionShopContent: View {
     var body: some View {
-        VStack(spacing: 40.0) {
+        VStack {
             Image("Logo")
                 .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: 100)
-            VStack(spacing: 8.0) {
+                .scaledToFit()
+                .frame(width: 80, height: 80)
+                .padding(.top)
+            
+            VStack(spacing: 6.0) {
                 Text("Eye Ease+")
                     .font(.system(.largeTitle, design: .rounded, weight: .bold))
                 
-                Text("Subscription to unlock all features, like push-notification, lens detail section and iCloud sync.")
-                    .fixedSize(horizontal: false, vertical: true)
+                Text("Upgrate to plus for access all features.")
                     .font(.subheadline)
                     .foregroundStyle(.gray)
                     .padding(.horizontal)
                     .multilineTextAlignment(.center)
+
             }
+            .padding(.bottom)
+            
+            ForEach(SubscriptionShopFeature.allCases) { feature in
+                SubscriptionShopFeatureRow(feature: feature)
+            }
+            
+            Spacer()
         }
     }
 }
 
-//struct SubscriptionShopRow: View {
-//    
-//    var body: some View {
-//        
-//    }
-//}
+enum SubscriptionShopFeature: CaseIterable, Identifiable {
+    case reminder
+    case detailSection
+    case moreThanOne
+    
+    var title: String {
+        switch self {
+        case .reminder:
+            return "Push Notifications"
+        case .detailSection:
+            return "Lens Detail"
+        case .moreThanOne:
+            return "Multiple Lenses"
+        }
+    }
+    
+    var subtitle: String {
+        switch self {
+        case .reminder:
+            return "Stay on track with timely reminders."
+        case .detailSection:
+            return "Add lens specifications such as Base Curve, Axis etc."
+        case .moreThanOne:
+            return "Manage and track multiple lenses ease."
+        }
+    }
+    
+    var icon: Image {
+        switch self {
+        case .reminder:
+            return Image(systemName: "bell.square.fill")
+                .symbolRenderingMode(.palette)
+        case .detailSection:
+            return Image(systemName: "slider.horizontal.2.square")
+                .symbolRenderingMode(.palette)
+        case .moreThanOne:
+            return Image(systemName: "plus.square.fill.on.square.fill")
+                .symbolRenderingMode(.palette)
+        }
+    }
+    
+    var accentColor: (Color, Color) {
+        switch self {
+        case .reminder:
+            return (.white, .orange)
+        case .detailSection:
+            return (.green, .green)
+        case .moreThanOne:
+            return (.white, .blue)
+        }
+    }
+    
+    var id: Self {
+        return self
+    }
+}
 
-//struct SubscriptionShopContent: View {
-//    var body: some View {
-//        VStack {
-//            image
-//            VStack(spacing: 3) {
-//                title
-//                desctiption
-//            }
-//        }
-//        .padding(.vertical)
-//        .padding(.top, 40)
-//    }
-//}
-//​
-//extension SubscriptionShopContent {
-//    @ViewBuilder
-//    var image: some View {
-//        Image("movie")
-//            .resizable()
-//            .aspectRatio(contentMode: .fit)
-//            .frame(width: 100)
-//
-//    }
-//    @ViewBuilder
-//    var title: some View {
-//        Text("Flower Movie+")
-//            .font(.largeTitle.bold())
-//    }
-//    @ViewBuilder
-//    var desctiption: some View {
-//        Text("Subscription to unlock all streaming videos, enjoy Blu-ray 4K quality, and watch offline.")
-//            .fixedSize(horizontal: false, vertical: true)
-//            .font(.title3.weight(.medium))
-//            .padding([.bottom, .horizontal])
-//            .foregroundStyle(.gray)
-//            .multilineTextAlignment(.center)
-//    }
-//}
+struct SubscriptionShopFeatureRow: View {
+    let feature: SubscriptionShopFeature
+    
+    var body: some View {
+        HStack(alignment: .top, spacing: 16.0) {
+            feature.icon
+                .resizable()
+                .scaledToFit()
+                .foregroundStyle(feature.accentColor.0, feature.accentColor.1)
+                .frame(width: 25, height: 25)
+            
+            VStack(alignment: .leading, spacing: 4.0) {
+                Text(feature.title)
+                    .font(.system(.headline, design: .rounded, weight: .bold))
+                Text(feature.subtitle)
+                    .font(.system(.subheadline))
+                    .foregroundStyle(Color.gray)
+                    .multilineTextAlignment(.leading)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+            
+            Spacer(minLength: 0)
+        }
+        .padding(.horizontal)
+        .padding(.bottom, 8.0)
+    }
+}
 
 #Preview {
     SubscriptionShopView()

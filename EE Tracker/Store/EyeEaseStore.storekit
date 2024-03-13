@@ -91,7 +91,7 @@
           ],
           "displayPrice" : "1.99",
           "familyShareable" : false,
-          "groupNumber" : 1,
+          "groupNumber" : 2,
           "internalID" : "549565CA",
           "introductoryOffer" : null,
           "localizations" : [
@@ -116,7 +116,7 @@
           ],
           "displayPrice" : "18.99",
           "familyShareable" : false,
-          "groupNumber" : 2,
+          "groupNumber" : 1,
           "internalID" : "F5E22ECC",
           "introductoryOffer" : {
             "internalID" : "30BE16D0",
