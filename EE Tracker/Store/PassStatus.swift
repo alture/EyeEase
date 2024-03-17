@@ -20,37 +20,78 @@ enum PassStatus: Comparable, Hashable {
         default:         return nil
         }
     }
-    
+}
+
+extension PassStatus: CustomStringConvertible {
     var description: String {
         switch self {
         case .notSubscribed:
-            "Upgrate to Pro"
+            String(localized: "Not subscribed")
         case .monthly:
-            "Monthly"
+            String(localized: "Monthly")
         case .yearly:
-            "Yearly"
+            String(localized: "Yearly")
         }
     }
 }
 
-struct PassIdentifiers {
-    var group: String
-    
-    var montly: String
-    var yearly: String
-}
-
 extension EnvironmentValues {
-    private enum PassIDsKey: EnvironmentKey {
-        static var defaultValue = PassIdentifiers(
-            group: "D24CF096",
-            montly: "pass.monthly",
-            yearly: "pass.yearly"
-        )
+    private enum PassStatusEnvironmentKey: EnvironmentKey {
+        static var defaultValue: PassStatus = .notSubscribed
     }
     
-    var passIDs: PassIdentifiers {
-        get { self[PassIDsKey.self] }
-        set { self[PassIDsKey.self] = newValue}
+    private enum PassStatusLoadingEnvironmentKey: EnvironmentKey {
+        static var defaultValue = true
+    }
+    
+    fileprivate(set) var passStatus: PassStatus {
+        get { self[PassStatusEnvironmentKey.self] }
+        set { self[PassStatusEnvironmentKey.self] = newValue }
+    }
+    
+    fileprivate(set) var passStatusIsLoading: Bool {
+        get { self[PassStatusLoadingEnvironmentKey.self] }
+        set { self[PassStatusLoadingEnvironmentKey.self] = newValue}
+    }
+}
+
+private struct PassStatusTaskModifier: ViewModifier {
+    @Environment(\.passIDs) private var passIDs
+    
+    @State private var state: EntitlementTaskState<PassStatus> = .loading
+    
+    private var isLoading: Bool {
+        if case .loading = state { true } else { false }
+    }
+    
+    func body(content: Content) -> some View {
+        content
+            .subscriptionStatusTask(for: passIDs.group) { state in
+                guard let passManager = PassManager.shared else { fatalError("PassManager was nil.") }
+                
+                self.state = await state.map { @Sendable [passIDs] statuses in
+                    await passManager.status(
+                        for: statuses,
+                        ids: passIDs
+                    )
+                }
+                
+                switch self.state {
+                case .failure(let error):
+                    print("Failed to check subscriptionm status: \(error)")
+                case .success(let status):
+                    print("Providing updated status: \(status)")
+                case .loading: break
+                @unknown default: break
+                }
+            }
+            .environment(\.passStatus, state.value ?? .notSubscribed)
+            .environment(\.passStatusIsLoading, isLoading)
+    }
+}
+
+extension View {
+    func subscriptionPassStatusTask() -> some View {
+        modifier(PassStatusTaskModifier())
     }
 }

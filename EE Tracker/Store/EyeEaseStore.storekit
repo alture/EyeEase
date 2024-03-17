@@ -50,7 +50,10 @@
         "name" : "Subscription Status"
       },
       {
-        "current" : null,
+        "current" : {
+          "index" : 3,
+          "type" : "generic"
+        },
         "enabled" : false,
         "name" : "App Transaction"
       },
@@ -60,7 +63,10 @@
         "name" : "Manage Subscriptions Sheet"
       },
       {
-        "current" : null,
+        "current" : {
+          "index" : 0,
+          "type" : "refund request"
+        },
         "enabled" : false,
         "name" : "Refund Request Sheet"
       },
@@ -72,7 +78,8 @@
         "enabled" : false,
         "name" : "Offer Code Redeem Sheet"
       }
-    ]
+    ],
+    "_timeRate" : 0
   },
   "subscriptionGroups" : [
     {
@@ -91,7 +98,7 @@
           ],
           "displayPrice" : "1.99",
           "familyShareable" : false,
-          "groupNumber" : 2,
+          "groupNumber" : 1,
           "internalID" : "549565CA",
           "introductoryOffer" : null,
           "localizations" : [
@@ -103,7 +110,7 @@
           ],
           "productID" : "pass.monthly",
           "recurringSubscriptionPeriod" : "P1M",
-          "referenceName" : "Eye Ease+ (Monthly)",
+          "referenceName" : "Monthly",
           "subscriptionGroupID" : "D24CF096",
           "type" : "RecurringSubscription"
         },
@@ -114,26 +121,21 @@
           "codeOffers" : [
 
           ],
-          "displayPrice" : "18.99",
+          "displayPrice" : "0.99",
           "familyShareable" : false,
-          "groupNumber" : 1,
-          "internalID" : "F5E22ECC",
-          "introductoryOffer" : {
-            "displayPrice" : "0.99",
-            "internalID" : "30BE16D0",
-            "paymentMode" : "free",
-            "subscriptionPeriod" : "P1W"
-          },
+          "groupNumber" : 2,
+          "internalID" : "BD81DF13",
+          "introductoryOffer" : null,
           "localizations" : [
             {
-              "description" : "Best value. Sale 52%",
+              "description" : "Best Offer",
               "displayName" : "Yearly Access",
               "locale" : "en_US"
             }
           ],
           "productID" : "pass.yearly",
           "recurringSubscriptionPeriod" : "P1Y",
-          "referenceName" : "Eye Ease+ (Yearly)",
+          "referenceName" : "Yearly",
           "subscriptionGroupID" : "D24CF096",
           "type" : "RecurringSubscription"
         }

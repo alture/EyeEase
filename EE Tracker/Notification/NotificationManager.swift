@@ -6,7 +6,6 @@
 //
 
 import UserNotifications
-import Observation
 import UIKit
 import Combine
 import SwiftUI

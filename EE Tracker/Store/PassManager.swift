@@ -1,23 +1,19 @@
 //
-//  ProductSubscription.swift
+//  PassManager.swift
 //  EE Tracker
 //
 //  Created by Alisher Altore on 12.03.2024.
 //
 
-import OSLog
 import StoreKit
 
-actor ProductSubscription {
-    private let logger = Logger(
-        subsystem: "Meet SubscriptionView",
-        category: "Product Subscription"
-    )
+actor PassManager {
     private init() {}
-    private(set) static var shared: ProductSubscription!
+    private(set) static var shared: PassManager!
+    private var updatesTask: Task<Void, Never>?
     
     static func createSharedInstance() {
-        shared = ProductSubscription()
+        shared = PassManager()
     }
     
     func status(for statuses: [Product.SubscriptionInfo.Status], ids: PassIdentifiers) -> PassStatus {
@@ -60,28 +56,13 @@ actor ProductSubscription {
        }
 }
 
-extension ProductSubscription {
+extension PassManager {
     func process(transaction verificationResult: VerificationResult<Transaction>) async {
-        do {
-            let unsafeTransaction = verificationResult.unsafePayloadValue
-            logger.log("""
-            Processing transaction ID \(unsafeTransaction.id) for \
-            \(unsafeTransaction.productID)
-            """)
-        }
-        
         let transaction: Transaction
         switch verificationResult {
         case .verified(let t):
-            logger.debug("""
-            Transaction ID \(t.id) for \(t.productID) is verified
-            """)
             transaction = t
-        case .unverified(let t, let error):
-            // Log failure and ignore unverified transactions
-            logger.error("""
-            Transaction ID \(t.id) for \(t.productID) is unverified: \(error)
-            """)
+        case .unverified:
             return
         }
         
@@ -97,8 +78,12 @@ extension ProductSubscription {
     }
     
     func observeTransactionUpdates() async {
-        for await update in Transaction.updates {
-            await self.process(transaction: update)
+        self.updatesTask = Task { [weak self] in
+            for await update in Transaction.updates {
+                guard let self else { break }
+                
+                await self.process(transaction: update)
+            }
         }
     }
 }

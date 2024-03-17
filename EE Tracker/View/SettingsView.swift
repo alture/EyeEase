@@ -9,13 +9,19 @@ import SwiftUI
 import StoreKit
 
 enum ReminderDays: Int, Identifiable, CustomStringConvertible, CaseIterable {
-    case one = 1
-    case three = 3
-    case five = 5
-    case seven = 7
+    case none = 0
+    case one
+    case two
+    case three
+    case four
+    case five
+    case six
+    case seven
     
     var description: String {
         switch self {
+        case .none:
+            return "None"
         case .one:
             return "\(self.rawValue) day before"
         default:
@@ -31,18 +37,25 @@ enum ReminderDays: Int, Identifiable, CustomStringConvertible, CaseIterable {
 struct SettingsView: View {
     @Environment(\.dismiss) var dismiss
     @Environment(\.requestReview) var requestReview
-    @Binding var passStatus: PassStatus
+    
+    @Environment(\.passStatus) private var passStatus
+    @Environment(\.passIDs.group) private var passGroupID
+    
+    @EnvironmentObject private var notificationManager: NotificationManager
+    
+    private var hasPass: Bool {
+        if case .notSubscribed = passStatus { false } else { true }
+    }
+    
     @AppStorage(AppStorageKeys.appAppearance) var appAppearance: AppAppearance = .system
     
-    @ObservedObject var notificationManager: NotificationManager
     @State private var pushNotificationAllowed: Bool = false
-    @Binding var showingSubscription: Bool
-    
-    var isSubscribed: Bool = false
+    @State private var presentingPassSheet: Bool = false
+    @State private var presentingManagePassSheet = false
     
     var body: some View {
         NavigationStack {
-            if !pushNotificationAllowed && !(passStatus == .notSubscribed) {
+            if !pushNotificationAllowed && hasPass {
                 GroupBox(label:
                     Label("Notifications are disabled", systemImage: "info.circle")
                 ) {
@@ -57,48 +70,36 @@ struct SettingsView: View {
             Form {
                 Section(header: Text("Account")) {
                     Button {
-                        self.dismiss()
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                            self.showingSubscription.toggle()
+                        if hasPass {
+                            self.presentingManagePassSheet = true
+                        } else {
+                            self.presentingPassSheet = true
                         }
                     } label: {
                         HStack {
                             Image(systemName: "plus.square")
                             
-                            Group {
-                                if passStatus == .notSubscribed {
-                                    Text("Upgrate to Plus")
-                                } else {
-                                    Text("Eye Ease+")
-                                    Spacer()
-                                    Text("\(passStatus.description) plan")
-                                        .foregroundStyle(.gray)
-                                }
+                            if hasPass {
+                                Text("Eye Ease+")
+                            } else {
+                                Text("Upgrate to Plus")
+                            }
+                            
+                            Spacer()
+                            if hasPass {
+                                Text("\(passStatus.description) plan")
+                                    .foregroundStyle(.gray)
                             }
                         }
                     }
-                    .foregroundStyle(passStatus == .notSubscribed ? .teal : .primary)
+                    .foregroundStyle(hasPass ? Color.primary : Color.teal)
                     
-                    Button {
-                        Task {
-                            do {
-                                try await AppStore.sync()
-                            } catch {
-                                print(error)
-                            }
-                        }
-                    } label: {
-                        HStack {
-                            Image(systemName: "gobackward")
-                            Text("Restore Purchases")
-                        }
-                    }
-                    .foregroundStyle(Color.primary)
+                    RestorePurchasesButton()
                 }
                 
                 Section(
                     header: Text("Application"),
-                    footer: Text("Set reminder days before lens replacement")
+                    footer: Text("Set reminder days before lens replacement. Available on Plus")
                 ) {
                     LabeledContent {
                         Group {
@@ -137,7 +138,7 @@ struct SettingsView: View {
                             Text("Appearance")
                         }
                     }
-                    
+
                     Picker(selection: $notificationManager.reminderDays) {
                         ForEach(ReminderDays.allCases) { day in
                             Text(day.description)
@@ -149,6 +150,7 @@ struct SettingsView: View {
                             Text("Reminder")
                         }
                     }
+                    .disabled(!hasPass)
                 }
                 
                 if
@@ -208,6 +210,10 @@ struct SettingsView: View {
                         }
                 }
             })
+            .sheet(isPresented: $presentingPassSheet, content: {
+                SubscriptionShopView()
+            })
+            .manageSubscriptionsSheet(isPresented: $presentingManagePassSheet, subscriptionGroupID: passGroupID)
             .tint(Color.teal)
             .navigationTitle("Settings")
             .toolbarTitleDisplayMode(.inline)
@@ -234,9 +240,6 @@ struct SettingsView: View {
 }
 
 #Preview {
-    SettingsView(
-        passStatus: .constant(.notSubscribed),
-        notificationManager: NotificationManager(),
-        showingSubscription: .constant(true)
-    )
+    SettingsView()
+        .environmentObject(NotificationManager())
 }

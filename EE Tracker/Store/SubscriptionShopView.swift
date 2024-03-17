@@ -9,34 +9,56 @@ import SwiftUI
 import StoreKit
 
 struct SubscriptionShopView: View {
+    @Environment(\.dismiss) private var dismiss
     @Environment(\.passIDs.group) private var passGroupID
+    @Environment(\.passStatus) private var passStatus
+    
     var body: some View {
         SubscriptionStoreView(groupID: passGroupID) {
             SubscriptionShopContent()
         }
+        .onInAppPurchaseCompletion(perform: { _, result in
+            switch result {
+            case .success(_):
+                self.dismiss()
+            case .failure(let error):
+                print("Can't complete purchase: \(error)")
+            }
+        })
         .storeButton(.visible, for: .redeemCode)
         .tint(Color.teal)
     }
 }
 
 struct SubscriptionShopContent: View {
+    @Environment(\.passStatus) private var passStatus
+
     var body: some View {
         VStack {
-            Image("Logo")
-                .resizable()
-                .scaledToFit()
-                .frame(width: 80, height: 80)
+            Image(systemName: "crown.fill")
+                .foregroundStyle(Color.teal)
+                .font(.largeTitle)
                 .padding(.top)
+                .padding(.bottom, 2.0)
             
             VStack(spacing: 6.0) {
                 Text("Eye Ease+")
                     .font(.system(.largeTitle, design: .rounded, weight: .bold))
                 
-                Text("Upgrate to plus for access all features.")
-                    .font(.subheadline)
-                    .foregroundStyle(.gray)
-                    .padding(.horizontal)
-                    .multilineTextAlignment(.center)
+                Group {
+                    if passStatus == .notSubscribed {
+                        Text("Upgrate to plus for access all features.")
+                            .padding(.horizontal)
+                            .multilineTextAlignment(.center)
+                    } else {
+                        Text(passStatus.description)
+                            .padding(.horizontal)
+                            .padding(.vertical, 5)
+                            .overlay(.gray, in: .capsule.stroke())
+                    }
+                }
+                .font(.subheadline)
+                .foregroundStyle(.gray)
 
             }
             .padding(.bottom, 20)

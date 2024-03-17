@@ -15,7 +15,7 @@ final class LensDashboardViewModel {
     var selectedLensItem: LensItem? = nil
     var sortOrder: LensSortOrder = .oldestFirst
     
-    var notificationManager = NotificationManager()
+    var notificationManager: NotificationManager
     
     var showingSettings: Bool = false
     var showingConfirmation: Bool = false
@@ -39,8 +39,9 @@ final class LensDashboardViewModel {
     @ObservationIgnored
     private var cancellables = Set<AnyCancellable>()
     
-    init(modelContext: ModelContext) {
+    init(modelContext: ModelContext, notificationManager: NotificationManager) {
         self.modelContext = modelContext
+        self.notificationManager = notificationManager
         self.fetchData()
         self.setupNotificationStatusObserver()
         self.setupNotificationRemainderDaysObserver()
@@ -69,16 +70,56 @@ final class LensDashboardViewModel {
         }
     }
     
+    func addItem(_ item: LensItem) {
+        withAnimation {
+            modelContext.insert(item)
+            selectedLensItem = item
+            fetchData()
+        }
+        
+        notificationManager.scheduleNotificationIfNeeded(for: item)
+    }
+    
     func deleteItem(_ item: LensItem) {
         selectedLensItem = nil
         withAnimation {
             modelContext.delete(item)
             fetchData()
         }
+        
         notificationManager.cancelNotification(for: item.id.uuidString)
     }
     
-    func reloadAuthorizationSatus() {
+    func updateSelectedLens(by item: LensItem) {
+        selectedLensItem?.name = item.name
+        selectedLensItem?.eyeSide = item.eyeSide
+        selectedLensItem?.wearDuration = item.wearDuration
+        selectedLensItem?.startDate = item.startDate
+        selectedLensItem?.changeDate = item.changeDate
+        selectedLensItem?.usedNumber = item.usedNumber
+        selectedLensItem?.sphere = item.sphere
+        selectedLensItem?.detail = item.detail
+//        if let sphere = item.sphere, selectedLensItem?.sphere != nil {
+//            selectedLensItem?.sphere?.left = sphere.left
+//            selectedLensItem?.sphere?.right = sphere.right
+//            selectedLensItem?.sphere?.proportional = sphere.proportional
+//        }
+//        
+//        if let detail = item.detail, selectedLensItem?.detail != nil  {
+//            selectedLensItem?.detail?.baseCurve = detail.baseCurve
+//            selectedLensItem?.detail?.axis = detail.axis
+//            selectedLensItem?.detail?.cylinder = detail.cylinder
+//            selectedLensItem?.detail?.dia = detail.dia
+//        }
+        
+        if let selectedLensItem {
+            notificationManager.updateNotifications(for: selectedLensItem)
+        }
+        
+//        fetchData()
+    }
+    
+    func reloadAuthorizationStatus() {
         notificationManager.reloadAuthorizationSatus()
     }
     

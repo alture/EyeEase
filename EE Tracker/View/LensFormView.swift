@@ -15,14 +15,21 @@ struct LensFormView: View {
     @Environment(\.dismiss) var dismiss
     
     @Bindable private var viewModel: LensFormViewModel
-    @Binding private var lensItem: LensItem?
+    private var lensItem: LensItem
     @State private var showingAlert = false
+    @State private var defaultLensItem: LensItem?
     @State private var showingSphereSection: Bool = false
     @State private var sheetHeight: CGFloat = .zero
+    private var didClose: (LensItem) -> Void
     
-    init(lensItem: Binding<LensItem?> = .constant(nil), status: LensFormViewModel.Status) {
-        self._lensItem = lensItem
-        self.viewModel = LensFormViewModel(lensItem: lensItem.wrappedValue, status: status)
+    init(
+        lensItem: LensItem = LensItem(),
+        status: LensFormViewModel.Status,
+        _ didClose: @escaping (LensItem) -> Void
+    ) {
+        self.lensItem = lensItem
+        self.viewModel = LensFormViewModel(lensItem: lensItem, status: status)
+        self.didClose = didClose
     }
     
     var body: some View {
@@ -44,7 +51,7 @@ struct LensFormView: View {
                     showingSphereSection: $showingSphereSection
                 )
             }
-            .navigationTitle(lensItem?.name ?? "New Lense")
+            .navigationTitle("Edit")
             .navigationBarTitleDisplayMode(.inline)
             .defaultFocus($focusField, .bc)
             .onChange(of: showingSphereSection, { oldValue, newValue in
@@ -70,22 +77,18 @@ struct LensFormView: View {
                 if focusField != .name {
                     ToolbarItem(placement: .keyboard) {
                         HStack {
-                            Spacer()
-                            
-                            
-                            // Prev
                             Button("", systemImage: "chevron.up") {
                                 self.focusField?.prev()
                             }
                             .disabled(self.focusField == .bc)
                             
-                            // Next
                             Button("", systemImage: "chevron.down") {
                                 self.focusField?.next()
                             }
                             .disabled(self.focusField == .axis)
                             
-                            // Close keyboard
+                            Spacer()
+                            
                             Button("", systemImage: "keyboard.chevron.compact.down") {
                                 self.focusField = nil
                             }
@@ -117,31 +120,16 @@ struct LensFormView: View {
     }
     
     private func save() {
-        if lensItem != nil {
-            lensItem?.name = viewModel.brandName
-            lensItem?.eyeSide = viewModel.eyeSide
-            lensItem?.wearDuration = viewModel.wearDuration
-            lensItem?.startDate = viewModel.initialUseDate
-            lensItem?.sphere = viewModel.sphere
-            lensItem?.isWearing = viewModel.isWearing
-            lensItem?.detail = viewModel.detail
-            lensItem?.changeDate = viewModel.changeDate
-            
-            viewModel.createNotification(by: lensItem)
-        } else {
-            let newLensItem = LensItem(
-                name: viewModel.brandName,
-                eyeSide: viewModel.eyeSide,
-                wearDuration: viewModel.wearDuration,
-                startDate: viewModel.initialUseDate,
-                sphere: viewModel.sphere,
-                isWearing: viewModel.isWearing,
-                detail: viewModel.detail
-            )
-            
-            modelContext.insert(newLensItem)
-            viewModel.createNotification(by: newLensItem)
-        }
+        lensItem.name = viewModel.brandName
+        lensItem.eyeSide = viewModel.eyeSide
+        lensItem.wearDuration = viewModel.wearDuration
+        lensItem.startDate = viewModel.initialUseDate
+        lensItem.sphere = viewModel.sphere
+        lensItem.isWearing = viewModel.isWearing
+        lensItem.detail = viewModel.detail
+        lensItem.changeDate = viewModel.changeDate
+        
+        didClose(lensItem)
     }
 }
 
@@ -381,6 +369,8 @@ struct DetailSection: View {
     @Binding var detail: LensDetail
     @Binding var sphere: Sphere?
     @FocusState var focusField: FocusableField?
+    @Environment(\.passStatus) private var passStatus
+    @State private var presentingPassSheet: Bool = false
     @Binding var showingSphereSection: Bool
     
     private var sphereDesc: String {
@@ -394,49 +384,69 @@ struct DetailSection: View {
     
     var body: some View {
         Section {
-            LabeledContent("Sphere(PWR)") {
-                Button(sphere != nil ? sphereDesc : "Set Sphere") {
-                    self.showingSphereSection.toggle()
+            Group {
+                LabeledContent("Sphere(PWR)") {
+                    Button(sphere != nil ? sphereDesc : "Set Sphere") {
+                        self.showingSphereSection.toggle()
+                    }
+                    .buttonStyle(.bordered)
+                    .controlSize(.small)
+                    .tint(Color.teal)
                 }
-                .buttonStyle(.bordered)
-                .controlSize(.small)
-                .tint(Color.teal)
+                
+                DetailRow(
+                    name: "Base Curve(BC)",
+                    predication: "8.0 - 9.5",
+                    value: $detail.baseCurve,
+                    focusField: _focusField,
+                    focusValue: .bc
+                )
+                DetailRow(
+                    name: "Diameter(DIA)",
+                    predication: "13.0 - 14.5",
+                    value: $detail.dia,
+                    focusField: _focusField,
+                    focusValue: .dia
+                )
+                DetailRow(
+                    name: "Cylinder (CYL)",
+                    predication: "-0.75 to -2.75",
+                    value: $detail.cylinder,
+                    focusField: _focusField,
+                    focusValue: .cylinder
+                )
+                DetailRow(
+                    name: "Axis Orientation",
+                    predication: "0 - 180",
+                    value: $detail.axis,
+                    focusField: _focusField,
+                    focusValue: .axis
+                )
             }
-            
-            DetailRow(
-                name: "Base Curve(BC)",
-                predication: "8.0 - 9.5",
-                value: $detail.baseCurve,
-                focusField: _focusField,
-                focusValue: .bc
-            )
-            DetailRow(
-                name: "Diameter(DIA)",
-                predication: "13.0 - 14.5",
-                value: $detail.dia,
-                focusField: _focusField,
-                focusValue: .dia
-            )
-            DetailRow(
-                name: "Cylinder (CYL)",
-                predication: "-0.75 to -2.75",
-                value: $detail.cylinder,
-                focusField: _focusField,
-                focusValue: .cylinder
-            )
-            DetailRow(
-                name: "Axis Orientation",
-                predication: "0 - 180",
-                value: $detail.axis,
-                focusField: _focusField,
-                focusValue: .axis
-            )
+            .visualEffect { content, geometry in
+                return content.blur(radius: passStatus == .notSubscribed ? 2 : 0)
+            }
+            .disabled(.notSubscribed == passStatus)
         } header: {
-            HStack {
+            HStack(alignment: .bottom) {
                 Image(systemName: "slider.horizontal.3")
-                Text("Details (Optional)")
+                Text("Details")
+                
+                Spacer()
+                
+                if passStatus == .notSubscribed {
+                    Button("Get Plus to Set", systemImage: "crown.fill") {
+                        self.presentingPassSheet = true
+                    }
+                    .buttonStyle(.borderedProminent)
+                    .tint(.teal)
+                    .controlSize(.small)
+                }
             }
         }
+        .sheet(isPresented: $presentingPassSheet, content: {
+            SubscriptionShopView()
+        })
     }
 }
 
@@ -472,18 +482,16 @@ struct DetailRow: View {
     }
 }
 
-
-
 #Preview("New", body: {
-    return LensFormView(lensItem: .constant(nil), status: .new)
+    return LensFormView(lensItem: SampleData.content[1], status: .new) { _ in}
 })
 
 #Preview("Editable", body: {
-    return LensFormView(lensItem: .constant(SampleData.content[0]), status: .editable)
+    return LensFormView(lensItem: SampleData.content[2], status: .editable) { _ in}
 })
 
 #Preview("Changeable", body: {
-    return LensFormView(lensItem: .constant(SampleData.content[1]), status: .changeable)
+    return LensFormView(lensItem: SampleData.content[3], status: .changeable) { _ in}
 })
 
 #Preview("Sphere Section", body: {

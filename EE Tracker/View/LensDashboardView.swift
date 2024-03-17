@@ -15,15 +15,13 @@ struct LensDashboardView: View {
     
     @State private var presentingSubscriptionSheet = false
     @State private var showingSubscription: Bool = false
-    @Environment(PassStatusModel.self) var passStatusModel: PassStatusModel
-    @Environment(\.passIDs) private var passIDs
-    @State private var passStatus: PassStatus = .notSubscribed
+    
+    @Environment(\.passStatus) private var passStatus
     
     @Environment(\.colorScheme) private var colorScheme
-    @State private var status: EntitlementTaskState<PassStatus> = .loading
     
-    init(modelContext: ModelContext) {
-        let viewModel = LensDashboardViewModel(modelContext: modelContext)
+    init(modelContext: ModelContext, notificationManager: NotificationManager) {
+        let viewModel = LensDashboardViewModel(modelContext: modelContext, notificationManager: notificationManager)
         _viewModel = State(initialValue: viewModel)
     }
     
@@ -64,17 +62,23 @@ struct LensDashboardView: View {
             .navigationTitle("Eye Ease")
             .navigationBarTitleDisplayMode(.inline)
             .navigationDestination(isPresented: $viewModel.showingChangables, destination: {
-                LensFormView(lensItem: self.$viewModel.selectedLensItem, status: .changeable)
+                if let selectedLensItem = viewModel.selectedLensItem {
+                    LensFormView(lensItem: selectedLensItem, status: .changeable) { lensItem in
+                        self.viewModel.updateSelectedLens(by: lensItem)
+                    }
+                }
             })
             .toolbar(content: {
                 ToolbarItem(placement: .topBarTrailing) {
                     NavigationLink {
-                        LensFormView(status: .new)
-                            .onDisappear {
-                                withAnimation {
-                                    self.viewModel.fetchData()
-                                }
-                            }
+                        LensFormView(status: .new) { lensItem in
+                            self.viewModel.addItem(lensItem)
+                        }
+                        //                        .onDisappear {
+                        //                            withAnimation {
+                        //                                self.viewModel.fetchData()
+                        //                            }
+                        //                        }
                     } label: {
                         Image(systemName: "plus")
                             .font(.title3)
@@ -90,65 +94,30 @@ struct LensDashboardView: View {
                             .symbolRenderingMode(viewModel.pushNotificationAllowed ? .monochrome : .multicolor)
                     }
                 }
+                
+                if case .notSubscribed = passStatus {
+                    ToolbarItem(placement: .topBarLeading) {
+                        Button("Upgrate to Plus", systemImage: "crown.fill") {
+                            self.showingSubscription = true
+                        }
+                        .tint(.teal)
+                        .controlSize(.small)
+                        
+                    }
+                }
             })
+            
         }
         .onAppear() {
-            self.viewModel.reloadAuthorizationSatus()
-            ProductSubscription.createSharedInstance()
-        }
-        .manageSubscriptionsSheet(
-            isPresented: $presentingSubscriptionSheet,
-            subscriptionGroupID: passIDs.group
-        )
-        .confirmationDialog("Delete Confirmation", isPresented: $viewModel.showingConfirmation) {
-            Button("Delete", role: .destructive) {
-                if let selectedLensItem = viewModel.selectedLensItem  {
-                    self.delete(selectedLensItem)
-                }
-            }
-            
-            Button("Cancel", role: .cancel) {
-                self.viewModel.showingConfirmation.toggle()
-            }
-        } message: {
-            Text("Are you sure to delete this Lens?")
+            self.viewModel.reloadAuthorizationStatus()
         }
         .tint(.teal)
         .sheet(isPresented: $viewModel.showingSettings, content: {
-            SettingsView(
-                passStatus: $passStatus,
-                notificationManager: viewModel.notificationManager,
-                showingSubscription: $showingSubscription
-            )
-            .preferredColorScheme(colorScheme)
+            SettingsView()
+                .preferredColorScheme(colorScheme)
         })
         .sheet(isPresented: $showingSubscription) {
             SubscriptionShopView()
-        }
-        .subscriptionStatusTask(for: passIDs.group) { taskStatus in
-            self.status = await taskStatus.map { statuses in
-                await ProductSubscription.shared.status(
-                    for: statuses,
-                    ids: passIDs
-                )
-            }
-            
-            switch self.status {
-            case .loading:
-                break
-            case .failure(let error):
-                passStatusModel.passStatus = .notSubscribed
-                passStatus = .notSubscribed
-                print("Failed to check subscription status: \(error)")
-            case .success(let value):
-                passStatusModel.passStatus = value
-                passStatus = value
-            @unknown default: break
-            }
-        }
-        .task {
-            await ProductSubscription.shared.observeTransactionUpdates()
-            await ProductSubscription.shared.checkForUnfinishedTransactions()
         }
     }
     
@@ -170,23 +139,31 @@ struct LensTimelineHeader: View {
             
             Menu {
                 NavigationLink {
-                    LensFormView(lensItem: $viewModel.selectedLensItem, status: .editable)
-                        .onDisappear {
-                            withAnimation {
-                                self.viewModel.fetchData()
-                            }
+                    if let selectedLensItem = viewModel.selectedLensItem {
+                        LensFormView(lensItem: selectedLensItem, status: .editable) { lensItem in
+                            self.viewModel.updateSelectedLens(by: lensItem)
                         }
+//                        .onDisappear {
+//                            withAnimation {
+//                                self.viewModel.fetchData()
+//                            }
+//                        }
+                    }
                 } label: {
                     Label("Edit", systemImage: "pencil")
                 }
                 
                 NavigationLink {
-                    LensFormView(lensItem: $viewModel.selectedLensItem, status: .changeable)
-                        .onDisappear {
-                            withAnimation {
-                                self.viewModel.fetchData()
-                            }
+                    if let selectedLensItem = viewModel.selectedLensItem {
+                        LensFormView(lensItem: selectedLensItem, status: .changeable) { lensItem in
+                            self.viewModel.updateSelectedLens(by: lensItem)
                         }
+//                        .onDisappear {
+//                            withAnimation {
+//                                self.viewModel.fetchData()
+//                            }
+//                        }
+                    }
                 } label: {
                     Label("Change with new one", systemImage: "gobackward")
                 }
@@ -199,6 +176,20 @@ struct LensTimelineHeader: View {
             } label: {
                 Image(systemName: "ellipsis.circle")
                     .font(.title2)
+            }
+            
+            .confirmationDialog("Delete Confirmation", isPresented: $viewModel.showingConfirmation) {
+                Button("Delete", role: .destructive) {
+                    if let selectedLensItem = viewModel.selectedLensItem  {
+                        self.viewModel.deleteItem(selectedLensItem)
+                    }
+                }
+                
+                Button("Cancel", role: .cancel) {
+                    self.viewModel.showingConfirmation.toggle()
+                }
+            } message: {
+                Text("Are you sure to delete this Lens?")
             }
         }
     }
@@ -246,7 +237,7 @@ struct LensCarouselHeader: View {
 }
 
 #Preview {
-    LensDashboardView(modelContext: previewContainer.mainContext)
+    LensDashboardView(modelContext: previewContainer.mainContext, notificationManager: NotificationManager())
         .modelContainer(previewContainer)
-        .environment(PassStatusModel())
+        .environmentObject(NotificationManager())
 }

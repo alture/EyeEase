@@ -16,12 +16,11 @@ final class LensFormViewModel {
     var brandName: String = ""
     var wearDuration: WearDuration = .monthly
     var eyeSide: EyeSide = .both
-    var initialUseDate: Date = Date.now.startOfDay
+    var initialUseDate: Date = Date.now
     var sphere: Sphere? = nil
     var detail: LensDetail = LensDetail()
     var isWearing: Bool = false
     
-    @ObservationIgnored
     var changeDate: Date {
         return Calendar.current.date(byAdding: .day, value: wearDuration.limit, to: initialUseDate) ?? Date.now
     }
@@ -29,8 +28,8 @@ final class LensFormViewModel {
     @ObservationIgnored
     private(set) var status: Status = .new
     
-    @ObservationIgnored
-    private var notificationManger: NotificationManager = NotificationManager()
+//    @ObservationIgnored
+//    private var notificationManger: NotificationManager = NotificationManager()
     
     // Output
     var isNameValid: Bool {
@@ -54,27 +53,28 @@ final class LensFormViewModel {
         }
     }
     
-    func createNotification(by item: LensItem?) {
-        guard let item else { return }
-        
-        notificationManger.scheduleNotificationIfNeeded(for: item)
-    }
+//    func createNotification(by item: LensItem?) {
+//        guard let item else { return }
+//        
+//        notificationManger.scheduleNotificationIfNeeded(for: item)
+//    }
     
-    init(lensItem: LensItem?, status: Status) {
+    init(lensItem: LensItem, status: Status) {
         let dateByStartOfDay = Date.now.startOfDay
-        self.brandName = lensItem?.name ?? ""
-        self.wearDuration = lensItem?.wearDuration ?? .monthly
-        self.eyeSide = lensItem?.eyeSide ?? .both
+        self.brandName = lensItem.name
+        self.wearDuration = lensItem.wearDuration
+        self.eyeSide = lensItem.eyeSide
         
         if status == .changeable {
             self.initialUseDate = dateByStartOfDay
         } else {
-            self.initialUseDate = lensItem?.startDate ?? dateByStartOfDay
+            self.initialUseDate = lensItem.startDate
         }
         
-        self.sphere = lensItem?.sphere 
-        self.detail = lensItem?.detail ?? LensDetail()
-        self.isWearing = lensItem?.isWearing ?? false
+        self.sphere = lensItem.sphere
+        self.detail = lensItem.detail ?? LensDetail()
+        
+        self.isWearing = lensItem.isWearing
         self.status = status
     }
 }

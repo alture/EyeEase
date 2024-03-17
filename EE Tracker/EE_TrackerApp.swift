@@ -25,14 +25,16 @@ struct EE_TrackerApp: App {
     }()
     
     @AppStorage(AppStorageKeys.appAppearance) private var appAppearance: AppAppearance = .system
+    private var notificationManager: NotificationManager = NotificationManager()
 
     var body: some Scene {
         WindowGroup {
-            LensDashboardView(modelContext: sharedModelContainer.mainContext)
+            LensDashboardView(modelContext: sharedModelContainer.mainContext, notificationManager: notificationManager)
                 .preferredColorScheme(appAppearance == .system ? .none : (appAppearance == .dark ? .dark : .light ))
+                .subscriptionShop()
+                .environmentObject(NotificationManager())
                 .fontDesign(.rounded)
         }
         .modelContainer(sharedModelContainer)
-        .environment(PassStatusModel())
     }
 }
