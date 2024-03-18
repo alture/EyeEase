@@ -17,12 +17,10 @@ struct SubscriptionShopView: View {
         SubscriptionStoreView(groupID: passGroupID) {
             SubscriptionShopContent()
         }
-        .onInAppPurchaseCompletion(perform: { _, result in
-            switch result {
-            case .success(_):
-                self.dismiss()
-            case .failure(let error):
-                print("Can't complete purchase: \(error)")
+        .onInAppPurchaseCompletion(perform: { (product: Product, result: Result<Product.PurchaseResult, Error>) in
+            if case .success(.success(let transaction)) = result {
+                await PassManager.shared.process(transaction: transaction)
+                dismiss()
             }
         })
         .storeButton(.visible, for: .redeemCode)

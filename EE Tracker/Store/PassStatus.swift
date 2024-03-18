@@ -78,7 +78,7 @@ private struct PassStatusTaskModifier: ViewModifier {
                 
                 switch self.state {
                 case .failure(let error):
-                    print("Failed to check subscriptionm status: \(error)")
+                    print("Failed to check subscription status: \(error)")
                 case .success(let status):
                     print("Providing updated status: \(status)")
                 case .loading: break
