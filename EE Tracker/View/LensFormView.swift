@@ -423,10 +423,7 @@ struct DetailSection: View {
                     focusValue: .axis
                 )
             }
-            .visualEffect { content, geometry in
-                return content.blur(radius: passStatus == .notSubscribed ? 2 : 0)
-            }
-            .disabled(.notSubscribed == passStatus)
+            .availableOnPlus()
         } header: {
             HStack(alignment: .bottom) {
                 Image(systemName: "slider.horizontal.3")
@@ -435,12 +432,7 @@ struct DetailSection: View {
                 Spacer()
                 
                 if passStatus == .notSubscribed {
-                    Button("Get Plus to Set", systemImage: "crown.fill") {
-                        self.presentingPassSheet = true
-                    }
-                    .buttonStyle(.borderedProminent)
-                    .tint(.teal)
-                    .controlSize(.small)
+                    GetPlusButton(didTap: $presentingPassSheet)
                 }
             }
         }
@@ -449,6 +441,7 @@ struct DetailSection: View {
         })
     }
 }
+
 
 struct DetailRow: View {
     var name: String

@@ -23,6 +23,10 @@
 		B760DC4F2B88CCC000C2C025 /* LensDashboardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B760DC4E2B88CCC000C2C025 /* LensDashboardViewModel.swift */; };
 		B760DC592B95646500C2C025 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B760DC582B95646500C2C025 /* NotificationManager.swift */; };
 		B760DC5D2B959BAB00C2C025 /* AppAppearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = B760DC5C2B959BAB00C2C025 /* AppAppearance.swift */; };
+		B761D5802BA80FA100CEE24A /* NotificationGrantedKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = B761D57F2BA80FA100CEE24A /* NotificationGrantedKey.swift */; };
+		B761D5822BA810F300CEE24A /* NotificationTaskModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = B761D5812BA810F300CEE24A /* NotificationTaskModifier.swift */; };
+		B761D5862BA8339E00CEE24A /* GetPlusButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B761D5852BA8339E00CEE24A /* GetPlusButton.swift */; };
+		B761D5882BA834CB00CEE24A /* AvailableOnPlus.swift in Sources */ = {isa = PBXBuildFile; fileRef = B761D5872BA834CB00CEE24A /* AvailableOnPlus.swift */; };
 		B7BF527D2B865D7600FE0162 /* EE-Tracker-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B7FC523F2B366E32009BA759 /* EE-Tracker-Info.plist */; };
 		B7BF527F2B865E6200FE0162 /* LensFormViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7BF527E2B865E6200FE0162 /* LensFormViewModel.swift */; };
 		B7BF52812B86720500FE0162 /* LensDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7BF52802B86720500FE0162 /* LensDetail.swift */; };
@@ -83,6 +87,10 @@
 		B760DC4E2B88CCC000C2C025 /* LensDashboardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LensDashboardViewModel.swift; sourceTree = "<group>"; };
 		B760DC582B95646500C2C025 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		B760DC5C2B959BAB00C2C025 /* AppAppearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppAppearance.swift; sourceTree = "<group>"; };
+		B761D57F2BA80FA100CEE24A /* NotificationGrantedKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationGrantedKey.swift; sourceTree = "<group>"; };
+		B761D5812BA810F300CEE24A /* NotificationTaskModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationTaskModifier.swift; sourceTree = "<group>"; };
+		B761D5852BA8339E00CEE24A /* GetPlusButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetPlusButton.swift; sourceTree = "<group>"; };
+		B761D5872BA834CB00CEE24A /* AvailableOnPlus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvailableOnPlus.swift; sourceTree = "<group>"; };
 		B764EC592B73DC810024A166 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		B7BF527E2B865E6200FE0162 /* LensFormViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LensFormViewModel.swift; sourceTree = "<group>"; };
 		B7BF52802B86720500FE0162 /* LensDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LensDetail.swift; sourceTree = "<group>"; };
@@ -151,6 +159,8 @@
 			isa = PBXGroup;
 			children = (
 				B760DC582B95646500C2C025 /* NotificationManager.swift */,
+				B761D57F2BA80FA100CEE24A /* NotificationGrantedKey.swift */,
+				B761D5812BA810F300CEE24A /* NotificationTaskModifier.swift */,
 			);
 			path = Notification;
 			sourceTree = "<group>";
@@ -257,6 +267,8 @@
 				B71262BF2B66A049009185EE /* LensSortOrder.swift */,
 				B71524332B97E3C1005E7A88 /* BlankView.swift */,
 				B7580F552BA6A34B0058F540 /* RestorePurchasesButton.swift */,
+				B761D5852BA8339E00CEE24A /* GetPlusButton.swift */,
+				B761D5872BA834CB00CEE24A /* AvailableOnPlus.swift */,
 			);
 			path = ViewHelpers;
 			sourceTree = "<group>";
@@ -357,6 +369,7 @@
 				B7580F562BA6A34B0058F540 /* RestorePurchasesButton.swift in Sources */,
 				B7C08EB12B1CAAB600DD0BE2 /* LensDashboardView.swift in Sources */,
 				B760DC4F2B88CCC000C2C025 /* LensDashboardViewModel.swift in Sources */,
+				B761D5862BA8339E00CEE24A /* GetPlusButton.swift in Sources */,
 				B7C08EAF2B1CAAB600DD0BE2 /* EE_TrackerApp.swift in Sources */,
 				B70D06E02B9FEB3C004E9092 /* PassStatus.swift in Sources */,
 				B7E32DC22B26523D00CA0729 /* AppVersionProvider.swift in Sources */,
@@ -370,10 +383,13 @@
 				B7F555862BA160550069D38E /* PreferenceKeys.swift in Sources */,
 				B7580F5A2BA6ADF80058F540 /* SubscriptionShopViewModifier.swift in Sources */,
 				B70D06E82B9FF1AF004E9092 /* SubscriptionShopView.swift in Sources */,
+				B761D5822BA810F300CEE24A /* NotificationTaskModifier.swift in Sources */,
 				B7E075532B1D0FF2001ABFE4 /* SettingsView.swift in Sources */,
 				B7E32DA42B2629A800CA0729 /* LensTrackingTimelineView.swift in Sources */,
 				B7E32D8B2B2521B700CA0729 /* EyeSide.swift in Sources */,
 				B7E32D832B21219C00CA0729 /* LensFormView.swift in Sources */,
+				B761D5802BA80FA100CEE24A /* NotificationGrantedKey.swift in Sources */,
+				B761D5882BA834CB00CEE24A /* AvailableOnPlus.swift in Sources */,
 				B7E075512B1CE214001ABFE4 /* CircleProgressView.swift in Sources */,
 				B74FA83C2B5A946C001E896F /* Bool+Comparable.swift in Sources */,
 				B70D06EA2B9FF654004E9092 /* PassManager.swift in Sources */,

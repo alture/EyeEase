@@ -40,8 +40,7 @@ struct SettingsView: View {
     
     @Environment(\.passStatus) private var passStatus
     @Environment(\.passIDs.group) private var passGroupID
-    
-    @EnvironmentObject private var notificationManager: NotificationManager
+    @Environment(\.notificationGranted) private var notificationAllowed
     
     private var hasPass: Bool {
         if case .notSubscribed = passStatus { false } else { true }
@@ -49,13 +48,13 @@ struct SettingsView: View {
     
     @AppStorage(AppStorageKeys.appAppearance) var appAppearance: AppAppearance = .system
     
-    @State private var pushNotificationAllowed: Bool = false
     @State private var presentingPassSheet: Bool = false
     @State private var presentingManagePassSheet = false
+    @AppStorage(AppStorageKeys.reminderDays) var reminderDays: ReminderDays = .none
     
     var body: some View {
         NavigationStack {
-            if !pushNotificationAllowed && hasPass {
+            if !notificationAllowed && hasPass {
                 GroupBox(label:
                     Label("Notifications are disabled", systemImage: "info.circle")
                 ) {
@@ -97,37 +96,69 @@ struct SettingsView: View {
                     RestorePurchasesButton()
                 }
                 
-                Section(
-                    header: Text("Application"),
-                    footer: Text("Set reminder days before lens replacement. Available on Plus")
-                ) {
-                    LabeledContent {
-                        Group {
-                            if pushNotificationAllowed {
-                                Text("Allowed")
-                                    .foregroundStyle(.secondary)
-                            } else {
-                                Button(action: {
-                                    self.notificationManager.openNotificationSettings()
-                                }, label: {
-                                    Text("Open Settings")
-                                })
-                                .buttonStyle(.bordered)
-                                .controlSize(.small)
-                                .foregroundStyle(Color.teal)
-                                
+                Section {
+                    Group {
+                        LabeledContent {
+                            Group {
+                                if notificationAllowed {
+                                    Text("Allowed")
+                                        .foregroundStyle(Color.secondary)
+                                } else {
+                                    Button(action: {
+                                        guard
+                                            let appSettings = URL(string: UIApplication.openNotificationSettingsURLString), UIApplication.shared.canOpenURL(appSettings)
+                                        else {
+                                            return
+                                        }
+                                        
+                                        UIApplication.shared.open(appSettings, options: [:])
+                                    }, label: {
+                                        Text("Open Settings")
+                                    })
+                                    .buttonStyle(.bordered)
+                                    .controlSize(.small)
+                                    .foregroundStyle(Color.teal)
+                                    
+                                }
+                            }
+                            
+                        } label: {
+                            HStack {
+                                Image(systemName: "app.badge")
+                                    .symbolRenderingMode(.palette)
+                                    .foregroundStyle(.red, .primary)
+                                    .symbolEffect(.pulse, isActive: !notificationAllowed)
+                                Text("Push notifications")
                             }
                         }
-                    } label: {
-                        HStack {
-                            Image(systemName: "app.badge")
-                                .symbolRenderingMode(.palette)
-                                .foregroundStyle(.red, .primary)
-                                .symbolEffect(.pulse, isActive: !pushNotificationAllowed)
-                            Text("Push notifications")
+                        
+                        Picker(selection: $reminderDays) {
+                            ForEach(ReminderDays.allCases) { day in
+                                Text(day.description)
+                                    .tag(day)
+                            }
+                        } label: {
+                            HStack {
+                                Image(systemName: "bell")
+                                Text("Reminder")
+                            }
                         }
                     }
-                    
+                    .availableOnPlus()
+                } header: {
+                    HStack {
+                        Text("Notification")
+                        Spacer()
+                        
+                        if !hasPass {
+                            GetPlusButton(didTap: $presentingPassSheet)
+                        }
+                    }
+                } footer: {
+                    Text("Set reminder days before lens replacement. Available on Plus")
+                }
+                
+                Section("Application") {
                     Picker(selection: $appAppearance) {
                         ForEach(AppAppearance.allCases) { mode in
                             Text(mode.description).tag(mode)
@@ -138,19 +169,7 @@ struct SettingsView: View {
                             Text("Appearance")
                         }
                     }
-
-                    Picker(selection: $notificationManager.reminderDays) {
-                        ForEach(ReminderDays.allCases) { day in
-                            Text(day.description)
-                                .tag(day)
-                        }
-                    } label: {
-                        HStack {
-                            Image(systemName: "bell")
-                            Text("Reminder")
-                        }
-                    }
-                    .disabled(!hasPass)
+                    
                 }
                 
                 if
@@ -195,7 +214,7 @@ struct SettingsView: View {
                                     .foregroundStyle(Color(.systemGray2))
                             }
                             
-
+                            
                         }
                         .foregroundStyle(.primary)
                     }
@@ -210,6 +229,11 @@ struct SettingsView: View {
                         }
                 }
             })
+            .onChange(of: reminderDays, { oldValue, newValue in
+                Task {
+                    await NotificationManager.shared.reloadLocalNotificationByItems(true)
+                }
+            })
             .sheet(isPresented: $presentingPassSheet, content: {
                 SubscriptionShopView()
             })
@@ -217,29 +241,10 @@ struct SettingsView: View {
             .tint(Color.teal)
             .navigationTitle("Settings")
             .toolbarTitleDisplayMode(.inline)
-            .onAppear {
-                self.notificationManager.reloadAuthorizationSatus()
-                self.switchAuthorizationStatus(notificationManager.authorizationStatus)
-            }
-            .onChange(of: notificationManager.authorizationStatus, { oldValue, newValue in
-                self.switchAuthorizationStatus(newValue)
-            })
-        }
-    }
-    
-    private func switchAuthorizationStatus(_ authorizationStatus: UNAuthorizationStatus? = nil) {
-        switch authorizationStatus {
-        case .notDetermined:
-            self.pushNotificationAllowed = false
-        case .authorized, .provisional:
-            self.pushNotificationAllowed = true
-        default:
-            break
         }
     }
 }
 
 #Preview {
     SettingsView()
-        .environmentObject(NotificationManager())
 }

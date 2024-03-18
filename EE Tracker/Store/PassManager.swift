@@ -71,7 +71,7 @@ extension PassManager {
     
     func checkForUnfinishedTransactions() async {
         for await transaction in Transaction.unfinished {
-            Task.detached(priority: .background) {
+            Task.detached(priority: .utility) {
                 await self.process(transaction: transaction)
             }
         }

@@ -57,6 +57,7 @@ extension EnvironmentValues {
 
 private struct PassStatusTaskModifier: ViewModifier {
     @Environment(\.passIDs) private var passIDs
+    @Environment(\.notificationGranted) private var notificationGranted
     
     @State private var state: EntitlementTaskState<PassStatus> = .loading
     
@@ -68,6 +69,7 @@ private struct PassStatusTaskModifier: ViewModifier {
         content
             .subscriptionStatusTask(for: passIDs.group) { state in
                 guard let passManager = PassManager.shared else { fatalError("PassManager was nil.") }
+                guard let notificationManager = NotificationManager.shared else { fatalError("NotificationManager was nil.")}
                 
                 self.state = await state.map { @Sendable [passIDs] statuses in
                     await passManager.status(
@@ -80,6 +82,13 @@ private struct PassStatusTaskModifier: ViewModifier {
                 case .failure(let error):
                     print("Failed to check subscription status: \(error)")
                 case .success(let status):
+                    if status == .monthly || status == .yearly, notificationGranted {
+                        await notificationManager.reloadLocalNotifications()
+                        await notificationManager.reloadItems()
+                        await notificationManager.reloadLocalNotificationByItems()
+                    } else {
+                        await notificationManager.removeAllNotification()
+                    }
                     print("Providing updated status: \(status)")
                 case .loading: break
                 @unknown default: break

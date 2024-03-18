@@ -17,11 +17,12 @@ struct LensDashboardView: View {
     @State private var showingSubscription: Bool = false
     
     @Environment(\.passStatus) private var passStatus
+    @Environment(\.notificationGranted) private var notificationGranted
     
     @Environment(\.colorScheme) private var colorScheme
     
-    init(modelContext: ModelContext, notificationManager: NotificationManager) {
-        let viewModel = LensDashboardViewModel(modelContext: modelContext, notificationManager: notificationManager)
+    init(modelContext: ModelContext) {
+        let viewModel = LensDashboardViewModel(modelContext: modelContext)
         _viewModel = State(initialValue: viewModel)
     }
     
@@ -89,9 +90,10 @@ struct LensDashboardView: View {
                     Button {
                         self.viewModel.showingSettings.toggle()
                     } label: {
-                        Image(systemName: viewModel.pushNotificationAllowed ? "gear" : "gear.badge")
+                        Image(systemName: notificationGranted ? "gear" : "gear.badge")
                             .font(.title3)
-                            .symbolRenderingMode(viewModel.pushNotificationAllowed ? .monochrome : .multicolor)
+                            .symbolRenderingMode(notificationGranted ? .monochrome : .multicolor)
+                            .animation(.default, value: notificationGranted)
                     }
                 }
                 
@@ -107,9 +109,6 @@ struct LensDashboardView: View {
                 }
             })
             
-        }
-        .onAppear() {
-            self.viewModel.reloadAuthorizationStatus()
         }
         .tint(.teal)
         .sheet(isPresented: $viewModel.showingSettings, content: {
@@ -237,7 +236,6 @@ struct LensCarouselHeader: View {
 }
 
 #Preview {
-    LensDashboardView(modelContext: previewContainer.mainContext, notificationManager: NotificationManager())
+    LensDashboardView(modelContext: previewContainer.mainContext)
         .modelContainer(previewContainer)
-        .environmentObject(NotificationManager())
 }

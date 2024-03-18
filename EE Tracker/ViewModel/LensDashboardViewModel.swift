@@ -15,13 +15,10 @@ final class LensDashboardViewModel {
     var selectedLensItem: LensItem? = nil
     var sortOrder: LensSortOrder = .oldestFirst
     
-    var notificationManager: NotificationManager
-    
     var showingSettings: Bool = false
     var showingConfirmation: Bool = false
     var showingSort: Bool = false
     var showingChangables: Bool = false
-    var pushNotificationAllowed: Bool = false
     
     private var sortedLensItem: [LensItem] {
         switch sortOrder {
@@ -39,12 +36,9 @@ final class LensDashboardViewModel {
     @ObservationIgnored
     private var cancellables = Set<AnyCancellable>()
     
-    init(modelContext: ModelContext, notificationManager: NotificationManager) {
+    init(modelContext: ModelContext) {
         self.modelContext = modelContext
-        self.notificationManager = notificationManager
         self.fetchData()
-        self.setupNotificationStatusObserver()
-        self.setupNotificationRemainderDaysObserver()
     }
     
     func fetchData() {
@@ -77,7 +71,11 @@ final class LensDashboardViewModel {
             fetchData()
         }
         
-        notificationManager.scheduleNotificationIfNeeded(for: item)
+        if let notificationManager = NotificationManager.shared {
+            Task {
+                await notificationManager.scheduleNotifications(for: item.id)
+            }
+        }
     }
     
     func deleteItem(_ item: LensItem) {
@@ -87,7 +85,11 @@ final class LensDashboardViewModel {
             fetchData()
         }
         
-        notificationManager.cancelNotification(for: item.id.uuidString)
+        if let notificationManager = NotificationManager.shared {
+            Task {
+                await notificationManager.cancelNotification(for: item.id.uuidString)
+            }
+        }
     }
     
     func updateSelectedLens(by item: LensItem) {
@@ -113,44 +115,16 @@ final class LensDashboardViewModel {
 //        }
         
         if let selectedLensItem {
-            notificationManager.updateNotifications(for: selectedLensItem)
+//            notificationManager.updateNotifications(for: selectedLensItem)
         }
         
 //        fetchData()
-    }
-    
-    func reloadAuthorizationStatus() {
-        notificationManager.reloadAuthorizationSatus()
-    }
-    
-    private func setupNotificationStatusObserver() {
-        notificationManager.$authorizationStatus
-            .removeDuplicates()
-            .receive(on: RunLoop.main)
-            .sink { [weak self] status in
-                guard let self else { return }
-                
-                switch status {
-                case .notDetermined:
-                    self.pushNotificationAllowed = false
-                    self.notificationManager.requestAuthorization()
-                case .authorized, .provisional:
-                    self.pushNotificationAllowed = true
-                    self.notificationManager.reloadLocalNotificationCenter(by: lensItems)
-                default:
-                    break
-                }
+        
+        if let notificationManager = NotificationManager.shared {
+            Task {
+                await notificationManager.scheduleNotifications(for: item.id)
             }
-            .store(in: &cancellables)
+        }
     }
     
-    private func setupNotificationRemainderDaysObserver() {
-        notificationManager.reminderDaysPublisher
-            .sink { [weak self] _ in
-                guard let self else { return }
-                self.notificationManager.reloadLocalNotificationCenter()
-                self.notificationManager.updateNotificationsForChangedReminderDays(for: lensItems)
-            }
-            .store(in: &cancellables)
-    }
 }

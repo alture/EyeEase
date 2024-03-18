@@ -13,9 +13,6 @@ struct SubscriptionShopViewModifier: ViewModifier {
             content
         }
         .subscriptionPassStatusTask()
-        .onAppear {
-            PassManager.createSharedInstance()
-        }
         .task {
             await PassManager.shared.observeTransactionUpdates()
             await PassManager.shared.checkForUnfinishedTransactions()
