@@ -68,7 +68,7 @@ struct LensTrackingTimelineView: View {
                     
                     if readyToExpire || hasExpired {
                         Button(action: {
-                            self.showingChangables.toggle()
+                            self.showingChangables = true
                         }, label: {
                             Text("Change now")
                                 .padding(4)

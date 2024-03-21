@@ -11,7 +11,7 @@ import SwiftData
 struct LensTrackingView: View {
     private(set) var lensItem: LensItem
     @Binding var showingChangables: Bool
-    @State var readyToExpire: Bool = false
+    @State private var readyToExpire: Bool = false
     
     private var sphereDesc: String {
         guard let sphere = lensItem.sphere else { return "Not set" }

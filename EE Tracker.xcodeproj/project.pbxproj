@@ -27,6 +27,12 @@
 		B761D5822BA810F300CEE24A /* NotificationTaskModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = B761D5812BA810F300CEE24A /* NotificationTaskModifier.swift */; };
 		B761D5862BA8339E00CEE24A /* GetPlusButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B761D5852BA8339E00CEE24A /* GetPlusButton.swift */; };
 		B761D5882BA834CB00CEE24A /* AvailableOnPlus.swift in Sources */ = {isa = PBXBuildFile; fileRef = B761D5872BA834CB00CEE24A /* AvailableOnPlus.swift */; };
+		B764A5112BA89CF00097C263 /* AddNewTip.swift in Sources */ = {isa = PBXBuildFile; fileRef = B764A5102BA89CF00097C263 /* AddNewTip.swift */; };
+		B764A5132BA8AE950097C263 /* NotificationWarningTip.swift in Sources */ = {isa = PBXBuildFile; fileRef = B764A5122BA8AE950097C263 /* NotificationWarningTip.swift */; };
+		B76553502BA96AEF0045BF93 /* BrandNameTip.swift in Sources */ = {isa = PBXBuildFile; fileRef = B765534F2BA96AEF0045BF93 /* BrandNameTip.swift */; };
+		B76553522BA96D7C0045BF93 /* InitialDateTip.swift in Sources */ = {isa = PBXBuildFile; fileRef = B76553512BA96D7C0045BF93 /* InitialDateTip.swift */; };
+		B76553542BA99EDD0045BF93 /* Binding+OptionalChaining.swift in Sources */ = {isa = PBXBuildFile; fileRef = B76553532BA99EDD0045BF93 /* Binding+OptionalChaining.swift */; };
+		B76553562BA9B4D30045BF93 /* ReminderDaysTip.swift in Sources */ = {isa = PBXBuildFile; fileRef = B76553552BA9B4D30045BF93 /* ReminderDaysTip.swift */; };
 		B7BF527D2B865D7600FE0162 /* EE-Tracker-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B7FC523F2B366E32009BA759 /* EE-Tracker-Info.plist */; };
 		B7BF527F2B865E6200FE0162 /* LensFormViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7BF527E2B865E6200FE0162 /* LensFormViewModel.swift */; };
 		B7BF52812B86720500FE0162 /* LensDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7BF52802B86720500FE0162 /* LensDetail.swift */; };
@@ -38,7 +44,6 @@
 		B7C08EC02B1CB73C00DD0BE2 /* LensItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C08EBF2B1CB73C00DD0BE2 /* LensItem.swift */; };
 		B7E075512B1CE214001ABFE4 /* CircleProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E075502B1CE214001ABFE4 /* CircleProgressView.swift */; };
 		B7E075532B1D0FF2001ABFE4 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E075522B1D0FF2001ABFE4 /* SettingsView.swift */; };
-		B7E075552B1D11B2001ABFE4 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E075542B1D11B2001ABFE4 /* SettingsViewModel.swift */; };
 		B7E32D812B2119CD00CA0729 /* LensTrackingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E32D802B2119CD00CA0729 /* LensTrackingView.swift */; };
 		B7E32D832B21219C00CA0729 /* LensFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E32D822B21219B00CA0729 /* LensFormView.swift */; };
 		B7E32D892B2519E300CA0729 /* DataSourceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E32D882B2519E200CA0729 /* DataSourceModel.swift */; };
@@ -91,7 +96,13 @@
 		B761D5812BA810F300CEE24A /* NotificationTaskModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationTaskModifier.swift; sourceTree = "<group>"; };
 		B761D5852BA8339E00CEE24A /* GetPlusButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetPlusButton.swift; sourceTree = "<group>"; };
 		B761D5872BA834CB00CEE24A /* AvailableOnPlus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvailableOnPlus.swift; sourceTree = "<group>"; };
+		B764A5102BA89CF00097C263 /* AddNewTip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewTip.swift; sourceTree = "<group>"; };
+		B764A5122BA8AE950097C263 /* NotificationWarningTip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationWarningTip.swift; sourceTree = "<group>"; };
 		B764EC592B73DC810024A166 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		B765534F2BA96AEF0045BF93 /* BrandNameTip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandNameTip.swift; sourceTree = "<group>"; };
+		B76553512BA96D7C0045BF93 /* InitialDateTip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialDateTip.swift; sourceTree = "<group>"; };
+		B76553532BA99EDD0045BF93 /* Binding+OptionalChaining.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Binding+OptionalChaining.swift"; sourceTree = "<group>"; };
+		B76553552BA9B4D30045BF93 /* ReminderDaysTip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderDaysTip.swift; sourceTree = "<group>"; };
 		B7BF527E2B865E6200FE0162 /* LensFormViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LensFormViewModel.swift; sourceTree = "<group>"; };
 		B7BF52802B86720500FE0162 /* LensDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LensDetail.swift; sourceTree = "<group>"; };
 		B7BF52822B86721F00FE0162 /* Sphere.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sphere.swift; sourceTree = "<group>"; };
@@ -104,7 +115,6 @@
 		B7DAA1412B9E03CE005B9A7F /* EE TrackerRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "EE TrackerRelease.entitlements"; sourceTree = "<group>"; };
 		B7E075502B1CE214001ABFE4 /* CircleProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleProgressView.swift; sourceTree = "<group>"; };
 		B7E075522B1D0FF2001ABFE4 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
-		B7E075542B1D11B2001ABFE4 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		B7E32D802B2119CD00CA0729 /* LensTrackingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LensTrackingView.swift; sourceTree = "<group>"; };
 		B7E32D822B21219B00CA0729 /* LensFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LensFormView.swift; sourceTree = "<group>"; };
 		B7E32D882B2519E200CA0729 /* DataSourceModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSourceModel.swift; sourceTree = "<group>"; };
@@ -147,6 +157,18 @@
 			path = Store;
 			sourceTree = "<group>";
 		};
+		B764A50F2BA89CDC0097C263 /* Tips */ = {
+			isa = PBXGroup;
+			children = (
+				B764A5102BA89CF00097C263 /* AddNewTip.swift */,
+				B764A5122BA8AE950097C263 /* NotificationWarningTip.swift */,
+				B765534F2BA96AEF0045BF93 /* BrandNameTip.swift */,
+				B76553512BA96D7C0045BF93 /* InitialDateTip.swift */,
+				B76553552BA9B4D30045BF93 /* ReminderDaysTip.swift */,
+			);
+			path = Tips;
+			sourceTree = "<group>";
+		};
 		B764EC562B73DC810024A166 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -171,6 +193,7 @@
 				B74FA83B2B5A946C001E896F /* Bool+Comparable.swift */,
 				B7E394142B98A94000113138 /* Date+formatDate.swift */,
 				B7E394162B98FFC900113138 /* CustomTimelineSchedules.swift */,
+				B76553532BA99EDD0045BF93 /* Binding+OptionalChaining.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -204,7 +227,6 @@
 		B7BF52782B865C7F00FE0162 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				B7E075542B1D11B2001ABFE4 /* SettingsViewModel.swift */,
 				B7BF527E2B865E6200FE0162 /* LensFormViewModel.swift */,
 				B760DC4E2B88CCC000C2C025 /* LensDashboardViewModel.swift */,
 			);
@@ -231,6 +253,7 @@
 		B7C08EAD2B1CAAB600DD0BE2 /* EE Tracker */ = {
 			isa = PBXGroup;
 			children = (
+				B764A50F2BA89CDC0097C263 /* Tips */,
 				B7A7FD932BA6F37800F968A0 /* Notification */,
 				B70D06DC2B9FE735004E9092 /* Store */,
 				B70D06DA2B9E2091004E9092 /* EE TrackerDebug.entitlements */,
@@ -364,11 +387,13 @@
 				B7C08EC02B1CB73C00DD0BE2 /* LensItem.swift in Sources */,
 				B7580F582BA6A5200058F540 /* PassIdentifiers.swift in Sources */,
 				B7E32D8D2B2521DC00CA0729 /* WearDuration.swift in Sources */,
+				B76553522BA96D7C0045BF93 /* InitialDateTip.swift in Sources */,
 				B760DC5D2B959BAB00C2C025 /* AppAppearance.swift in Sources */,
 				B7BF52832B86721F00FE0162 /* Sphere.swift in Sources */,
 				B7580F562BA6A34B0058F540 /* RestorePurchasesButton.swift in Sources */,
 				B7C08EB12B1CAAB600DD0BE2 /* LensDashboardView.swift in Sources */,
 				B760DC4F2B88CCC000C2C025 /* LensDashboardViewModel.swift in Sources */,
+				B76553562BA9B4D30045BF93 /* ReminderDaysTip.swift in Sources */,
 				B761D5862BA8339E00CEE24A /* GetPlusButton.swift in Sources */,
 				B7C08EAF2B1CAAB600DD0BE2 /* EE_TrackerApp.swift in Sources */,
 				B70D06E02B9FEB3C004E9092 /* PassStatus.swift in Sources */,
@@ -382,8 +407,10 @@
 				B7E32DA02B26058500CA0729 /* PreviewSampleData.swift in Sources */,
 				B7F555862BA160550069D38E /* PreferenceKeys.swift in Sources */,
 				B7580F5A2BA6ADF80058F540 /* SubscriptionShopViewModifier.swift in Sources */,
+				B76553542BA99EDD0045BF93 /* Binding+OptionalChaining.swift in Sources */,
 				B70D06E82B9FF1AF004E9092 /* SubscriptionShopView.swift in Sources */,
 				B761D5822BA810F300CEE24A /* NotificationTaskModifier.swift in Sources */,
+				B764A5112BA89CF00097C263 /* AddNewTip.swift in Sources */,
 				B7E075532B1D0FF2001ABFE4 /* SettingsView.swift in Sources */,
 				B7E32DA42B2629A800CA0729 /* LensTrackingTimelineView.swift in Sources */,
 				B7E32D8B2B2521B700CA0729 /* EyeSide.swift in Sources */,
@@ -393,11 +420,12 @@
 				B7E075512B1CE214001ABFE4 /* CircleProgressView.swift in Sources */,
 				B74FA83C2B5A946C001E896F /* Bool+Comparable.swift in Sources */,
 				B70D06EA2B9FF654004E9092 /* PassManager.swift in Sources */,
-				B7E075552B1D11B2001ABFE4 /* SettingsViewModel.swift in Sources */,
+				B764A5132BA8AE950097C263 /* NotificationWarningTip.swift in Sources */,
 				B7E32D892B2519E300CA0729 /* DataSourceModel.swift in Sources */,
 				B7E32D812B2119CD00CA0729 /* LensTrackingView.swift in Sources */,
 				B71262C02B66A049009185EE /* LensSortOrder.swift in Sources */,
 				B760DC592B95646500C2C025 /* NotificationManager.swift in Sources */,
+				B76553502BA96AEF0045BF93 /* BrandNameTip.swift in Sources */,
 				B7BF527F2B865E6200FE0162 /* LensFormViewModel.swift in Sources */,
 				B74FA83A2B5A84F1001E896F /* LensCarouselView.swift in Sources */,
 				B7E394172B98FFC900113138 /* CustomTimelineSchedules.swift in Sources */,
@@ -553,13 +581,13 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.alture.EE-Tracker";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator xros xrsimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = "1,2,7";
 			};
 			name = Debug;
 		};
@@ -590,13 +618,13 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.alture.EE-Tracker";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator xros xrsimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = "1,2,7";
 			};
 			name = Release;
 		};

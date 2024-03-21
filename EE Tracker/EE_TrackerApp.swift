@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SwiftData
+import TipKit
 
 @main
 struct EE_TrackerApp: App {
@@ -40,5 +41,8 @@ struct EE_TrackerApp: App {
     init() {
         NotificationManager.createSharedInstance(modelContext: sharedModelContainer.mainContext)
         PassManager.createSharedInstance()
+        
+        try? Tips.resetDatastore()
+        try? Tips.configure()
     }
 }

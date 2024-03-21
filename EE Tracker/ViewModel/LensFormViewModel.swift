@@ -36,7 +36,7 @@ final class LensFormViewModel {
         return !brandName.isEmpty
     }
     
-    enum Status {
+    enum Status: Identifiable {
         case new
         case editable
         case changeable
@@ -50,6 +50,21 @@ final class LensFormViewModel {
             case .changeable:
                 return "Change"
             }
+        }
+        
+        var navigationTitle: String {
+            switch self {
+            case .new:
+                return "Create New"
+            case .editable:
+                return "Edit Current"
+            case .changeable:
+                return "Change Current"
+            }
+        }
+        
+        var id: Self {
+            self
         }
     }
     

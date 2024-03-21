@@ -35,21 +35,21 @@ extension PassStatus: CustomStringConvertible {
     }
 }
 
+enum PassStatusEnvironmentKey: EnvironmentKey {
+    static var defaultValue: PassStatus = .notSubscribed
+}
+
+enum PassStatusLoadingEnvironmentKey: EnvironmentKey {
+    static var defaultValue = true
+}
+
 extension EnvironmentValues {
-    private enum PassStatusEnvironmentKey: EnvironmentKey {
-        static var defaultValue: PassStatus = .notSubscribed
-    }
-    
-    private enum PassStatusLoadingEnvironmentKey: EnvironmentKey {
-        static var defaultValue = true
-    }
-    
-    fileprivate(set) var passStatus: PassStatus {
+    var passStatus: PassStatus {
         get { self[PassStatusEnvironmentKey.self] }
         set { self[PassStatusEnvironmentKey.self] = newValue }
     }
     
-    fileprivate(set) var passStatusIsLoading: Bool {
+    var passStatusIsLoading: Bool {
         get { self[PassStatusLoadingEnvironmentKey.self] }
         set { self[PassStatusLoadingEnvironmentKey.self] = newValue}
     }
@@ -82,11 +82,7 @@ private struct PassStatusTaskModifier: ViewModifier {
                 case .failure(let error):
                     print("Failed to check subscription status: \(error)")
                 case .success(let status):
-                    if status == .monthly || status == .yearly, notificationGranted {
-                        await notificationManager.reloadLocalNotifications()
-                        await notificationManager.reloadItems()
-                        await notificationManager.reloadLocalNotificationByItems()
-                    } else {
+                    if status == .notSubscribed {
                         await notificationManager.removeAllNotification()
                     }
                     print("Providing updated status: \(status)")

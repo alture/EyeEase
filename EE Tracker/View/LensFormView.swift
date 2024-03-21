@@ -8,11 +8,13 @@
 import SwiftUI
 import Combine
 import SwiftData
+import TipKit
 
 struct LensFormView: View {
     @FocusState private var focusField: FocusableField?
     @Environment(\.modelContext) var modelContext
     @Environment(\.dismiss) var dismiss
+    @Environment(\.passStatus) private var passStatus
     
     @Bindable private var viewModel: LensFormViewModel
     private var lensItem: LensItem
@@ -51,7 +53,7 @@ struct LensFormView: View {
                     showingSphereSection: $showingSphereSection
                 )
             }
-            .navigationTitle("Edit")
+            .navigationTitle(viewModel.status.navigationTitle)
             .navigationBarTitleDisplayMode(.inline)
             .defaultFocus($focusField, .bc)
             .onChange(of: showingSphereSection, { oldValue, newValue in
@@ -59,39 +61,33 @@ struct LensFormView: View {
                     self.focusField = nil
                 }
             })
-            .sheet(isPresented: $showingSphereSection, content: {
-                SphereSection(sphere: self.viewModel.sphere) { sphere in
-                    self.viewModel.sphere = sphere
-                }
-                .overlay {
-                    GeometryReader { geometry in
-                        Color.clear.preference(key: InnerHeightPreferenceKey.self, value: geometry.size.height)
-                    }
-                }
-                .onPreferenceChange(InnerHeightPreferenceKey.self) { newHeight in
-                    sheetHeight = newHeight
-                }
-                .presentationDetents([.height(sheetHeight)])
-            })
             .toolbar {
-                if focusField != .name {
-                    ToolbarItem(placement: .keyboard) {
-                        HStack {
-                            Button("", systemImage: "chevron.up") {
-                                self.focusField?.prev()
+                ToolbarItemGroup(placement: .keyboard) {
+                    HStack {
+                        if passStatus != .notSubscribed {
+                            HStack {
+                                Button(action: {
+                                    self.focusField?.prev()
+                                }, label: {
+                                    Image(systemName: "chevron.up")
+                                })
+                                .disabled(self.focusField == .name)
+                                
+                                Button(action: {
+                                    self.focusField?.next()
+                                }, label: {
+                                    Image(systemName: "chevron.down")
+                                })
+                                .disabled(self.focusField == .axis)
                             }
-                            .disabled(self.focusField == .bc)
-                            
-                            Button("", systemImage: "chevron.down") {
-                                self.focusField?.next()
-                            }
-                            .disabled(self.focusField == .axis)
-                            
-                            Spacer()
-                            
-                            Button("", systemImage: "keyboard.chevron.compact.down") {
-                                self.focusField = nil
-                            }
+                        }
+                        
+                        Spacer()
+                        
+                        Button {
+                            self.focusField = nil
+                        } label: {
+                            Image(systemName: "keyboard.chevron.compact.down")
                         }
                     }
                 }
@@ -114,9 +110,19 @@ struct LensFormView: View {
                         Text("Please specify the contact lens brand for accurate tracking.")
                     })
                 }
+                
+                ToolbarItem(placement: .topBarLeading) {
+                    Button {
+                        self.dismiss()
+                    } label: {
+                        Text("Cancel")
+                    }
+                    .foregroundStyle(.red)
+                }
             }
             .defaultFocus($focusField, .name)
         }
+        .tint(Color.teal)
     }
     
     private func save() {
@@ -156,7 +162,7 @@ enum FocusableField: Hashable {
     mutating func next() {
         switch self {
         case .name:
-            break
+            self = .bc
         case .bc:
             self = .dia
         case .dia:
@@ -173,7 +179,7 @@ enum FocusableField: Hashable {
         case .name:
             break
         case .bc:
-            break
+            self = .name
         case .dia:
             self = .bc
         case .cylinder:
@@ -194,8 +200,8 @@ struct PowerPicker: View {
             }
         }
         .pickerStyle(WheelPickerStyle())
-        .frame(height: 180)
-        .padding(.all, -8)
+        .frame(height: 160)
+        .padding(.all, -16)
     }
 }
 
@@ -206,18 +212,24 @@ struct MainSection: View {
     @Binding var eyeSide: EyeSide
     @Binding var initialUseDate: Date
     @Binding var isWearing: Bool
+    var brandNameTip = BrandNameTip()
+    var initialDateTip = InitialDateTip()
     
     var body: some View {
         Section {
             LabeledContent("Brand name") {
-                TextField("Required", text: $brandName)
-                    .autocorrectionDisabled(true)
-                    .multilineTextAlignment(.trailing)
-                    .focused($focusField, equals: .name)
-                    .foregroundStyle(.teal)
-                    .submitLabel(.done)
-                    .textFieldStyle(.plain)
+                TextField("Required", text: $brandName, onEditingChanged: { editingChanged in
+                    print("Editing Changed: \(editingChanged)")
+                    // TODO: - Configure Tips
+                })
+                .autocorrectionDisabled(true)
+                .multilineTextAlignment(.trailing)
+                .focused($focusField, equals: .name)
+                .foregroundStyle(.teal)
+                .submitLabel(.done)
+                .textFieldStyle(.plain)
             }
+            // TODO: - Show brandNameTip
             
             Picker("Usage Period", selection: $wearDuration) {
                 ForEach(WearDuration.allCases.filter {
@@ -236,6 +248,7 @@ struct MainSection: View {
             }
             
             DatePicker("Initial Use Date", selection: $initialUseDate, in: ...Date.now, displayedComponents: [.date])
+            // TODO: - Show InitialDateTip
         } header: {
             HStack {
                 Image(systemName: "circle.dashed")
@@ -250,26 +263,15 @@ struct MainSection: View {
 struct SphereSection: View {
     @State private var sphere: Sphere = Sphere()
     @State private var lastChangedSide: EyeSide = .both
-    @Environment(\.dismiss) private var dismiss
+    @Binding var showing: Bool
     private var completion: (Sphere?) -> Void
-    
+
     var body: some View {
         VStack {
-            HStack(alignment: .top) {
-                Text("Set Sphere")
-                    .font(.system(.title2, design: .rounded, weight: .bold))
-                Spacer()
-                Button(action: {
-                    self.dismiss()
-                }, label: {
-                    Image(systemName: "xmark.circle.fill")
-                        .font(.title2)
-                })
-            }
-            .padding(.bottom)
             HStack {
                 VStack {
                     Text("Left Eye")
+                        .font(.headline)
                         .bold()
                     Divider()
                     PowerPicker(value: $sphere.left)
@@ -310,6 +312,7 @@ struct SphereSection: View {
                 
                 VStack {
                     Text("Right Eye")
+                        .font(.headline)
                         .bold()
                     Divider()
                     PowerPicker(value: $sphere.right)
@@ -327,37 +330,20 @@ struct SphereSection: View {
             }
             
             Button(action: {
-                if self.sphere.left == 0.0, self.sphere.isSame {
-                    self.completion(nil)
-                } else {
-                    self.completion(self.sphere)
-                }
-                self.dismiss()
+                self.completion(self.sphere)
+                self.showing = false
             }, label: {
                 Text("Save")
                     .font(.headline)
                     .frame(minWidth: 0, maxWidth: .infinity)
-                    .padding()
-                    .foregroundStyle(.white)
-                    .background(.teal)
-                    .cornerRadius(10)
+                    .padding(8)
             })
-            .padding(.bottom)
-            
-            Button("Reset") {
-                withAnimation {
-                    self.sphere.left = 0.0
-                    self.sphere.right = 0.0
-                }
-                
-                self.completion(nil)
-            }
-            .buttonStyle(.plain)
-            .foregroundStyle(.red)
-        }.padding()
+            .buttonStyle(.borderedProminent)
+        }
     }
     
-    init(sphere: Sphere? = nil, _ completion: @escaping (Sphere?) -> Void) {
+    init(sphere: Sphere? = nil, showing: Binding<Bool>, _ completion: @escaping (Sphere?) -> Void) {
+        self._showing = showing
         self.completion = completion
         self.sphere.left = sphere?.left ?? 0.0
         self.sphere.right = sphere?.right ?? 0.0
@@ -386,12 +372,30 @@ struct DetailSection: View {
         Section {
             Group {
                 LabeledContent("Sphere(PWR)") {
-                    Button(sphere != nil ? sphereDesc : "Set Sphere") {
+                    Button(action: {
                         self.showingSphereSection.toggle()
-                    }
+                    }, label: {
+                        Group {
+                            if showingSphereSection {
+                               Text("Dismiss")
+                            } else if sphere == nil {
+                                Text("Set Sphere")
+                            } else {
+                                Text(sphereDesc)
+                            }
+                        }
+                    })
                     .buttonStyle(.bordered)
                     .controlSize(.small)
-                    .tint(Color.teal)
+                    .tint(showingSphereSection ? .red : .teal)
+                    .animation(.easeInOut(duration: 0.2), value: showingSphereSection)
+                }
+                
+                if showingSphereSection {
+                    SphereSection(sphere: sphere, showing: $showingSphereSection) { sphere in
+                        self.sphere = sphere
+                    }
+                    .animation(.default, value: showingSphereSection)
                 }
                 
                 DetailRow(
@@ -475,19 +479,12 @@ struct DetailRow: View {
     }
 }
 
-#Preview("New", body: {
-    return LensFormView(lensItem: SampleData.content[1], status: .new) { _ in}
+#Preview("Pro", body: {
+    return LensFormView(lensItem: SampleData.content[1], status: .new) { _ in }
+        .environment(\.passStatus, .yearly)
 })
 
-#Preview("Editable", body: {
-    return LensFormView(lensItem: SampleData.content[2], status: .editable) { _ in}
-})
-
-#Preview("Changeable", body: {
-    return LensFormView(lensItem: SampleData.content[3], status: .changeable) { _ in}
-})
-
-#Preview("Sphere Section", body: {
-    return SphereSection() { _ in }
+#Preview("Base", body: {
+    return LensFormView(lensItem: SampleData.content[1], status: .new) { _ in }
 })
 

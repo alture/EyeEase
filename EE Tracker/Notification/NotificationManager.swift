@@ -64,10 +64,11 @@ actor NotificationManager {
         self.notifications = notificationRequest
     }
     
-    func cancelNotification(for id: String) {
+    func cancelNotification(for id: UUID) {
+        print("NotificationManager: cancelNotification")
         let notificationCenter = UNUserNotificationCenter.current()
-        let dayBeforeId = "\(id)-day-before"
-        let dayOfId = "\(id)-day-of"
+        let dayBeforeId = "\(id.uuidString)-day-before"
+        let dayOfId = "\(id.uuidString)-day-of"
         
         notificationCenter.removePendingNotificationRequests(withIdentifiers: [dayBeforeId, dayOfId])
     }
@@ -75,8 +76,8 @@ actor NotificationManager {
     func scheduleNotifications(for id: UUID) async {
         await reloadLocalNotifications()
         reloadItems()
-        
         guard let item = items.first(where: { $0.id == id } ) else { return }
+        cancelNotification(for: id)
         
         let calendar = Calendar.current
         let changeDate = item.changeDate
@@ -117,9 +118,6 @@ actor NotificationManager {
     }
 
     private func scheduleNotification(for id: String, at date: Date, with content: UNMutableNotificationContent) async {
-        
-        cancelNotification(for: id)
-        
         let notificationCenter = UNUserNotificationCenter.current()
         var dateComponents = Calendar.current.dateComponents([.year, .month, .day, .month], from: date)
         dateComponents.hour = 10

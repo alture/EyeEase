@@ -7,6 +7,7 @@
 
 import SwiftUI
 import StoreKit
+import TipKit
 
 enum ReminderDays: Int, Identifiable, CustomStringConvertible, CaseIterable {
     case none = 0
@@ -37,6 +38,7 @@ enum ReminderDays: Int, Identifiable, CustomStringConvertible, CaseIterable {
 struct SettingsView: View {
     @Environment(\.dismiss) var dismiss
     @Environment(\.requestReview) var requestReview
+    @Environment(\.openURL) private var openURL
     
     @Environment(\.passStatus) private var passStatus
     @Environment(\.passIDs.group) private var passGroupID
@@ -51,22 +53,22 @@ struct SettingsView: View {
     @State private var presentingPassSheet: Bool = false
     @State private var presentingManagePassSheet = false
     @AppStorage(AppStorageKeys.reminderDays) var reminderDays: ReminderDays = .none
+    var notificationWarningTip = NotificationWarningTip()
     
     var body: some View {
         NavigationStack {
-            if !notificationAllowed && hasPass {
-                GroupBox(label:
-                    Label("Notifications are disabled", systemImage: "info.circle")
-                ) {
-                    Text("Turn on push notifications below to get reminders for lens replacement. Stay on track with your eye care!")
-                        .font(.footnote)
-                        .padding(.top, 2.0)
-                }
-                .backgroundStyle(Color.yellow.opacity(0.7))
-                .padding(.horizontal)
-            }
-            
             Form {
+                TipView(notificationWarningTip) { action in
+                    guard
+                        action.id == "open-settings",
+                        let url = URL(string: UIApplication.openNotificationSettingsURLString)
+                    else {
+                        return
+                    }
+                    
+                    openURL(url)
+                }
+                
                 Section(header: Text("Account")) {
                     Button {
                         if hasPass {
@@ -106,12 +108,12 @@ struct SettingsView: View {
                                 } else {
                                     Button(action: {
                                         guard
-                                            let appSettings = URL(string: UIApplication.openNotificationSettingsURLString), UIApplication.shared.canOpenURL(appSettings)
+                                            let url = URL(string: UIApplication.openNotificationSettingsURLString)
                                         else {
                                             return
                                         }
                                         
-                                        UIApplication.shared.open(appSettings, options: [:])
+                                        openURL(url)
                                     }, label: {
                                         Text("Open Settings")
                                     })
@@ -128,7 +130,7 @@ struct SettingsView: View {
                                     .symbolRenderingMode(.palette)
                                     .foregroundStyle(.red, .primary)
                                     .symbolEffect(.pulse, isActive: !notificationAllowed)
-                                Text("Push notifications")
+                                Text("Push Notifications")
                             }
                         }
                         
@@ -140,9 +142,10 @@ struct SettingsView: View {
                         } label: {
                             HStack {
                                 Image(systemName: "bell")
-                                Text("Reminder")
+                                Text("Early Reminder")
                             }
                         }
+                        .disabled(!notificationAllowed)
                     }
                     .availableOnPlus()
                 } header: {
@@ -222,11 +225,13 @@ struct SettingsView: View {
             }
             .toolbar(content: {
                 ToolbarItem(placement: .topBarTrailing) {
-                    Image(systemName: "xmark.circle.fill")
-                        .foregroundStyle(Color.teal)
-                        .onTapGesture {
-                            self.dismiss()
-                        }
+                    Button {
+                        self.dismiss()
+                    } label: {
+                        Text("Close")
+                    }
+                    .foregroundStyle(Color.teal)
+
                 }
             })
             .onChange(of: reminderDays, { oldValue, newValue in
@@ -234,6 +239,25 @@ struct SettingsView: View {
                     await NotificationManager.shared.reloadLocalNotificationByItems(true)
                 }
             })
+            .onChange(of: hasPass, { oldValue, newValue in
+                print("SettingsView hasPass: \(newValue)")
+                NotificationWarningTip.hasPass = hasPass
+                
+                if newValue == false {
+                    reminderDays = .none
+                }
+            })
+            .onChange(of: notificationAllowed, { oldValue, newValue in
+                print("SettingsView Notification Allowed: \(notificationAllowed)")
+                NotificationWarningTip.notificationAllowed = newValue
+                if newValue == false {
+                    reminderDays = .none
+                }
+            })
+            .onAppear {
+                NotificationWarningTip.hasPass = hasPass
+                NotificationWarningTip.notificationAllowed = notificationAllowed
+            }
             .sheet(isPresented: $presentingPassSheet, content: {
                 SubscriptionShopView()
             })

@@ -14,7 +14,7 @@ final class Sphere {
     var right: Float = 0.0
     
     var isSame: Bool { left == right }
-    var proportional: Bool = false
+    var proportional: Bool = true
     var lensItem: LensItem?
     
     init(left: Float = 0, right: Float = 0, proportional: Bool = true, lensItem: LensItem? = nil) {

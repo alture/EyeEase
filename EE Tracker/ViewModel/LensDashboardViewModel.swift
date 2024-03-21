@@ -19,6 +19,7 @@ final class LensDashboardViewModel {
     var showingConfirmation: Bool = false
     var showingSort: Bool = false
     var showingChangables: Bool = false
+    var showingSubscriptionsSheet: Bool = false
     
     private var sortedLensItem: [LensItem] {
         switch sortOrder {
@@ -70,25 +71,13 @@ final class LensDashboardViewModel {
             selectedLensItem = item
             fetchData()
         }
-        
-        if let notificationManager = NotificationManager.shared {
-            Task {
-                await notificationManager.scheduleNotifications(for: item.id)
-            }
-        }
     }
     
     func deleteItem(_ item: LensItem) {
-        selectedLensItem = nil
         withAnimation {
+            selectedLensItem = nil
             modelContext.delete(item)
             fetchData()
-        }
-        
-        if let notificationManager = NotificationManager.shared {
-            Task {
-                await notificationManager.cancelNotification(for: item.id.uuidString)
-            }
         }
     }
     
@@ -99,32 +88,25 @@ final class LensDashboardViewModel {
         selectedLensItem?.startDate = item.startDate
         selectedLensItem?.changeDate = item.changeDate
         selectedLensItem?.usedNumber = item.usedNumber
-        selectedLensItem?.sphere = item.sphere
         selectedLensItem?.detail = item.detail
-//        if let sphere = item.sphere, selectedLensItem?.sphere != nil {
-//            selectedLensItem?.sphere?.left = sphere.left
-//            selectedLensItem?.sphere?.right = sphere.right
-//            selectedLensItem?.sphere?.proportional = sphere.proportional
-//        }
-//        
-//        if let detail = item.detail, selectedLensItem?.detail != nil  {
-//            selectedLensItem?.detail?.baseCurve = detail.baseCurve
-//            selectedLensItem?.detail?.axis = detail.axis
-//            selectedLensItem?.detail?.cylinder = detail.cylinder
-//            selectedLensItem?.detail?.dia = detail.dia
-//        }
+        selectedLensItem?.sphere = item.sphere
         
-        if let selectedLensItem {
-//            notificationManager.updateNotifications(for: selectedLensItem)
-        }
-        
-//        fetchData()
-        
+        fetchData()
+    }
+    
+    func createNotification(by id: UUID) {
         if let notificationManager = NotificationManager.shared {
             Task {
-                await notificationManager.scheduleNotifications(for: item.id)
+                await notificationManager.scheduleNotifications(for: id)
             }
         }
     }
     
+    func cancelNotification(by id: UUID) {
+        if let notificationManager = NotificationManager.shared {
+            Task {
+                await notificationManager.cancelNotification(for: id)
+            }
+        }
+    }
 }

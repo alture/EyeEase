@@ -20,6 +20,11 @@ struct SubscriptionShopView: View {
         .onInAppPurchaseCompletion(perform: { (product: Product, result: Result<Product.PurchaseResult, Error>) in
             if case .success(.success(let transaction)) = result {
                 await PassManager.shared.process(transaction: transaction)
+                
+                await NotificationManager.shared.reloadLocalNotifications()
+                await NotificationManager.shared.reloadItems()
+                await NotificationManager.shared.reloadLocalNotificationByItems()
+                
                 dismiss()
             }
         })
