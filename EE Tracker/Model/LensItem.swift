@@ -15,6 +15,7 @@ final class LensItem: ObservableObject {
     var name: String = ""
     var eyeSide: EyeSide = EyeSide.both
     var wearDuration: WearDuration = WearDuration.biweekly
+    private(set) var createdDate: Date = Date.now
     var startDate: Date = Date.now
     var changeDate: Date = Date.distantPast
     var totalNumber: Int?
@@ -29,7 +30,8 @@ final class LensItem: ObservableObject {
         id: UUID = UUID(),
         name: String = "",
         eyeSide: EyeSide = .both,
-        wearDuration: WearDuration = .monthly,
+        wearDuration: WearDuration = .biweekly,
+        createdDate: Date = Date.now,
         startDate: Date = Date.now.startOfDay,
         totalNumber: Int? = nil,
         usedNumber: Int = 0,
@@ -41,6 +43,7 @@ final class LensItem: ObservableObject {
         self.name = name
         self.eyeSide = eyeSide
         self.wearDuration = wearDuration
+        self.createdDate = createdDate
         self.startDate = startDate
         self.changeDate = Calendar.current.date(byAdding: .day, value: wearDuration.limit, to: startDate) ?? Date.now
         self.totalNumber = totalNumber

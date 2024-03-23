@@ -9,11 +9,13 @@ import SwiftUI
 import SwiftData
 
 struct LensTrackingView: View {
-    private(set) var lensItem: LensItem
-    @Binding var showingChangables: Bool
+    @Environment(NavigationContext.self) private var navigationContext
+    @Environment(\.passStatus) private var passStatus
+    @State private var showingChangables: Bool = false
     @State private var readyToExpire: Bool = false
     
     private var sphereDesc: String {
+        guard let lensItem = navigationContext.selectedLensItem else { return "" }
         guard let sphere = lensItem.sphere else { return "Not set" }
         switch lensItem.eyeSide {
         case .left:
@@ -30,37 +32,49 @@ struct LensTrackingView: View {
     }
     
     var body: some View {
-        VStack {
-            LensTrackingHeader(
-                name: lensItem.name,
-                initialDate: lensItem.startDate,
-                isWearing: lensItem.isWearing
-            )
-            
-            LensTrackingTimelineView(
-                wearDuration: lensItem.wearDuration.limit,
-                changeDate: lensItem.changeDate, 
-                showingChangables: self.$showingChangables
-            ).padding(.top)
-            
-            LensInformationView(
-                wearDuration: lensItem.wearDuration.rawValue,
-                sphere: sphereDesc,
-                eyeSide: lensItem.eyeSide.rawValue
-            ).padding(.top)
-            
-            Image(systemName: "ellipsis")
-                .padding(8.0)
-                .font(.title2)
-                .foregroundStyle(Color(.systemGray4))
-            
-            if let detail = lensItem.detail {
-                LensDetailView(detail: detail)
+        if let lensItem = navigationContext.selectedLensItem {
+            VStack {
+                LensTrackingHeader(
+                    name: lensItem.name,
+                    initialDate: lensItem.startDate,
+                    isWearing: lensItem.isWearing
+                )
+                
+                LensTrackingTimelineView(
+                    wearDuration: lensItem.wearDuration.limit,
+                    changeDate: lensItem.changeDate,
+                    showingChangables: self.$showingChangables
+                ).padding(.top)
+                
+                LensInformationView(
+                    wearDuration: lensItem.wearDuration.rawValue,
+                    sphere: sphereDesc,
+                    eyeSide: lensItem.eyeSide.rawValue
+                ).padding(.top)
+                
+                if let detail = lensItem.detail, passStatus != .notSubscribed {
+                    Image(systemName: "ellipsis")
+                        .padding(8.0)
+                        .font(.title2)
+                        .foregroundStyle(Color(.systemGray4))
+                    
+                    LensDetailView(detail: detail)
+                }
             }
+            .sheet(isPresented: $showingChangables, content: {
+                LensFormView(state: .changeable, lensItem: navigationContext.selectedLensItem)
+            })
+            .padding()
+            .background(Color(.secondarySystemBackground))
+            .clipShape(RoundedRectangle(cornerRadius: 12))
+        } else {
+            ContentUnavailableView(
+                "No selected lens",
+                systemImage: "eye.slash.circle.fill",
+                description: Text("Select any lens on the top to show tracking information")
+            )
+            .padding(.top, 40)
         }
-        .padding()
-        .background(Color(.secondarySystemBackground))
-        .clipShape(RoundedRectangle(cornerRadius: 12))
     }
 }
 
@@ -86,8 +100,6 @@ struct LensTrackingHeader: View {
             Spacer()
         }
     }
-    
-
 }
 
 struct LensInformationView: View {
@@ -97,8 +109,8 @@ struct LensInformationView: View {
     
     var body: some View {
         HStack(alignment: .top, spacing: 8.0) {
-            LensInformationRow(image: "hourglass.circle", title: "Period", value: wearDuration)
-            LensInformationRow(image: "dial", title: "Sphere", value: sphere)
+            LensInformationRow(image: "hourglass.circle", title: "Type", value: wearDuration)
+            LensInformationRow(image: "dial", title: "Power", value: sphere)
             LensInformationRow(image: "eyes.inverse", title: "Eye Side", value: eyeSide)
         }
     }
@@ -159,13 +171,16 @@ extension Button {
 }
 
 #Preview("Lens Default") {
-    return LensTrackingView(lensItem: SampleData.content[1], showingChangables: .constant(false))
+    return LensTrackingView()
+        .environment(NavigationContext())
 }
 
 #Preview("Lens Ready to expire") {
-    return LensTrackingView(lensItem: SampleData.content[2], showingChangables: .constant(false))
+    return LensTrackingView()
+        .environment(NavigationContext())
 }
 
 #Preview("Lens Expired") {
-    return LensTrackingView(lensItem: SampleData.content[3], showingChangables: .constant(false))
+    return LensTrackingView()
+        .environment(NavigationContext())
 }

@@ -17,23 +17,17 @@ struct EE_TrackerApp: App {
             Sphere.self,
             LensDetail.self
         ])
-        let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
+        let configuration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false, cloudKitDatabase: .automatic)
         do {
-            return try ModelContainer(for: schema, configurations: [modelConfiguration])
+            return try ModelContainer(for: schema, configurations: [configuration])
         } catch {
             fatalError("Could not create ModelContainer: \(error)")
         }
     }()
-    
-    @AppStorage(AppStorageKeys.appAppearance) private var appAppearance: AppAppearance = .system
 
     var body: some Scene {
         WindowGroup {
-            LensDashboardView(modelContext: sharedModelContainer.mainContext)
-                .preferredColorScheme(appAppearance == .system ? .none : (appAppearance == .dark ? .dark : .light ))
-                .notificationGrantedTask()
-                .subscriptionShop()
-                .fontDesign(.rounded)
+            ContentView()
         }
         .modelContainer(sharedModelContainer)
     }
@@ -42,7 +36,6 @@ struct EE_TrackerApp: App {
         NotificationManager.createSharedInstance(modelContext: sharedModelContainer.mainContext)
         PassManager.createSharedInstance()
         
-        try? Tips.resetDatastore()
         try? Tips.configure()
     }
 }

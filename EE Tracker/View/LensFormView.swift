@@ -12,27 +12,20 @@ import TipKit
 
 struct LensFormView: View {
     @FocusState private var focusField: FocusableField?
-    @Environment(\.modelContext) var modelContext
     @Environment(\.dismiss) var dismiss
     @Environment(\.passStatus) private var passStatus
+    @Environment(NavigationContext.self) private var navigationContext
+    @Environment(\.modelContext) private var modelContext
     
-    @Bindable private var viewModel: LensFormViewModel
-    private var lensItem: LensItem
     @State private var showingAlert = false
-    @State private var defaultLensItem: LensItem?
     @State private var showingSphereSection: Bool = false
     @State private var sheetHeight: CGFloat = .zero
-    private var didClose: (LensItem) -> Void
+    @State private var initialUseDate: Date = Date.now
     
-    init(
-        lensItem: LensItem = LensItem(),
-        status: LensFormViewModel.Status,
-        _ didClose: @escaping (LensItem) -> Void
-    ) {
-        self.lensItem = lensItem
-        self.viewModel = LensFormViewModel(lensItem: lensItem, status: status)
-        self.didClose = didClose
-    }
+    @State private var viewModel = LensFormViewModel()
+    
+    var state: FormState = .new
+    var lensItem: LensItem?
     
     var body: some View {
         NavigationStack {
@@ -50,12 +43,28 @@ struct LensFormView: View {
                     detail: $viewModel.detail,
                     sphere: $viewModel.sphere,
                     focusField: _focusField,
-                    showingSphereSection: $showingSphereSection
+                    showingSphereRow: $showingSphereSection
                 )
             }
-            .navigationTitle(viewModel.status.navigationTitle)
+            .onAppear {
+                let dateByStartOfDay = Date.now.startOfDay
+                
+                if state == .changeable {
+                    self.viewModel.initialUseDate = dateByStartOfDay
+                } else {
+                    self.viewModel.initialUseDate = lensItem?.startDate ?? Date.now
+                }
+                
+                self.viewModel.brandName = lensItem?.name ?? ""
+                self.viewModel.eyeSide = lensItem?.eyeSide ?? .both
+                self.viewModel.wearDuration = lensItem?.wearDuration ?? .biweekly
+                self.viewModel.isWearing = lensItem?.isWearing ?? false
+                self.viewModel.sphere = lensItem?.sphere
+                self.viewModel.detail = lensItem?.detail ?? LensDetail()
+            }
+            .navigationTitle(state.navigationTitle)
             .navigationBarTitleDisplayMode(.inline)
-            .defaultFocus($focusField, .bc)
+            .defaultFocus($focusField, .name)
             .onChange(of: showingSphereSection, { oldValue, newValue in
                 if newValue {
                     self.focusField = nil
@@ -93,7 +102,7 @@ struct LensFormView: View {
                 }
                 
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button(viewModel.status.actionTitle) {
+                    Button(state.actionTitle) {
                         if viewModel.isNameValid {
                             self.save()
                             self.dismiss()
@@ -104,7 +113,6 @@ struct LensFormView: View {
                     .alert("Please enter the name", isPresented: $showingAlert, actions: {
                         Button("Ok", role: .cancel) {
                             self.showingAlert.toggle()
-                            self.focusField = .name
                         }
                     }, message: {
                         Text("Please specify the contact lens brand for accurate tracking.")
@@ -126,16 +134,36 @@ struct LensFormView: View {
     }
     
     private func save() {
-        lensItem.name = viewModel.brandName
-        lensItem.eyeSide = viewModel.eyeSide
-        lensItem.wearDuration = viewModel.wearDuration
-        lensItem.startDate = viewModel.initialUseDate
-        lensItem.sphere = viewModel.sphere
-        lensItem.isWearing = viewModel.isWearing
-        lensItem.detail = viewModel.detail
-        lensItem.changeDate = viewModel.changeDate
-        
-        didClose(lensItem)
+        if let lensItem {
+            lensItem.name = viewModel.brandName
+            lensItem.eyeSide = viewModel.eyeSide
+            lensItem.wearDuration = viewModel.wearDuration
+            lensItem.startDate = viewModel.initialUseDate
+            lensItem.sphere = viewModel.sphere
+            lensItem.isWearing = viewModel.isWearing
+            lensItem.detail = viewModel.detail
+            lensItem.changeDate = viewModel.changeDate
+            
+            if passStatus != .notSubscribed {
+                viewModel.createNotification(by: lensItem.id)
+            }
+        } else {
+            let newLensItem = LensItem()
+            newLensItem.name = viewModel.brandName
+            newLensItem.eyeSide = viewModel.eyeSide
+            newLensItem.startDate = viewModel.initialUseDate
+            newLensItem.isWearing = viewModel.isWearing
+            newLensItem.sphere = viewModel.sphere
+            newLensItem.detail = viewModel.detail
+            newLensItem.changeDate = viewModel.changeDate
+            
+            modelContext.insert(newLensItem)
+            navigationContext.selectedLensItem = newLensItem
+            
+            if passStatus != .notSubscribed {
+                viewModel.createNotification(by: newLensItem.id)
+            }
+        }
     }
 }
 
@@ -231,7 +259,7 @@ struct MainSection: View {
             }
             // TODO: - Show brandNameTip
             
-            Picker("Usage Period", selection: $wearDuration) {
+            Picker("Wearing Type", selection: $wearDuration) {
                 ForEach(WearDuration.allCases.filter {
                     $0 != .daily && $0 != .yearly
                 }) { duration in
@@ -247,7 +275,7 @@ struct MainSection: View {
                 }
             }
             
-            DatePicker("Initial Use Date", selection: $initialUseDate, in: ...Date.now, displayedComponents: [.date])
+            DatePicker("Date first used", selection: $initialUseDate, in: ...Date.now, displayedComponents: [.date])
             // TODO: - Show InitialDateTip
         } header: {
             HStack {
@@ -260,7 +288,7 @@ struct MainSection: View {
     }
 }
 
-struct SphereSection: View {
+struct SphereRowView: View {
     @State private var sphere: Sphere = Sphere()
     @State private var lastChangedSide: EyeSide = .both
     @Binding var showing: Bool
@@ -357,7 +385,7 @@ struct DetailSection: View {
     @FocusState var focusField: FocusableField?
     @Environment(\.passStatus) private var passStatus
     @State private var presentingPassSheet: Bool = false
-    @Binding var showingSphereSection: Bool
+    @Binding var showingSphereRow: Bool
     
     private var sphereDesc: String {
         guard let sphere else { return "" }
@@ -371,12 +399,12 @@ struct DetailSection: View {
     var body: some View {
         Section {
             Group {
-                LabeledContent("Sphere(PWR)") {
+                LabeledContent("Power Range(PWR)") {
                     Button(action: {
-                        self.showingSphereSection.toggle()
+                        self.showingSphereRow.toggle()
                     }, label: {
                         Group {
-                            if showingSphereSection {
+                            if showingSphereRow {
                                Text("Dismiss")
                             } else if sphere == nil {
                                 Text("Set Sphere")
@@ -387,15 +415,15 @@ struct DetailSection: View {
                     })
                     .buttonStyle(.bordered)
                     .controlSize(.small)
-                    .tint(showingSphereSection ? .red : .teal)
-                    .animation(.easeInOut(duration: 0.2), value: showingSphereSection)
+                    .tint(showingSphereRow ? .red : .teal)
+                    .animation(.easeInOut(duration: 0.2), value: showingSphereRow)
                 }
                 
-                if showingSphereSection {
-                    SphereSection(sphere: sphere, showing: $showingSphereSection) { sphere in
+                if showingSphereRow {
+                    SphereRowView(sphere: sphere, showing: $showingSphereRow) { sphere in
                         self.sphere = sphere
                     }
-                    .animation(.default, value: showingSphereSection)
+                    .animation(.default, value: showingSphereRow)
                 }
                 
                 DetailRow(
@@ -479,12 +507,12 @@ struct DetailRow: View {
     }
 }
 
-#Preview("Pro", body: {
-    return LensFormView(lensItem: SampleData.content[1], status: .new) { _ in }
-        .environment(\.passStatus, .yearly)
-})
-
-#Preview("Base", body: {
-    return LensFormView(lensItem: SampleData.content[1], status: .new) { _ in }
-})
-
+//#Preview("Pro", body: {
+//    return LensFormView(lensItem: SampleData.content[1], status: .new) { _ in }
+//        .environment(\.passStatus, .yearly)
+//})
+//
+//#Preview("Base", body: {
+//    return LensFormView(lensItem: SampleData.content[1], status: .new) { _ in }
+//})
+//

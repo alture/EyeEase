@@ -70,7 +70,7 @@ struct LensTrackingTimelineView: View {
                         Button(action: {
                             self.showingChangables = true
                         }, label: {
-                            Text("Change now")
+                            Text("Replace now")
                                 .padding(4)
                                 .fontWeight(.semibold)
                                 .font(.title3)

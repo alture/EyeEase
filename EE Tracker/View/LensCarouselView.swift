@@ -6,21 +6,22 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct LensCarouselView: View {
-    @Binding private var lenses: [LensItem]
-    @Binding private var selectedLensItem: LensItem?
+    @Environment(NavigationContext.self) private var navigationContext
+    @Query(sort: \LensItem.createdDate) var lensItems: [LensItem]
     
     var body: some View {
         ScrollViewReader { value in
             ScrollView(.horizontal) {
                 HStack {
-                    ForEach(lenses) { item in
-                        LensCarouselRow(name: item.name, isSelected: selectedLensItem?.id == item.id, isWearing: item.isWearing)
+                    ForEach(lensItems) { item in
+                        LensCarouselRow(name: item.name, isSelected: navigationContext.selectedLensItem?.id == item.id, isWearing: item.isWearing)
                             .id(item.id.uuidString)
                             .onTapGesture {
                                 withAnimation(.bouncy) {
-                                    selectedLensItem = item
+                                    navigationContext.selectedLensItem = item
                                     value.scrollTo(item.id.uuidString, anchor: .center)
                                 }
                             }
@@ -28,18 +29,15 @@ struct LensCarouselView: View {
                 }
             }
             .onAppear {
-                if let selectedLensItem {
+                if let selectedLensItem = navigationContext.selectedLensItem {
                     value.scrollTo(selectedLensItem.id.uuidString, anchor: .center)
+                } else {
+                    navigationContext.selectedLensItem = lensItems.first
                 }
             }
             .contentMargins(.horizontal, EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16), for: .scrollContent)
             .scrollIndicators(.hidden)
         }
-    }
-    
-    init(lenses: Binding<[LensItem]>, selectedLensItem: Binding<LensItem?>) {
-        self._lenses = lenses
-        self._selectedLensItem = selectedLensItem
     }
 }
 
@@ -74,5 +72,5 @@ struct LensCarouselRow: View {
 }
 
 #Preview {
-    LensCarouselView(lenses: .constant(SampleData.content), selectedLensItem: .constant(SampleData.content[0]))
+    LensCarouselView()
 }
