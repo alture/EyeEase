@@ -56,7 +56,7 @@ struct LensDashboardView: View {
             .toolbar(content: {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
-                        if case .notSubscribed = passStatus, lensItems.count > 1 {
+                        if case .notSubscribed = passStatus, lensItems.count > 0 {
                             self.viewModel.showingSubscriptionsSheet.toggle()
                         } else {
                             self.viewModel.showingNew.toggle()
