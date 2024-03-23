@@ -13,9 +13,13 @@ import SwiftData
 
 @ModelActor
 actor NotificationManager {
-    private(set) var notifications: [UNNotificationRequest] = []
-    private(set) var items: [LensItem] = []
+    private(set) var notifications: [UNNotificationRequest] = [] {
+        didSet {
+            print("NotificationManager: notificationCount: \(notifications.count)")
+        }
+    }
     
+    private(set) var items: [LensItem] = []
     private(set) static var shared: NotificationManager!
     
     static func createSharedInstance(modelContext: ModelContext) {
@@ -71,6 +75,7 @@ actor NotificationManager {
         let dayOfId = "\(id.uuidString)-day-of"
         
         notificationCenter.removePendingNotificationRequests(withIdentifiers: [dayBeforeId, dayOfId])
+        notificationCenter.removeDeliveredNotifications(withIdentifiers: [dayBeforeId, dayOfId])
     }
     
     func scheduleNotifications(for id: UUID) async {

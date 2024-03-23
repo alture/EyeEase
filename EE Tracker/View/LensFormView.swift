@@ -407,7 +407,8 @@ struct DetailSection: View {
                             if showingSphereRow {
                                Text("Dismiss")
                             } else if sphere == nil {
-                                Text("Set Sphere")
+                                Text("Set")
+                                    .padding(.horizontal, 8)
                             } else {
                                 Text(sphereDesc)
                             }

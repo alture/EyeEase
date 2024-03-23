@@ -11,6 +11,8 @@ import SwiftData
 struct LensCarouselView: View {
     @Environment(NavigationContext.self) private var navigationContext
     @Query(sort: \LensItem.createdDate) var lensItems: [LensItem]
+    @State private var showingSubscriptionsSheet: Bool = false
+    @Environment(\.passStatus) private var passStatus
     
     var body: some View {
         ScrollViewReader { value in
@@ -20,14 +22,21 @@ struct LensCarouselView: View {
                         LensCarouselRow(name: item.name, isSelected: navigationContext.selectedLensItem?.id == item.id, isWearing: item.isWearing)
                             .id(item.id.uuidString)
                             .onTapGesture {
-                                withAnimation(.bouncy) {
-                                    navigationContext.selectedLensItem = item
-                                    value.scrollTo(item.id.uuidString, anchor: .center)
+                                if disabledToSelect(item) {
+                                    self.showingSubscriptionsSheet.toggle()
+                                } else {
+                                    withAnimation(.bouncy) {
+                                        navigationContext.selectedLensItem = item
+                                        value.scrollTo(item.id.uuidString, anchor: .center)
+                                    }
                                 }
                             }
                     }
                 }
             }
+            .sheet(isPresented: $showingSubscriptionsSheet, content: {
+                SubscriptionShopView()
+            })
             .onAppear {
                 if let selectedLensItem = navigationContext.selectedLensItem {
                     value.scrollTo(selectedLensItem.id.uuidString, anchor: .center)
@@ -38,6 +47,11 @@ struct LensCarouselView: View {
             .contentMargins(.horizontal, EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16), for: .scrollContent)
             .scrollIndicators(.hidden)
         }
+    }
+    
+    func disabledToSelect(_ item: LensItem) -> Bool {
+        guard let index = lensItems.firstIndex(of: item) else { return false }
+        return passStatus == .notSubscribed && index > 0
     }
 }
 
