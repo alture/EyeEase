@@ -86,9 +86,9 @@ enum SubscriptionShopFeature: CaseIterable, Identifiable {
         case .reminder:
             return "Push Notifications"
         case .detailSection:
-            return "Lens Detail"
+            return "Detail of the Lens"
         case .moreThanOne:
-            return "Multiple Lenses"
+            return "More than one lens"
         }
     }
     
@@ -97,7 +97,7 @@ enum SubscriptionShopFeature: CaseIterable, Identifiable {
         case .reminder:
             return "Stay on track with timely reminders."
         case .detailSection:
-            return "Add lens specifications such as Sphere, Base Curve, Axis etc."
+            return "Add lens specifications such as Power Range, Base Curve, Axis etc."
         case .moreThanOne:
             return "Manage and track multiple lenses"
         }
@@ -163,4 +163,5 @@ struct SubscriptionShopFeatureRow: View {
 
 #Preview {
     SubscriptionShopView()
+        .environment(\.passStatus, .notSubscribed)
 }
