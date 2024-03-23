@@ -33,6 +33,8 @@
 		B76553522BA96D7C0045BF93 /* InitialDateTip.swift in Sources */ = {isa = PBXBuildFile; fileRef = B76553512BA96D7C0045BF93 /* InitialDateTip.swift */; };
 		B76553542BA99EDD0045BF93 /* Binding+OptionalChaining.swift in Sources */ = {isa = PBXBuildFile; fileRef = B76553532BA99EDD0045BF93 /* Binding+OptionalChaining.swift */; };
 		B76553562BA9B4D30045BF93 /* ReminderDaysTip.swift in Sources */ = {isa = PBXBuildFile; fileRef = B76553552BA9B4D30045BF93 /* ReminderDaysTip.swift */; };
+		B76564FE2BAEB4F600671713 /* NavigationContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = B76564FD2BAEB4F600671713 /* NavigationContext.swift */; };
+		B76565002BAEB57300671713 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B76564FF2BAEB57300671713 /* ContentView.swift */; };
 		B7BF527D2B865D7600FE0162 /* EE-Tracker-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B7FC523F2B366E32009BA759 /* EE-Tracker-Info.plist */; };
 		B7BF527F2B865E6200FE0162 /* LensFormViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7BF527E2B865E6200FE0162 /* LensFormViewModel.swift */; };
 		B7BF52812B86720500FE0162 /* LensDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7BF52802B86720500FE0162 /* LensDetail.swift */; };
@@ -103,6 +105,8 @@
 		B76553512BA96D7C0045BF93 /* InitialDateTip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialDateTip.swift; sourceTree = "<group>"; };
 		B76553532BA99EDD0045BF93 /* Binding+OptionalChaining.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Binding+OptionalChaining.swift"; sourceTree = "<group>"; };
 		B76553552BA9B4D30045BF93 /* ReminderDaysTip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderDaysTip.swift; sourceTree = "<group>"; };
+		B76564FD2BAEB4F600671713 /* NavigationContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationContext.swift; sourceTree = "<group>"; };
+		B76564FF2BAEB57300671713 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		B7BF527E2B865E6200FE0162 /* LensFormViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LensFormViewModel.swift; sourceTree = "<group>"; };
 		B7BF52802B86720500FE0162 /* LensDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LensDetail.swift; sourceTree = "<group>"; };
 		B7BF52822B86721F00FE0162 /* Sphere.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sphere.swift; sourceTree = "<group>"; };
@@ -205,6 +209,7 @@
 				B7BF52802B86720500FE0162 /* LensDetail.swift */,
 				B7E32D882B2519E200CA0729 /* DataSourceModel.swift */,
 				B7BF52822B86721F00FE0162 /* Sphere.swift */,
+				B76564FD2BAEB4F600671713 /* NavigationContext.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -220,6 +225,7 @@
 				B74FA8392B5A84F1001E896F /* LensCarouselView.swift */,
 				B73FA0522B5BC20600BCD9A4 /* LensDetailView.swift */,
 				B715242F2B97D329005E7A88 /* LensNameFormView.swift */,
+				B76564FF2BAEB57300671713 /* ContentView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -385,6 +391,7 @@
 			files = (
 				B71524342B97E3C1005E7A88 /* BlankView.swift in Sources */,
 				B7C08EC02B1CB73C00DD0BE2 /* LensItem.swift in Sources */,
+				B76565002BAEB57300671713 /* ContentView.swift in Sources */,
 				B7580F582BA6A5200058F540 /* PassIdentifiers.swift in Sources */,
 				B7E32D8D2B2521DC00CA0729 /* WearDuration.swift in Sources */,
 				B76553522BA96D7C0045BF93 /* InitialDateTip.swift in Sources */,
@@ -427,6 +434,7 @@
 				B760DC592B95646500C2C025 /* NotificationManager.swift in Sources */,
 				B76553502BA96AEF0045BF93 /* BrandNameTip.swift in Sources */,
 				B7BF527F2B865E6200FE0162 /* LensFormViewModel.swift in Sources */,
+				B76564FE2BAEB4F600671713 /* NavigationContext.swift in Sources */,
 				B74FA83A2B5A84F1001E896F /* LensCarouselView.swift in Sources */,
 				B7E394172B98FFC900113138 /* CustomTimelineSchedules.swift in Sources */,
 			);
@@ -581,13 +589,13 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.alture.EE-Tracker";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator xros xrsimulator";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2,7";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -618,13 +626,13 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.alture.EE-Tracker";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator xros xrsimulator";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2,7";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};

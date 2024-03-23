@@ -72,6 +72,7 @@ struct SubscriptionShopContent: View {
             
             Spacer()
         }
+        .padding(.horizontal)
     }
 }
 

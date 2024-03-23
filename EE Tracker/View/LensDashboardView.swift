@@ -11,11 +11,9 @@ import SwiftData
 import TipKit
 
 struct LensDashboardView: View {
-    @Environment(\.modelContext) private var modelContext
-    @State private var viewModel: LensDashboardViewModel
+    @Query(sort: \LensItem.createdDate) var lensItems: [LensItem]
     
-    @State private var showingForm: Bool = false
-    @State private var formStatus: LensFormViewModel.Status? = nil
+    @State private var viewModel: LensDashboardViewModel = LensDashboardViewModel()
     
     @Environment(\.passStatus) private var passStatus
     @Environment(\.notificationGranted) private var notificationGranted
@@ -23,15 +21,10 @@ struct LensDashboardView: View {
     @Environment(\.colorScheme) private var colorScheme
     var addNewTip = AddNewTip()
     
-    init(modelContext: ModelContext) {
-        let viewModel = LensDashboardViewModel(modelContext: modelContext)
-        _viewModel = State(initialValue: viewModel)
-    }
-    
     var body: some View {
         NavigationStack {
             Group {
-                if viewModel.lensItems.isEmpty {
+                if lensItems.isEmpty {
                     ContentUnavailableView(
                         "No tracking lens",
                         systemImage: "clock.arrow.2.circlepath",
@@ -40,23 +33,18 @@ struct LensDashboardView: View {
                 } else {
                     ScrollView {
                         VStack {
-                            LensCarouselHeader(viewModel: self.$viewModel)
+                            TodayDateView()
                                 .padding([.top, .horizontal])
                             
-                            LensCarouselView(lenses: self.$viewModel.lensItems, selectedLensItem: self.$viewModel.selectedLensItem)
+                            LensCarouselView()
                                 .padding(.bottom, 8)
                             
-                            LensTimelineHeader(
-                                viewModel: self.$viewModel,
-                                showingConfirmation: self.$viewModel.showingConfirmation,
-                                formStatus: self.$formStatus ?? .changeable
-                            )
-                            .padding([.top, .horizontal])
+                            TrackingOverviewHeaderView()
+                                .padding([.top, .horizontal])
                             
-                            if let selectedLensItem = viewModel.selectedLensItem {
-                                LensTrackingView(lensItem: selectedLensItem, showingChangables: self.$viewModel.showingChangables)
-                                    .padding(.horizontal)
-                            }
+                            LensTrackingView()
+                                .padding(.horizontal)
+                            
                             Spacer()
                         }
                     }
@@ -68,7 +56,12 @@ struct LensDashboardView: View {
             .toolbar(content: {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
-                        self.formStatus = .new
+                        if case .notSubscribed = passStatus, lensItems.count > 1 {
+                            self.viewModel.showingSubscriptionsSheet.toggle()
+                        } else {
+                            self.viewModel.showingNew.toggle()
+                        }
+
                     } label: {
                         Image(systemName: "plus")
                             .font(.title3)
@@ -102,12 +95,9 @@ struct LensDashboardView: View {
             })
         }
         .tint(.teal)
-        .onChange(of: viewModel.showingChangables, { oldValue, newValue in
-            if newValue {
-                formStatus = .changeable
-            }
-        })
-        .sheet(isPresented: $viewModel.showingSettings, content: {
+        .sheet(isPresented: $viewModel.showingSettings, onDismiss: {
+            self.viewModel.showingSettings = false
+        }, content: {
             SettingsView()
                 .preferredColorScheme(colorScheme)
         })
@@ -116,41 +106,21 @@ struct LensDashboardView: View {
         }, content: {
             SubscriptionShopView()
         })
-        .sheet(item: $formStatus) { status in
-            switch status {
-            case .new:
-                LensFormView(status: status) { newLensItem in
-                    self.viewModel.addItem(newLensItem)
-                    if passStatus != .notSubscribed {
-                        self.viewModel.createNotification(by: newLensItem.id)
-                    }
-                }
-            default:
-                if let selectedLensItem = viewModel.selectedLensItem {
-                    LensFormView(lensItem: selectedLensItem, status: status) { newLensItem in
-                        self.viewModel.updateSelectedLens(by: newLensItem)
-                        if passStatus != .notSubscribed {
-                            self.viewModel.createNotification(by: newLensItem.id)
-                        }
-                    }
-                    .onAppear {
-                        self.viewModel.showingChangables = false
-                    }
-                }
-            }
+        .sheet(isPresented: $viewModel.showingNew) {
+            viewModel.showingNew = false
+        } content: {
+            LensFormView(state: .new, lensItem: nil)
         }
-    }
-    
-    private func delete(_ item: LensItem) {
-        self.viewModel.deleteItem(item)
-        self.viewModel.cancelNotification(by: item.id)
     }
 }
 
-struct LensTimelineHeader: View {
-    @Binding var viewModel: LensDashboardViewModel
-    @Binding var showingConfirmation: Bool
-    @Binding var formStatus: LensFormViewModel.Status
+struct TrackingOverviewHeaderView: View {
+    @Environment(NavigationContext.self) private var navigationContext
+    @Environment(\.modelContext) private var modelContext
+    
+    @State private var showingConfirmation: Bool = false
+    @State private var showingEdit: Bool = false
+    @State private var showingChange: Bool = false
 
     var body: some View {
         HStack(alignment: .center) {
@@ -162,46 +132,54 @@ struct LensTimelineHeader: View {
             
             Menu {
                 Button {
-                    self.formStatus = .editable
+                    self.showingEdit.toggle()
                 } label: {
                     Label("Edit", systemImage: "pencil")
                 }
                 
                 Button {
-                    self.formStatus = .changeable
+                    self.showingChange.toggle()
                 } label: {
-                    Label("Change with new one", systemImage: "gobackward")
+                    Label("Replace with new one", systemImage: "gobackward")
                 }
                 
                 Divider()
                 
                 Button("Delete", role: .destructive) {
-                    self.viewModel.showingConfirmation.toggle()
+                    self.showingConfirmation.toggle()
                 }
             } label: {
                 Image(systemName: "ellipsis.circle")
                     .font(.title2)
             }
-            .confirmationDialog("Delete Confirmation", isPresented: $viewModel.showingConfirmation) {
+            .disabled(navigationContext.selectedLensItem == nil)
+            .confirmationDialog("Delete Confirmation", isPresented: $showingConfirmation) {
                 Button("Delete", role: .destructive) {
-                    if let selectedLensItem = viewModel.selectedLensItem  {
-                        self.viewModel.deleteItem(selectedLensItem)
+                    withAnimation {
+                        if let selectedLensItem = navigationContext.selectedLensItem {
+                            self.modelContext.delete(selectedLensItem)
+                            navigationContext.selectedLensItem = nil
+                        }
                     }
                 }
                 
                 Button("Cancel", role: .cancel) {
-                    self.viewModel.showingConfirmation.toggle()
+                    self.showingConfirmation.toggle()
                 }
             } message: {
                 Text("Are you sure to delete this Lens?")
             }
         }
+        .sheet(isPresented: $showingEdit) {
+            LensFormView(state: .editable, lensItem: navigationContext.selectedLensItem)
+        }
+        .sheet(isPresented: $showingChange) {
+            LensFormView(state: .changeable, lensItem: navigationContext.selectedLensItem)
+        }
     }
 }
 
-struct LensCarouselHeader: View {
-    @Binding var viewModel: LensDashboardViewModel
-    
+struct TodayDateView: View {
     var body: some View {
         HStack(alignment: .lastTextBaseline) {
             VStack(alignment: .leading) {
@@ -217,30 +195,12 @@ struct LensCarouselHeader: View {
             }
             
             Spacer()
-            
-            Menu {
-                Text("Sort by:")
-                    .foregroundStyle(.secondary)
-                Divider()
-                Picker("Sort Order", selection: $viewModel.sortOrder) {
-                    ForEach(LensSortOrder.allCases) { order in
-                        Text(order.rawValue).tag(order)
-                    }
-                }
-                .onChange(of: self.viewModel.sortOrder) { _, newValue in
-                    withAnimation {
-                        self.viewModel.fetchData()
-                    }
-                }
-            } label: {
-                Image(systemName: "line.3.horizontal.decrease")
-                    .font(.title2)
-            }
         }
     }
 }
 
 #Preview {
-    LensDashboardView(modelContext: previewContainer.mainContext)
+    LensDashboardView()
         .modelContainer(previewContainer)
+        .environment(NavigationContext(selectedLensItem: SampleData.content[0]))
 }
