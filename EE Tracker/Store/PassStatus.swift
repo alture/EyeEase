@@ -82,8 +82,8 @@ private struct PassStatusTaskModifier: ViewModifier {
                 case .failure(let error):
                     print("Failed to check subscription status: \(error)")
                 case .success(let status):
-                    if status == .notSubscribed {
-                        await notificationManager.removeAllNotification()
+                    if status != .notSubscribed {
+                        await notificationManager.reloadLocalNotificationByItems()
                     }
                     print("Providing updated status: \(status)")
                 case .loading: break

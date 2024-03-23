@@ -13,11 +13,7 @@ import SwiftData
 
 @ModelActor
 actor NotificationManager {
-    private(set) var notifications: [UNNotificationRequest] = [] {
-        didSet {
-            print("NotificationManager: notificationCount: \(notifications.count)")
-        }
-    }
+    private(set) var notifications: [UNNotificationRequest] = []
     
     private(set) var items: [LensItem] = []
     private(set) static var shared: NotificationManager!
@@ -28,20 +24,16 @@ actor NotificationManager {
     
     func reloadItems() {
         do {
-            print("NotificationManager: reloadItems")
             items = try modelContext.fetch(FetchDescriptor<LensItem>())
+            print("NotificationManager: reloadItems(\(items.count)")
         } catch {
             print("Can't fetch items: \(error)")
         }
     }
     
-    @AppStorage(AppStorageKeys.reminderDays) var reminderDays: ReminderDays = .none
-    
-    var reminderDaysPublisher: AnyPublisher<Void, Never> {
-        reminderDaysSubject.eraseToAnyPublisher()
+    private var reminderDays: Int {
+        return UserDefaults.standard.integer(forKey: AppStorageKeys.reminderDays)
     }
-    
-    private var reminderDaysSubject = PassthroughSubject<Void, Never>()
     
     func requestAuthorization() async throws -> Bool {
         let notificationCenter = UNUserNotificationCenter.current()
@@ -62,10 +54,10 @@ actor NotificationManager {
     }
     
     func reloadLocalNotifications() async {
-        print("NotificationManager: reloadLocalNotifications")
         let notificationCenter = UNUserNotificationCenter.current()
         let notificationRequest = await notificationCenter.pendingNotificationRequests()
         self.notifications = notificationRequest
+        print("NotificationManager: reloadLocalNotifications(\(self.notifications.count))")
     }
     
     func cancelNotification(for id: UUID) {
@@ -76,19 +68,23 @@ actor NotificationManager {
         
         notificationCenter.removePendingNotificationRequests(withIdentifiers: [dayBeforeId, dayOfId])
         notificationCenter.removeDeliveredNotifications(withIdentifiers: [dayBeforeId, dayOfId])
+        
+        Task {
+            await reloadLocalNotifications()
+        }
     }
     
-    func scheduleNotifications(for id: UUID) async {
-        await reloadLocalNotifications()
-        reloadItems()
-        guard let item = items.first(where: { $0.id == id } ) else { return }
-        cancelNotification(for: id)
-        
+    func updateNotifications(for item: LensItem) async {
+        cancelNotification(for: item.id)
+        await scheduleNotifications(for: item)
+    }
+    
+    func scheduleNotifications(for item: LensItem) async {
         let calendar = Calendar.current
         let changeDate = item.changeDate
         
-        if reminderDays != .none {
-            let daysBeforeDate = calendar.date(byAdding: .day, value: -reminderDays.rawValue, to: changeDate)!
+        if reminderDays > 0 {
+            let daysBeforeDate = calendar.date(byAdding: .day, value: -reminderDays, to: changeDate)!
             let daysBeforeContent = createNotificationContent(for: item, referenceDate: daysBeforeDate)
             let daysBeforeId = "\(item.id.uuidString)-day-before"
             await scheduleNotification(for: daysBeforeId, at: daysBeforeDate, with: daysBeforeContent)
@@ -107,14 +103,14 @@ actor NotificationManager {
         
         if let dayBeforeChangeDate = calendar.date(byAdding: .day, value: -1, to: item.changeDate),
            calendar.isDate(referenceDate, inSameDayAs: dayBeforeChangeDate) {
-            content.title = "Prepare New Lenses"
+            content.title = "Prepare new lenses"
             content.body = "Replace your \"\(item.name)\" \(lensLabel) by tomorrow."
         } else if calendar.isDate(referenceDate, inSameDayAs: item.changeDate) {
-            content.title = "Time for a Сhange!"
+            content.title = "Time for a change!"
             content.body = "Your \"\(item.name)\" \(lensLabel) has expired."
         } else {
             let verbForm = lensLabel == "lens" ? "needs" : "need"
-            content.title = "Prepare New Lenses"
+            content.title = "Prepare new lenses"
             content.body = "Your \"\(item.name)\" \(lensLabel) \(verbForm) replacing on \(item.changeDate.formattedDate())."
         }
 
@@ -124,7 +120,7 @@ actor NotificationManager {
 
     private func scheduleNotification(for id: String, at date: Date, with content: UNMutableNotificationContent) async {
         let notificationCenter = UNUserNotificationCenter.current()
-        var dateComponents = Calendar.current.dateComponents([.year, .month, .day, .month], from: date)
+        var dateComponents = Calendar.current.dateComponents([.year, .month, .day, .hour], from: date)
         dateComponents.hour = 10
 
         let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
@@ -140,37 +136,42 @@ actor NotificationManager {
     
     func reloadLocalNotificationByItems(_ force: Bool = false) {
         print("NotificationManager: reloadLocalNotificationByItems")
-
-        let notificationCenter = UNUserNotificationCenter.current()
+        reloadItems()
         
         if force {
-            notificationCenter.removeAllPendingNotificationRequests()
-            notificationCenter.removeAllDeliveredNotifications()
             
-            for item in items {
-                Task(priority: .background) {
-                    await scheduleNotifications(for: item.id)
+            removeNotifications()
+            
+            Task {
+                for item in items {
+                    await scheduleNotifications(for: item)
                 }
             }
         } else {
-            for item in items {
-                Task(priority: .background) {
+            Task {
+                await reloadLocalNotifications()
+                reloadItems()
+                
+                for item in items {
                     let dayBeforeId = "\(item.id.uuidString)-day-before"
                     let dayOfId = "\(item.id.uuidString)-day-of"
                     let existingNotificationIds = notifications.map { $0.identifier }
                     
                     if ![dayOfId, dayBeforeId].allSatisfy(existingNotificationIds.contains) {
-                        await scheduleNotifications(for: item.id)
+                        await scheduleNotifications(for: item)
                     }
                 }
             }
         }
     }
     
-    func removeAllNotification() {
-        print("NotificationManager: removeAllNotification")
+    func removeNotifications() {
+        print("NotificationManager: removeNotifications")
 
         let notificationCenter = UNUserNotificationCenter.current()
         notificationCenter.removeAllPendingNotificationRequests()
+        notificationCenter.removeAllDeliveredNotifications()
+        
+        self.notifications.removeAll()
     }
 }

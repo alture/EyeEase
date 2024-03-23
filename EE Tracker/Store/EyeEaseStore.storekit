@@ -96,9 +96,9 @@
           "codeOffers" : [
 
           ],
-          "displayPrice" : "1.99",
+          "displayPrice" : "0.99",
           "familyShareable" : false,
-          "groupNumber" : 1,
+          "groupNumber" : 2,
           "internalID" : "549565CA",
           "introductoryOffer" : null,
           "localizations" : [
@@ -121,14 +121,19 @@
           "codeOffers" : [
 
           ],
-          "displayPrice" : "0.99",
+          "displayPrice" : "5.99",
           "familyShareable" : false,
-          "groupNumber" : 2,
+          "groupNumber" : 1,
           "internalID" : "BD81DF13",
-          "introductoryOffer" : null,
+          "introductoryOffer" : {
+            "displayPrice" : "0.99",
+            "internalID" : "EE063028",
+            "paymentMode" : "free",
+            "subscriptionPeriod" : "P3D"
+          },
           "localizations" : [
             {
-              "description" : "Best Offer",
+              "description" : "Best Offer. Save 50% off",
               "displayName" : "Yearly Access",
               "locale" : "en_US"
             }

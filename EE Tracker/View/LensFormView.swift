@@ -145,7 +145,7 @@ struct LensFormView: View {
             lensItem.changeDate = viewModel.changeDate
             
             if passStatus != .notSubscribed {
-                viewModel.createNotification(by: lensItem.id)
+                viewModel.updateNotification(by: lensItem)
             }
         } else {
             let newLensItem = LensItem()
@@ -161,7 +161,7 @@ struct LensFormView: View {
             navigationContext.selectedLensItem = newLensItem
             
             if passStatus != .notSubscribed {
-                viewModel.createNotification(by: newLensItem.id)
+                viewModel.createNotification(by: newLensItem)
             }
         }
     }
@@ -392,7 +392,7 @@ struct DetailSection: View {
         if sphere.isSame {
             return "Both: \(sphere.left)"
         } else {
-            return "Left: \(sphere.left) | Right: \(sphere.right)"
+            return "L: \(sphere.left) | R: \(sphere.right)"
         }
     }
     

@@ -61,10 +61,10 @@ final class LensFormViewModel {
         return !brandName.isEmpty
     }
     
-    func createNotification(by id: UUID) {
+    func createNotification(by item: LensItem) {
         if let notificationManager = NotificationManager.shared {
             Task {
-                await notificationManager.scheduleNotifications(for: id)
+                await notificationManager.scheduleNotifications(for: item)
             }
         }
     }
@@ -73,6 +73,14 @@ final class LensFormViewModel {
         if let notificationManager = NotificationManager.shared {
             Task {
                 await notificationManager.cancelNotification(for: id)
+            }
+        }
+    }
+    
+    func updateNotification(by item: LensItem) {
+        if let notificationManager = NotificationManager.shared {
+            Task {
+                await notificationManager.updateNotifications(for: item)
             }
         }
     }

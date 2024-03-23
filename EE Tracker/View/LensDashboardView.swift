@@ -19,6 +19,7 @@ struct LensDashboardView: View {
     @Environment(\.notificationGranted) private var notificationGranted
     
     @Environment(\.colorScheme) private var colorScheme
+    @AppStorage(AppStorageKeys.firstAppear) private var firstAppear: Bool = true
     var addNewTip = AddNewTip()
     
     var body: some View {
@@ -68,6 +69,7 @@ struct LensDashboardView: View {
                             .foregroundStyle(Color.teal)
                             .tint(.teal)
                     }
+                    .disabled(lensItems.count > 20)
                     
                     // TODO: PopoverTip
                 }
@@ -95,6 +97,12 @@ struct LensDashboardView: View {
             })
         }
         .tint(.teal)
+        .onAppear {
+            if firstAppear && passStatus == .notSubscribed {
+                self.viewModel.showingSubscriptionsSheet.toggle()
+                self.firstAppear = false
+            }
+        }
         .sheet(isPresented: $viewModel.showingSettings, onDismiss: {
             self.viewModel.showingSettings = false
         }, content: {
@@ -157,8 +165,13 @@ struct TrackingOverviewHeaderView: View {
                 Button("Delete", role: .destructive) {
                     withAnimation {
                         if let selectedLensItem = navigationContext.selectedLensItem {
+                            Task {
+                                await NotificationManager.shared.cancelNotification(for: selectedLensItem.id)
+                            }
+                            
                             self.modelContext.delete(selectedLensItem)
                             navigationContext.selectedLensItem = nil
+                            
                         }
                     }
                 }

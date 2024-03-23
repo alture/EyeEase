@@ -12,4 +12,5 @@ enum AppStorageKeys {
     static var reminderDays = "reminderDays"
     static var hasPro = "hasPro"
     static var notificationGranted = "notificationGranted"
+    static var firstAppear = "firstAppear"
 }

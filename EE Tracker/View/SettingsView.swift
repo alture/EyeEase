@@ -242,17 +242,10 @@ struct SettingsView: View {
             .onChange(of: hasPass, { oldValue, newValue in
                 print("SettingsView hasPass: \(newValue)")
                 NotificationWarningTip.hasPass = hasPass
-                
-                if newValue == false {
-                    reminderDays = .none
-                }
             })
             .onChange(of: notificationAllowed, { oldValue, newValue in
                 print("SettingsView Notification Allowed: \(notificationAllowed)")
                 NotificationWarningTip.notificationAllowed = newValue
-                if newValue == false {
-                    reminderDays = .none
-                }
             })
             .onAppear {
                 NotificationWarningTip.hasPass = hasPass

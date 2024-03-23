@@ -43,7 +43,7 @@ struct NotificationTaskModifier: ViewModifier {
             }
         case .authorized, .provisional:
             self.isGranted = true
-            await NotificationManager.shared.reloadLocalNotifications()
+//            await NotificationManager.shared.reloadLocalNotifications()
         default:
             self.isGranted = false
         }

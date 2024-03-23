@@ -17,13 +17,16 @@ struct SubscriptionShopView: View {
         SubscriptionStoreView(groupID: passGroupID) {
             SubscriptionShopContent()
         }
+        .subscriptionStoreControlIcon(icon: { product, info in
+            if info.groupLevel == 1 {
+                Image(systemName: "star.fill")
+                    .foregroundStyle(Color.teal)
+            }
+        })
         .onInAppPurchaseCompletion(perform: { (product: Product, result: Result<Product.PurchaseResult, Error>) in
             if case .success(.success(let transaction)) = result {
                 await PassManager.shared.process(transaction: transaction)
-                
-                await NotificationManager.shared.reloadLocalNotifications()
-                await NotificationManager.shared.reloadItems()
-                await NotificationManager.shared.reloadLocalNotificationByItems()
+                await NotificationManager.shared.reloadLocalNotificationByItems(true)
                 
                 dismiss()
             }
