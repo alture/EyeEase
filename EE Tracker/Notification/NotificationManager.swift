@@ -68,10 +68,12 @@ actor NotificationManager {
         
         notificationCenter.removePendingNotificationRequests(withIdentifiers: [dayBeforeId, dayOfId])
         notificationCenter.removeDeliveredNotifications(withIdentifiers: [dayBeforeId, dayOfId])
+        resetBadges()
     }
     
     func updateNotifications(for item: LensItem) async {
         cancelNotification(for: item.id)
+        resetBadges()
         await scheduleNotifications(for: item)
         await reloadLocalNotifications()
     }
@@ -96,6 +98,7 @@ actor NotificationManager {
     private func createNotificationContent(for item: LensItem, referenceDate: Date) -> UNMutableNotificationContent {
         let content = UNMutableNotificationContent()
         let calendar = Calendar.current
+        content.badge = 1
         
         if let dayBeforeChangeDate = calendar.date(byAdding: .day, value: -1, to: item.changeDate),
            calendar.isDate(referenceDate, inSameDayAs: dayBeforeChangeDate) {
@@ -166,6 +169,12 @@ actor NotificationManager {
         notificationCenter.removeAllPendingNotificationRequests()
         notificationCenter.removeAllDeliveredNotifications()
         
+        self.resetBadges()
         self.notifications.removeAll()
+    }
+    
+    func resetBadges() {
+        let notificationCenter = UNUserNotificationCenter.current()
+        notificationCenter.setBadgeCount(0)
     }
 }
