@@ -56,7 +56,7 @@ struct LensTrackingTimelineView: View {
                         }
                     } else {
                         HStack(alignment: .lastTextBaseline) {
-                            Text("Change on")
+                            Text("Replace on")
                                 .font(.title3)
                                 .fontWeight(.semibold)
                             Text(changeDate.relativeFormattedDate())

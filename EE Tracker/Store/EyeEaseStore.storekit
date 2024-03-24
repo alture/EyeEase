@@ -103,8 +103,8 @@
           "introductoryOffer" : null,
           "localizations" : [
             {
-              "description" : "",
-              "displayName" : "Mounthly Access",
+              "description" : "Access to all features",
+              "displayName" : "Monthly Access",
               "locale" : "en_US"
             }
           ],
