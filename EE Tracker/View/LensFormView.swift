@@ -268,7 +268,7 @@ struct MainSection: View {
                 }
             }
             
-            Picker("For Which Eye(s)?", selection: $eyeSide) {
+            Picker("Side", selection: $eyeSide) {
                 ForEach(EyeSide.allCases) { side in
                     Text(side.rawValue)
                         .tag(side)

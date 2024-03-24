@@ -11,7 +11,7 @@ struct GetPlusButton: View {
     @Binding var didTap: Bool
     
     var body: some View {
-        Button("Get Plus to Set", systemImage: "crown.fill") {
+        Button("Available on Plus", systemImage: "crown.fill") {
             self.didTap.toggle()
         }
         .buttonStyle(.borderedProminent)
