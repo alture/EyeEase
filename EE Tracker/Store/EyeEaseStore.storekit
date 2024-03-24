@@ -94,7 +94,19 @@
 
           ],
           "codeOffers" : [
-
+            {
+              "displayPrice" : "0.99",
+              "eligibility" : [
+                "existing",
+                "expired",
+                "new"
+              ],
+              "internalID" : "95C3227C",
+              "isStackable" : true,
+              "paymentMode" : "free",
+              "referenceName" : "DEV_3_oqbyml",
+              "subscriptionPeriod" : "P3M"
+            }
           ],
           "displayPrice" : "0.99",
           "familyShareable" : false,
