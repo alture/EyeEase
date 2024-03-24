@@ -69,7 +69,7 @@ struct LensTrackingView: View {
             .clipShape(RoundedRectangle(cornerRadius: 12))
         } else {
             ContentUnavailableView(
-                "No selected lens",
+                "No selected contact lens",
                 systemImage: "eye.slash.circle.fill",
                 description: Text("Select any lens on the top to show tracking information")
             )

@@ -89,9 +89,9 @@ enum SubscriptionShopFeature: CaseIterable, Identifiable {
         case .reminder:
             return "Push Notifications"
         case .detailSection:
-            return "Detail of the Lens"
+            return "Detail of the contact lens"
         case .moreThanOne:
-            return "More than one lens"
+            return "More than one contact lens"
         }
     }
     
@@ -100,9 +100,9 @@ enum SubscriptionShopFeature: CaseIterable, Identifiable {
         case .reminder:
             return "Stay on track with timely reminders."
         case .detailSection:
-            return "Add lens specifications such as Power Range, Base Curve, Axis etc."
+            return "Add contact lens specifications such as Power Range, Base Curve, Axis etc."
         case .moreThanOne:
-            return "Manage and track multiple lenses"
+            return "Manage and track multiple contact lenses"
         }
     }
     

@@ -26,11 +26,17 @@ struct LensDashboardView: View {
         NavigationStack {
             Group {
                 if lensItems.isEmpty {
-                    ContentUnavailableView(
-                        "No tracking lens",
-                        systemImage: "clock.arrow.2.circlepath",
-                        description: Text("Add new lense using + button on top")
-                    )
+                    ContentUnavailableView {
+                        Label("No tracking contact lens", systemImage: "clock.arrow.2.circlepath")
+                    } description: {
+                        Text("Add a new contact lens using the button on below and start tracking")
+                    } actions: {
+                        Button("Start") {
+                            self.viewModel.showingNew.toggle()
+                        }
+                        .buttonStyle(.borderedProminent)
+                        .tint(.teal)
+                    }
                 } else {
                     ScrollView {
                         VStack {
@@ -180,7 +186,7 @@ struct TrackingOverviewHeaderView: View {
                     self.showingConfirmation.toggle()
                 }
             } message: {
-                Text("Are you sure to delete this Lens?")
+                Text("Are you sure to delete this contact lens?")
             }
         }
         .sheet(isPresented: $showingEdit) {

@@ -283,7 +283,7 @@ struct MainSection: View {
                 Text("Main")
             }
         } footer: {
-            Text("Lens tracking starts automatically from the selected date")
+            Text("Contact lens tracking starts automatically from the selected date")
         }
     }
 }

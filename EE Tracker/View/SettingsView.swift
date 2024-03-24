@@ -158,7 +158,7 @@ struct SettingsView: View {
                         }
                     }
                 } footer: {
-                    Text("Set reminder days before lens replacement. Available on Plus")
+                    Text("Set reminder days before contact lens replacement. Available on Plus")
                 }
                 
                 Section("Application") {

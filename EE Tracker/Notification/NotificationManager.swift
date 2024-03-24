@@ -25,7 +25,7 @@ actor NotificationManager {
     func reloadItems() {
         do {
             items = try modelContext.fetch(FetchDescriptor<LensItem>())
-            print("NotificationManager: reloadItems(\(items.count)")
+            print("NotificationManager: reloadItems(\(items.count))")
         } catch {
             print("Can't fetch items: \(error)")
         }
@@ -68,15 +68,12 @@ actor NotificationManager {
         
         notificationCenter.removePendingNotificationRequests(withIdentifiers: [dayBeforeId, dayOfId])
         notificationCenter.removeDeliveredNotifications(withIdentifiers: [dayBeforeId, dayOfId])
-        
-        Task {
-            await reloadLocalNotifications()
-        }
     }
     
     func updateNotifications(for item: LensItem) async {
         cancelNotification(for: item.id)
         await scheduleNotifications(for: item)
+        await reloadLocalNotifications()
     }
     
     func scheduleNotifications(for item: LensItem) async {
@@ -99,19 +96,17 @@ actor NotificationManager {
     private func createNotificationContent(for item: LensItem, referenceDate: Date) -> UNMutableNotificationContent {
         let content = UNMutableNotificationContent()
         let calendar = Calendar.current
-        let lensLabel = item.eyeSide == .both ? "lenses" : "lens"
         
         if let dayBeforeChangeDate = calendar.date(byAdding: .day, value: -1, to: item.changeDate),
            calendar.isDate(referenceDate, inSameDayAs: dayBeforeChangeDate) {
-            content.title = "Prepare new lenses"
-            content.body = "Replace your \"\(item.name)\" \(lensLabel) by tomorrow."
+            content.title = "Prepare new contact lens"
+            content.body = "Replace your \"\(item.name)\" contact lens by tomorrow."
         } else if calendar.isDate(referenceDate, inSameDayAs: item.changeDate) {
             content.title = "Time for a change!"
-            content.body = "Your \"\(item.name)\" \(lensLabel) has expired."
+            content.body = "Your \"\(item.name)\" contact lens has expired."
         } else {
-            let verbForm = lensLabel == "lens" ? "needs" : "need"
             content.title = "Prepare new lenses"
-            content.body = "Your \"\(item.name)\" \(lensLabel) \(verbForm) replacing on \(item.changeDate.formattedDate())."
+            content.body = "Your \"\(item.name)\" contact lens need replacing on \(item.changeDate.formattedDate())."
         }
 
         content.sound = UNNotificationSound.default
@@ -150,7 +145,6 @@ actor NotificationManager {
         } else {
             Task {
                 await reloadLocalNotifications()
-                reloadItems()
                 
                 for item in items {
                     let dayBeforeId = "\(item.id.uuidString)-day-before"

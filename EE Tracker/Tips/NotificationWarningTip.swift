@@ -27,7 +27,7 @@ struct NotificationWarningTip: Tip {
     }
     
     var message: Text? {
-        Text("Turn on push notifications to get reminders to replace your lenses. Stay on track with your eye care!")
+        Text("Turn on push notifications to get reminders to replace your contact lens. Stay on track with your eye care!")
     }
     
     var image: Image? {
