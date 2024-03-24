@@ -17,9 +17,9 @@ struct PassIdentifiers {
 extension EnvironmentValues {
     private enum PassIDsKey: EnvironmentKey {
         static var defaultValue = PassIdentifiers(
-            group: "D24CF096",
-            montly: "pass.monthly",
-            yearly: "pass.yearly"
+            group: "21467879",
+            montly: "com.alture.eyeease.pass.mothly",
+            yearly: "com.alture.eyeease.pass.yearly"
         )
     }
     

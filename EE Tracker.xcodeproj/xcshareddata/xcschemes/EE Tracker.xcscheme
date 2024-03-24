@@ -49,9 +49,6 @@
             ReferencedContainer = "container:EE Tracker.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
-      <StoreKitConfigurationFileReference
-         identifier = "../../EE Tracker/Store/EyeEaseStore.storekit">
-      </StoreKitConfigurationFileReference>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"

@@ -16,7 +16,6 @@
 		B73FA0532B5BC20600BCD9A4 /* LensDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73FA0522B5BC20600BCD9A4 /* LensDetailView.swift */; };
 		B74FA83A2B5A84F1001E896F /* LensCarouselView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74FA8392B5A84F1001E896F /* LensCarouselView.swift */; };
 		B74FA83C2B5A946C001E896F /* Bool+Comparable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74FA83B2B5A946C001E896F /* Bool+Comparable.swift */; };
-		B7580F542BA5834B0058F540 /* StoreKitTestCertificate.cer in Resources */ = {isa = PBXBuildFile; fileRef = B7580F532BA5834B0058F540 /* StoreKitTestCertificate.cer */; };
 		B7580F562BA6A34B0058F540 /* RestorePurchasesButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7580F552BA6A34B0058F540 /* RestorePurchasesButton.swift */; };
 		B7580F582BA6A5200058F540 /* PassIdentifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7580F572BA6A5200058F540 /* PassIdentifiers.swift */; };
 		B7580F5A2BA6ADF80058F540 /* SubscriptionShopViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7580F592BA6ADF80058F540 /* SubscriptionShopViewModifier.swift */; };
@@ -77,7 +76,6 @@
 
 /* Begin PBXFileReference section */
 		B70D06DA2B9E2091004E9092 /* EE TrackerDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "EE TrackerDebug.entitlements"; sourceTree = "<group>"; };
-		B70D06DB2B9FE52C004E9092 /* EyeEaseStore.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; name = EyeEaseStore.storekit; path = "EE Tracker/Store/EyeEaseStore.storekit"; sourceTree = SOURCE_ROOT; };
 		B70D06DF2B9FEB3C004E9092 /* PassStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassStatus.swift; sourceTree = "<group>"; };
 		B70D06E72B9FF1AF004E9092 /* SubscriptionShopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionShopView.swift; sourceTree = "<group>"; };
 		B70D06E92B9FF654004E9092 /* PassManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassManager.swift; sourceTree = "<group>"; };
@@ -87,7 +85,6 @@
 		B73FA0522B5BC20600BCD9A4 /* LensDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LensDetailView.swift; sourceTree = "<group>"; };
 		B74FA8392B5A84F1001E896F /* LensCarouselView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LensCarouselView.swift; sourceTree = "<group>"; };
 		B74FA83B2B5A946C001E896F /* Bool+Comparable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bool+Comparable.swift"; sourceTree = "<group>"; };
-		B7580F532BA5834B0058F540 /* StoreKitTestCertificate.cer */ = {isa = PBXFileReference; lastKnownFileType = file; path = StoreKitTestCertificate.cer; sourceTree = "<group>"; };
 		B7580F552BA6A34B0058F540 /* RestorePurchasesButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestorePurchasesButton.swift; sourceTree = "<group>"; };
 		B7580F572BA6A5200058F540 /* PassIdentifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassIdentifiers.swift; sourceTree = "<group>"; };
 		B7580F592BA6ADF80058F540 /* SubscriptionShopViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionShopViewModifier.swift; sourceTree = "<group>"; };
@@ -150,8 +147,6 @@
 		B70D06DC2B9FE735004E9092 /* Store */ = {
 			isa = PBXGroup;
 			children = (
-				B70D06DB2B9FE52C004E9092 /* EyeEaseStore.storekit */,
-				B7580F532BA5834B0058F540 /* StoreKitTestCertificate.cer */,
 				B70D06DF2B9FEB3C004E9092 /* PassStatus.swift */,
 				B70D06E72B9FF1AF004E9092 /* SubscriptionShopView.swift */,
 				B70D06E92B9FF654004E9092 /* PassManager.swift */,
@@ -374,7 +369,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B7580F542BA5834B0058F540 /* StoreKitTestCertificate.cer in Resources */,
 				B7FC52412B36713D009BA759 /* Launch Screen.storyboard in Resources */,
 				B7C08EB82B1CAABA00DD0BE2 /* Preview Assets.xcassets in Resources */,
 				B7C08EB52B1CAABA00DD0BE2 /* Assets.xcassets in Resources */,
