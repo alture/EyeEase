@@ -37,7 +37,6 @@ enum ReminderDays: Int, Identifiable, CustomStringConvertible, CaseIterable {
 
 struct SettingsView: View {
     @Environment(\.dismiss) var dismiss
-    @Environment(\.requestReview) var requestReview
     @Environment(\.openURL) private var openURL
     
     @Environment(\.passStatus) private var passStatus
@@ -199,7 +198,7 @@ struct SettingsView: View {
                             }
                             
                             Button {
-                                self.requestReview()
+                                self.requestReviewManually()
                             } label: {
                                 HStack {
                                     Image(systemName: "star")
@@ -259,6 +258,17 @@ struct SettingsView: View {
             .navigationTitle("Settings")
             .toolbarTitleDisplayMode(.inline)
         }
+    }
+    
+    private func requestReviewManually() {
+        let url = "https://apps.apple.com/app/id6479049661?action=write-review"
+        
+        guard let writeReviewURL = URL(string: url) else {
+            print("Expeceted a valid URL")
+            return
+        }
+        
+        openURL(writeReviewURL)
     }
 }
 
