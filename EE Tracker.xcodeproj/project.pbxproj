@@ -13,7 +13,7 @@
 		B71262C02B66A049009185EE /* LensSortOrder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B71262BF2B66A049009185EE /* LensSortOrder.swift */; };
 		B71524302B97D329005E7A88 /* LensNameFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B715242F2B97D329005E7A88 /* LensNameFormView.swift */; };
 		B71524342B97E3C1005E7A88 /* BlankView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B71524332B97E3C1005E7A88 /* BlankView.swift */; };
-		B72F3D6A2BB180B10099FAB4 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = B72F3D692BB180B10099FAB4 /* PrivacyInfo.xcprivacy */; };
+		B72F3D6A2BB180B10099FAB4 /* Privacy.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = B72F3D692BB180B10099FAB4 /* Privacy.xcprivacy */; };
 		B73FA0532B5BC20600BCD9A4 /* LensDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73FA0522B5BC20600BCD9A4 /* LensDetailView.swift */; };
 		B74FA83A2B5A84F1001E896F /* LensCarouselView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74FA8392B5A84F1001E896F /* LensCarouselView.swift */; };
 		B74FA83C2B5A946C001E896F /* Bool+Comparable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74FA83B2B5A946C001E896F /* Bool+Comparable.swift */; };
@@ -83,7 +83,7 @@
 		B71262BF2B66A049009185EE /* LensSortOrder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LensSortOrder.swift; sourceTree = "<group>"; };
 		B715242F2B97D329005E7A88 /* LensNameFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LensNameFormView.swift; sourceTree = "<group>"; };
 		B71524332B97E3C1005E7A88 /* BlankView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlankView.swift; sourceTree = "<group>"; };
-		B72F3D692BB180B10099FAB4 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		B72F3D692BB180B10099FAB4 /* Privacy.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Privacy.xcprivacy; sourceTree = "<group>"; };
 		B73FA0522B5BC20600BCD9A4 /* LensDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LensDetailView.swift; sourceTree = "<group>"; };
 		B74FA8392B5A84F1001E896F /* LensCarouselView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LensCarouselView.swift; sourceTree = "<group>"; };
 		B74FA83B2B5A946C001E896F /* Bool+Comparable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bool+Comparable.swift"; sourceTree = "<group>"; };
@@ -267,7 +267,7 @@
 				B7E32D9E2B26055C00CA0729 /* Support */,
 				B70D06DA2B9E2091004E9092 /* EE TrackerDebug.entitlements */,
 				B7DAA1412B9E03CE005B9A7F /* EE TrackerRelease.entitlements */,
-				B72F3D692BB180B10099FAB4 /* PrivacyInfo.xcprivacy */,
+				B72F3D692BB180B10099FAB4 /* Privacy.xcprivacy */,
 				B7FC523F2B366E32009BA759 /* EE-Tracker-Info.plist */,
 				B7C08EAE2B1CAAB600DD0BE2 /* EE_TrackerApp.swift */,
 				B7C08EB42B1CAABA00DD0BE2 /* Assets.xcassets */,
@@ -375,7 +375,7 @@
 				B7FC52412B36713D009BA759 /* Launch Screen.storyboard in Resources */,
 				B7C08EB82B1CAABA00DD0BE2 /* Preview Assets.xcassets in Resources */,
 				B7C08EB52B1CAABA00DD0BE2 /* Assets.xcassets in Resources */,
-				B72F3D6A2BB180B10099FAB4 /* PrivacyInfo.xcprivacy in Resources */,
+				B72F3D6A2BB180B10099FAB4 /* Privacy.xcprivacy in Resources */,
 				B7BF527D2B865D7600FE0162 /* EE-Tracker-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -567,7 +567,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "EE Tracker/EE TrackerDebug.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"EE Tracker/Preview Content\"";
 				DEVELOPMENT_TEAM = FNS9H7J227;
 				ENABLE_PREVIEWS = YES;
@@ -606,7 +606,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "EE Tracker/EE TrackerRelease.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"EE Tracker/Preview Content\"";
 				DEVELOPMENT_TEAM = FNS9H7J227;
 				ENABLE_PREVIEWS = YES;
