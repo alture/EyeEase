@@ -174,52 +174,57 @@ struct SettingsView: View {
                     
                 }
                 
-                if
-                    let privacyURL = URL(string: "https://www.freeprivacypolicy.com/live/6ae64009-85b9-4a23-92b0-85ef9d702474"),
-                    let writeUsURL = URL(string: "mailto:altore.alisher@gmail.com") {
-                    Section(header: Text("About")) {
-                        Group {
-                            Link(destination: writeUsURL) {
-                                HStack {
-                                    Image(systemName: "square.and.pencil")
-                                    Text("Write us")
-                                    Spacer()
-                                    Image(systemName: "chevron.right")
-                                }
-                            }
-                            
-                            Link(destination: privacyURL) {
-                                HStack {
-                                    Image(systemName: "hand.raised")
-                                    Text("Privacy Policy")
-                                    Spacer()
-                                    Image(systemName: "chevron.right")
-                                }
-                            }
-                            
-                            Button {
-                                self.requestReviewManually()
-                            } label: {
-                                HStack {
-                                    Image(systemName: "star")
-                                    Text("Review the app")
-                                    Spacer()
-                                    Image(systemName: "chevron.right")
-                                }
-                            }
-                            
+                Section(header: Text("About")) {
+                    Group {
+                        Link(destination: AppConstants.URLs.supportMail) {
                             HStack {
-                                Image(systemName: "info.circle")
-                                Text("Eye Ease - Lenses Tracker")
+                                Image(systemName: "square.and.pencil")
+                                Text("Write us")
                                 Spacer()
-                                Text("v\(AppVersionProvider.appVersion())")
-                                    .foregroundStyle(Color(.systemGray2))
+                                Image(systemName: "chevron.right")
                             }
-                            
-                            
                         }
-                        .foregroundStyle(.primary)
+                        
+                        Link(destination: AppConstants.URLs.privacyPolicy) {
+                            HStack {
+                                Image(systemName: "hand.raised")
+                                Text("Privacy Policy")
+                                Spacer()
+                                Image(systemName: "chevron.right")
+                            }
+                        }
+                        
+                        Link(destination: AppConstants.URLs.termsOfUse) {
+                            HStack {
+                                Image(systemName: "doc.text")
+                                Text("Terms of Use")
+                                Spacer()
+                                Image(systemName: "chevron.right")
+                            }
+                        }
+                        
+                        Button {
+                            self.requestReviewManually()
+                        } label: {
+                            HStack {
+                                Image(systemName: "star")
+                                Text("Review the app")
+                                Spacer()
+                                Image(systemName: "chevron.right")
+                            }
+                        }
+                        
+                        HStack {
+                            Image(systemName: "info.circle")
+                            Text("Eye Ease - Lenses Tracker")
+                            Spacer()
+                            Text("v\(AppVersionProvider.appVersion())")
+                                .foregroundStyle(Color(.systemGray2))
+                        }
+                        
+                        
                     }
+                    .foregroundStyle(.primary)
                 }
             }
             .toolbar(content: {
@@ -261,9 +266,8 @@ struct SettingsView: View {
     }
     
     private func requestReviewManually() {
-        let url = "https://apps.apple.com/app/id6479049661?action=write-review"
         
-        guard let writeReviewURL = URL(string: url) else {
+        guard let writeReviewURL = AppConstants.URLs.applicationReview else {
             print("Expeceted a valid URL")
             return
         }

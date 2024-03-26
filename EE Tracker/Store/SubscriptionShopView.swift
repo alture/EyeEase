@@ -17,6 +17,8 @@ struct SubscriptionShopView: View {
         SubscriptionStoreView(groupID: passGroupID) {
             SubscriptionShopContent()
         }
+        .subscriptionStorePolicyDestination(url: AppConstants.URLs.privacyPolicy, for: .privacyPolicy)
+        .subscriptionStorePolicyDestination(url: AppConstants.URLs.termsOfUse, for: .termsOfService)
         .subscriptionStoreControlIcon(icon: { product, info in
             if info.groupLevel == 1 {
                 Image(systemName: "star.fill")

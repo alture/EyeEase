@@ -23,6 +23,7 @@
 		B760DC4F2B88CCC000C2C025 /* LensDashboardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B760DC4E2B88CCC000C2C025 /* LensDashboardViewModel.swift */; };
 		B760DC592B95646500C2C025 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B760DC582B95646500C2C025 /* NotificationManager.swift */; };
 		B760DC5D2B959BAB00C2C025 /* AppAppearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = B760DC5C2B959BAB00C2C025 /* AppAppearance.swift */; };
+		B7616D352BB2EF20000FA37A /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7616D342BB2EF20000FA37A /* AppConstants.swift */; };
 		B761D5802BA80FA100CEE24A /* NotificationGrantedKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = B761D57F2BA80FA100CEE24A /* NotificationGrantedKey.swift */; };
 		B761D5822BA810F300CEE24A /* NotificationTaskModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = B761D5812BA810F300CEE24A /* NotificationTaskModifier.swift */; };
 		B761D5862BA8339E00CEE24A /* GetPlusButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B761D5852BA8339E00CEE24A /* GetPlusButton.swift */; };
@@ -93,6 +94,7 @@
 		B760DC4E2B88CCC000C2C025 /* LensDashboardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LensDashboardViewModel.swift; sourceTree = "<group>"; };
 		B760DC582B95646500C2C025 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		B760DC5C2B959BAB00C2C025 /* AppAppearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppAppearance.swift; sourceTree = "<group>"; };
+		B7616D342BB2EF20000FA37A /* AppConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConstants.swift; sourceTree = "<group>"; };
 		B761D57F2BA80FA100CEE24A /* NotificationGrantedKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationGrantedKey.swift; sourceTree = "<group>"; };
 		B761D5812BA810F300CEE24A /* NotificationTaskModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationTaskModifier.swift; sourceTree = "<group>"; };
 		B761D5852BA8339E00CEE24A /* GetPlusButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetPlusButton.swift; sourceTree = "<group>"; };
@@ -207,6 +209,7 @@
 				B7E32D882B2519E200CA0729 /* DataSourceModel.swift */,
 				B7BF52822B86721F00FE0162 /* Sphere.swift */,
 				B76564FD2BAEB4F600671713 /* NavigationContext.swift */,
+				B7616D342BB2EF20000FA37A /* AppConstants.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -419,6 +422,7 @@
 				B7E075532B1D0FF2001ABFE4 /* SettingsView.swift in Sources */,
 				B7E32DA42B2629A800CA0729 /* LensTrackingTimelineView.swift in Sources */,
 				B7E32D8B2B2521B700CA0729 /* EyeSide.swift in Sources */,
+				B7616D352BB2EF20000FA37A /* AppConstants.swift in Sources */,
 				B7E32D832B21219C00CA0729 /* LensFormView.swift in Sources */,
 				B761D5802BA80FA100CEE24A /* NotificationGrantedKey.swift in Sources */,
 				B761D5882BA834CB00CEE24A /* AvailableOnPlus.swift in Sources */,
