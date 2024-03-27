@@ -55,7 +55,7 @@ struct SubscriptionShopContent: View {
                 
                 Group {
                     if passStatus == .notSubscribed {
-                        Text("Upgrate to plus for access all features.")
+                        Text("Upgrade to plus to access all bellows features.")
                             .padding(.horizontal)
                             .multilineTextAlignment(.center)
                     } else {
