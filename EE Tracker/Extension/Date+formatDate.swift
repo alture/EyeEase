@@ -5,7 +5,7 @@
 //  Created by Alisher Altore on 06.03.2024.
 //
 
-import Foundation
+import SwiftUI
 
 extension Date {
     func formattedDate(with format: String = "EEEE, MMM d") -> String {
@@ -18,11 +18,11 @@ extension Date {
         let calendar = Calendar.current
         
         if calendar.isDateInToday(self) {
-            return "Today"
+            return String(localized: "Today")
         } else if calendar.isDateInYesterday(self) {
-            return "Yesterday"
+            return String(localized: "Yesterday")
         } else if calendar.isDateInTomorrow(self) {
-            return "Tomorrow"
+            return String(localized: "Tomorrow")
         } else {
             return self.formattedDate(with: format)
         }

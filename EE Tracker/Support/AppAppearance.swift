@@ -7,19 +7,19 @@
 
 import Foundation
 
-enum AppAppearance: Int, CaseIterable, Identifiable, CustomStringConvertible {
+enum AppAppearance: Int, CaseIterable, Identifiable {
     case light = 1
     case dark = 2
     case system = 0
     
-    var description: String {
+    var localizedDescription: String {
         switch self {
         case .light:
-            return "Light Mode"
+            String(localized: "Light Mode", comment: "App Appearance: Using light mode")
         case .dark:
-            return "Dark Mode"
+            String(localized: "Dark Mode", comment: "App Appearance: Using dark mode")
         case .system:
-            return "System"
+            String(localized: "System", comment: "App Appearance: Using system style")
         }
     }
     

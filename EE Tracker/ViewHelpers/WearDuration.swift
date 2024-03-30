@@ -5,9 +5,9 @@
 //  Created by Alisher on 10.12.2023.
 //
 
-import Foundation
+import SwiftUI
 
-enum WearDuration: String, Codable, CaseIterable, Identifiable, CustomStringConvertible {
+enum WearDuration: String, Codable, CaseIterable, Identifiable {
     case daily = "Daily"
     case biweekly = "Bi-weekly"
     case monthly = "Monthly"
@@ -32,20 +32,37 @@ enum WearDuration: String, Codable, CaseIterable, Identifiable, CustomStringConv
         }
     }
     
-    var description: String {
+    var localizedDescriptionFull: String {
         switch self {
         case .daily:
-            "Daily"
+            String(localized: "Daily")
         case .biweekly:
-            "Bi-weekly (14 days)"
+            String(localized: "Bi-weekly (14 days)")
         case .monthly:
-            "Monthly (30 days)"
+            String(localized: "Monthly (30 days)")
         case .quarterly:
-            "Quarterly (90 days)"
+            String(localized: "Quarterly (90 days)")
         case .halfYearly:
-            "Half-yearly (180 days)"
+            String(localized: "Half-yearly (180 days)")
         case .yearly:
-            "Yearly"
+            String(localized: "Yearly")
+        }
+    }
+    
+    var localizedDescription: String {
+        switch self {
+        case .daily:
+            String(localized: "Daily")
+        case .biweekly:
+            String(localized: "Bi-weekly")
+        case .monthly:
+            String(localized: "Monthly")
+        case .quarterly:
+            String(localized: "Quarterly")
+        case .halfYearly:
+            String(localized: "Half-yearly")
+        case .yearly:
+            String(localized: "Yearly")
         }
     }
     

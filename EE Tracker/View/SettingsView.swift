@@ -9,7 +9,7 @@ import SwiftUI
 import StoreKit
 import TipKit
 
-enum ReminderDays: Int, Identifiable, CustomStringConvertible, CaseIterable {
+enum ReminderDays: Int, Identifiable, CaseIterable {
     case none = 0
     case one
     case two
@@ -19,15 +19,8 @@ enum ReminderDays: Int, Identifiable, CustomStringConvertible, CaseIterable {
     case six
     case seven
     
-    var description: String {
-        switch self {
-        case .none:
-            return "None"
-        case .one:
-            return "\(self.rawValue) day before"
-        default:
-            return "\(self.rawValue) days before"
-        }
+    var localizedDescription: String {
+        return String(localized: "\(self.rawValue) days before", comment: "Reminder days: choose days before lens need replace")
     }
     
     var id: Self {
@@ -56,17 +49,20 @@ struct SettingsView: View {
     
     var body: some View {
         NavigationStack {
-            Form {
-                TipView(notificationWarningTip) { action in
-                    guard
-                        action.id == "open-settings",
-                        let url = URL(string: UIApplication.openNotificationSettingsURLString)
-                    else {
-                        return
-                    }
-                    
-                    openURL(url)
+            TipView(notificationWarningTip) { action in
+                guard
+                    action.id == "open-settings",
+                    let url = URL(string: UIApplication.openNotificationSettingsURLString)
+                else {
+                    return
                 }
+                
+                openURL(url)
+            }
+            .tint(Color.teal)
+            .padding()
+            
+            Form {
                 
                 Section(header: Text("Account")) {
                     Button {
@@ -135,7 +131,7 @@ struct SettingsView: View {
                         
                         Picker(selection: $reminderDays) {
                             ForEach(ReminderDays.allCases) { day in
-                                Text(day.description)
+                                Text(day.localizedDescription)
                                     .tag(day)
                             }
                         } label: {
@@ -163,7 +159,7 @@ struct SettingsView: View {
                 Section("Application") {
                     Picker(selection: $appAppearance) {
                         ForEach(AppAppearance.allCases) { mode in
-                            Text(mode.description).tag(mode)
+                            Text(mode.localizedDescription).tag(mode)
                         }
                     } label: {
                         HStack {
@@ -278,4 +274,5 @@ struct SettingsView: View {
 
 #Preview {
     SettingsView()
+        .environment(\.passStatus, .monthly)
 }

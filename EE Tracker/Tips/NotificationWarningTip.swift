@@ -38,6 +38,7 @@ struct NotificationWarningTip: Tip {
         Action(id: "open-settings", {
             Text("Turn on")
                 .fontDesign(.rounded)
+                .foregroundStyle(.teal)
         })
     }
 }

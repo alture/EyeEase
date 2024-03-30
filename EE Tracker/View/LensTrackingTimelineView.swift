@@ -36,7 +36,8 @@ struct LensTrackingTimelineView: View {
                             Text("\(remainingDays)")
                                 .font(.largeTitle)
                                 .bold()
-                            Text("\(remainingDays > 1 ? "days" : "day") left")
+                            
+                            Text("\(remainingDays) days left")
                                 .font(.subheadline)
                                 .bold()
                                 .foregroundStyle(Color(.systemGray2))

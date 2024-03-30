@@ -221,5 +221,6 @@ struct TodayDateView: View {
 #Preview {
     LensDashboardView()
         .modelContainer(previewContainer)
+        .environment(\.passStatus, .yearly)
         .environment(NavigationContext(selectedLensItem: SampleData.content[0]))
 }

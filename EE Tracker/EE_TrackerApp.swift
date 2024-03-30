@@ -37,5 +37,6 @@ struct EE_TrackerApp: App {
         PassManager.createSharedInstance()
         
         try? Tips.configure()
+        Tips.showAllTipsForTesting()
     }
 }

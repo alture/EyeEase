@@ -16,12 +16,12 @@ struct LensTrackingView: View {
     
     private var sphereDesc: String {
         guard let lensItem = navigationContext.selectedLensItem else { return "" }
-        guard let sphere = lensItem.sphere else { return "Not set" }
+        guard let sphere = lensItem.sphere else { return String(localized: "Not set") }
         switch lensItem.eyeSide {
         case .left:
-            return "L: \(sphere.left)"
+            return String(localized: "L: ") + "\(sphere.left)"
         case .right:
-            return "R: \(sphere.left)"
+            return String(localized: "R: ") + "\(sphere.right)"
         case .both:
             if sphere.isSame {
                 return "\(sphere.left)"
@@ -47,9 +47,9 @@ struct LensTrackingView: View {
                 ).padding(.top)
                 
                 LensInformationView(
-                    wearDuration: lensItem.wearDuration.rawValue,
+                    wearDuration: lensItem.wearDuration.localizedDescription,
                     sphere: sphereDesc,
-                    eyeSide: lensItem.eyeSide.rawValue
+                    eyeSide: lensItem.eyeSide.localizedDescription
                 ).padding(.top)
                 
                 if let detail = lensItem.detail, passStatus != .notSubscribed {
@@ -109,9 +109,21 @@ struct LensInformationView: View {
     
     var body: some View {
         HStack(alignment: .top, spacing: 8.0) {
-            LensInformationRow(image: "hourglass.circle", title: "Type", value: wearDuration)
-            LensInformationRow(image: "dial", title: "Power", value: sphere)
-            LensInformationRow(image: "eyes.inverse", title: "Eye Side", value: eyeSide)
+            LensInformationRow(
+                image: "hourglass.circle",
+                title: String(localized: "Type"),
+                value: wearDuration
+            )
+            LensInformationRow(
+                image: "dial",
+                title: String(localized: "Power"),
+                value: sphere
+            )
+            LensInformationRow(
+                image: "eyes.inverse",
+                title: String(localized: "Eye Side"),
+                value: eyeSide
+            )
         }
     }
 }
@@ -172,7 +184,7 @@ extension Button {
 
 #Preview("Lens Default") {
     return LensTrackingView()
-        .environment(NavigationContext())
+       .environment(NavigationContext(selectedLensItem: SampleData.content[1]))
 }
 
 #Preview("Lens Ready to expire") {

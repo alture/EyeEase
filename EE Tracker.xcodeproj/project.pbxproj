@@ -13,6 +13,8 @@
 		B71262C02B66A049009185EE /* LensSortOrder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B71262BF2B66A049009185EE /* LensSortOrder.swift */; };
 		B71524302B97D329005E7A88 /* LensNameFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B715242F2B97D329005E7A88 /* LensNameFormView.swift */; };
 		B71524342B97E3C1005E7A88 /* BlankView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B71524332B97E3C1005E7A88 /* BlankView.swift */; };
+		B7236F992BB717E70006084C /* EyeEase - Contact Lens Tracker.storekit in Resources */ = {isa = PBXBuildFile; fileRef = B7236F982BB717E70006084C /* EyeEase - Contact Lens Tracker.storekit */; };
+		B7236FA72BB89DFA0006084C /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = B7236FA92BB89DFA0006084C /* Localizable.stringsdict */; };
 		B72F3D6A2BB180B10099FAB4 /* Privacy.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = B72F3D692BB180B10099FAB4 /* Privacy.xcprivacy */; };
 		B73FA0532B5BC20600BCD9A4 /* LensDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73FA0522B5BC20600BCD9A4 /* LensDetailView.swift */; };
 		B74FA83A2B5A84F1001E896F /* LensCarouselView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74FA8392B5A84F1001E896F /* LensCarouselView.swift */; };
@@ -84,6 +86,8 @@
 		B71262BF2B66A049009185EE /* LensSortOrder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LensSortOrder.swift; sourceTree = "<group>"; };
 		B715242F2B97D329005E7A88 /* LensNameFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LensNameFormView.swift; sourceTree = "<group>"; };
 		B71524332B97E3C1005E7A88 /* BlankView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlankView.swift; sourceTree = "<group>"; };
+		B7236F982BB717E70006084C /* EyeEase - Contact Lens Tracker.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; name = "EyeEase - Contact Lens Tracker.storekit"; path = "EE Tracker/Store/EyeEase - Contact Lens Tracker.storekit"; sourceTree = "<group>"; };
+		B7236FA82BB89DFA0006084C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = en; path = en.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
 		B72F3D692BB180B10099FAB4 /* Privacy.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Privacy.xcprivacy; sourceTree = "<group>"; };
 		B73FA0522B5BC20600BCD9A4 /* LensDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LensDetailView.swift; sourceTree = "<group>"; };
 		B74FA8392B5A84F1001E896F /* LensCarouselView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LensCarouselView.swift; sourceTree = "<group>"; };
@@ -242,6 +246,7 @@
 		B7C08EA22B1CAAB500DD0BE2 = {
 			isa = PBXGroup;
 			children = (
+				B7236F982BB717E70006084C /* EyeEase - Contact Lens Tracker.storekit */,
 				B7C08EAD2B1CAAB600DD0BE2 /* EE Tracker */,
 				B764EC562B73DC810024A166 /* Frameworks */,
 				B7C08EAC2B1CAAB600DD0BE2 /* Products */,
@@ -309,6 +314,7 @@
 				B7E32D9F2B26058500CA0729 /* PreviewSampleData.swift */,
 				B7E32DA12B2605AD00CA0729 /* SampleData.swift */,
 				B7E32DC12B26523D00CA0729 /* AppVersionProvider.swift */,
+				B7236FA92BB89DFA0006084C /* Localizable.stringsdict */,
 				B760DC5C2B959BAB00C2C025 /* AppAppearance.swift */,
 				B7E3941A2B990C2900113138 /* AppStorageKeys.swift */,
 				B7F555852BA160550069D38E /* PreferenceKeys.swift */,
@@ -375,11 +381,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B7236F992BB717E70006084C /* EyeEase - Contact Lens Tracker.storekit in Resources */,
 				B7FC52412B36713D009BA759 /* Launch Screen.storyboard in Resources */,
 				B7C08EB82B1CAABA00DD0BE2 /* Preview Assets.xcassets in Resources */,
 				B7C08EB52B1CAABA00DD0BE2 /* Assets.xcassets in Resources */,
 				B72F3D6A2BB180B10099FAB4 /* Privacy.xcprivacy in Resources */,
 				B7BF527D2B865D7600FE0162 /* EE-Tracker-Info.plist in Resources */,
+				B7236FA72BB89DFA0006084C /* Localizable.stringsdict in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -443,6 +451,17 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		B7236FA92BB89DFA0006084C /* Localizable.stringsdict */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B7236FA82BB89DFA0006084C /* en */,
+			);
+			name = Localizable.stringsdict;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		B7C08EB92B1CAABA00DD0BE2 /* Debug */ = {
@@ -578,7 +597,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "EE-Tracker-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Eye Ease";
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.healthcare-fitness";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.medical";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen.storyboard";
@@ -617,7 +636,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "EE-Tracker-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Eye Ease";
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.healthcare-fitness";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.medical";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen.storyboard";

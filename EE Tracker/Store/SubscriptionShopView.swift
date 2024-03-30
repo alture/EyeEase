@@ -89,22 +89,22 @@ enum SubscriptionShopFeature: CaseIterable, Identifiable {
     var title: String {
         switch self {
         case .reminder:
-            return "Push Notifications"
+            return String(localized: "Push Notifications")
         case .detailSection:
-            return "Detail of the contact lens"
+            return String(localized: "Detail of the contact lens")
         case .moreThanOne:
-            return "More than one contact lens"
+            return String(localized: "More than one contact lens")
         }
     }
     
     var subtitle: String {
         switch self {
         case .reminder:
-            return "Stay on track with timely reminders."
+            return String(localized: "Stay on track with timely reminders.")
         case .detailSection:
-            return "Add contact lens specifications such as Power Range, Base Curve, Axis etc."
+            return String(localized: "Add contact lens specifications such as Power Range, Base Curve, Axis etc.")
         case .moreThanOne:
-            return "Manage and track multiple contact lenses"
+            return String(localized: "Manage and track multiple contact lenses")
         }
     }
     

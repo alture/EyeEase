@@ -41,7 +41,8 @@ struct LensFormView: View {
                 
                 DetailSection(
                     detail: $viewModel.detail,
-                    sphere: $viewModel.sphere,
+                    sphere: $viewModel.sphere, 
+                    eyeSide: viewModel.eyeSide,
                     focusField: _focusField,
                     showingSphereRow: $showingSphereSection
                 )
@@ -177,11 +178,11 @@ enum FocusableField: Hashable {
     var unitDescription: String {
         switch self {
         case .bc, .dia:
-            return "mm"
+            return String(localized: "mm")
         case .cylinder:
-            return "D"
+            return String(localized: "D")
         case .axis:
-            return "°"
+            return String(localized: "°")
         case .name:
             return ""
         }
@@ -263,14 +264,14 @@ struct MainSection: View {
                 ForEach(WearDuration.allCases.filter {
                     $0 != .daily && $0 != .yearly
                 }) { duration in
-                    Text(duration.description)
+                    Text(duration.localizedDescriptionFull)
                         .tag(duration)
                 }
             }
             
             Picker("Side", selection: $eyeSide) {
                 ForEach(EyeSide.allCases) { side in
-                    Text(side.rawValue)
+                    Text(side.localizedDescription)
                         .tag(side)
                 }
             }
@@ -382,6 +383,7 @@ struct SphereRowView: View {
 struct DetailSection: View {
     @Binding var detail: LensDetail
     @Binding var sphere: Sphere?
+    var eyeSide: EyeSide
     @FocusState var focusField: FocusableField?
     @Environment(\.passStatus) private var passStatus
     @State private var presentingPassSheet: Bool = false
@@ -389,10 +391,18 @@ struct DetailSection: View {
     
     private var sphereDesc: String {
         guard let sphere else { return "" }
-        if sphere.isSame {
-            return "Both: \(sphere.left)"
-        } else {
-            return "L: \(sphere.left) | R: \(sphere.right)"
+        
+        switch eyeSide {
+        case .left:
+            return String(localized: "L: ") + "\(sphere.left)"
+        case .right:
+            return String(localized: "R: ") + "\(sphere.right)"
+        case .both:
+            if sphere.isSame {
+                return "\(sphere.left)"
+            } else {
+                return "\(sphere.left) | \(sphere.right)"
+            }
         }
     }
     
@@ -477,8 +487,8 @@ struct DetailSection: View {
 
 
 struct DetailRow: View {
-    var name: String
-    var predication: String
+    var name: LocalizedStringKey
+    var predication: LocalizedStringKey
     @Binding var value: String
     @FocusState var focusField: FocusableField?
     var focusValue: FocusableField
@@ -506,6 +516,12 @@ struct DetailRow: View {
             }
         }
     }
+}
+
+#Preview("Pro") {
+    LensFormView(state: .new, lensItem: nil)
+        .environment(\.passStatus, .yearly)
+        .environment(NavigationContext(selectedLensItem: nil))
 }
 
 //#Preview("Pro", body: {

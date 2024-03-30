@@ -14,7 +14,7 @@ enum FormState: Identifiable {
     case editable
     case changeable
     
-    var actionTitle: String {
+    var actionTitle: LocalizedStringKey {
         switch self {
         case .new:
             return "Add"
@@ -25,7 +25,7 @@ enum FormState: Identifiable {
         }
     }
     
-    var navigationTitle: String {
+    var navigationTitle: LocalizedStringKey {
         switch self {
         case .new:
             return "Create New"
