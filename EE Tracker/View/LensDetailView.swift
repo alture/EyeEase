@@ -22,7 +22,7 @@ struct LensDetailView: View {
 struct LensDetailRow: View {
     var title: String
     var value: String
-    var predication: String
+    var predication: LocalizedStringKey
     var body: some View {
         VStack(alignment: .center, spacing: 4.0) {
             Text(title)
