@@ -20,7 +20,6 @@ struct LensDashboardView: View {
     
     @Environment(\.colorScheme) private var colorScheme
     @AppStorage(AppStorageKeys.firstAppear) private var firstAppear: Bool = true
-    var addNewTip = AddNewTip()
     
     var body: some View {
         NavigationStack {

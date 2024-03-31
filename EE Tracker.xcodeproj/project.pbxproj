@@ -30,12 +30,8 @@
 		B761D5822BA810F300CEE24A /* NotificationTaskModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = B761D5812BA810F300CEE24A /* NotificationTaskModifier.swift */; };
 		B761D5862BA8339E00CEE24A /* GetPlusButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B761D5852BA8339E00CEE24A /* GetPlusButton.swift */; };
 		B761D5882BA834CB00CEE24A /* AvailableOnPlus.swift in Sources */ = {isa = PBXBuildFile; fileRef = B761D5872BA834CB00CEE24A /* AvailableOnPlus.swift */; };
-		B764A5112BA89CF00097C263 /* AddNewTip.swift in Sources */ = {isa = PBXBuildFile; fileRef = B764A5102BA89CF00097C263 /* AddNewTip.swift */; };
 		B764A5132BA8AE950097C263 /* NotificationWarningTip.swift in Sources */ = {isa = PBXBuildFile; fileRef = B764A5122BA8AE950097C263 /* NotificationWarningTip.swift */; };
-		B76553502BA96AEF0045BF93 /* BrandNameTip.swift in Sources */ = {isa = PBXBuildFile; fileRef = B765534F2BA96AEF0045BF93 /* BrandNameTip.swift */; };
-		B76553522BA96D7C0045BF93 /* InitialDateTip.swift in Sources */ = {isa = PBXBuildFile; fileRef = B76553512BA96D7C0045BF93 /* InitialDateTip.swift */; };
 		B76553542BA99EDD0045BF93 /* Binding+OptionalChaining.swift in Sources */ = {isa = PBXBuildFile; fileRef = B76553532BA99EDD0045BF93 /* Binding+OptionalChaining.swift */; };
-		B76553562BA9B4D30045BF93 /* ReminderDaysTip.swift in Sources */ = {isa = PBXBuildFile; fileRef = B76553552BA9B4D30045BF93 /* ReminderDaysTip.swift */; };
 		B76564FE2BAEB4F600671713 /* NavigationContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = B76564FD2BAEB4F600671713 /* NavigationContext.swift */; };
 		B76565002BAEB57300671713 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B76564FF2BAEB57300671713 /* ContentView.swift */; };
 		B7BF527D2B865D7600FE0162 /* EE-Tracker-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B7FC523F2B366E32009BA759 /* EE-Tracker-Info.plist */; };
@@ -103,13 +99,9 @@
 		B761D5812BA810F300CEE24A /* NotificationTaskModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationTaskModifier.swift; sourceTree = "<group>"; };
 		B761D5852BA8339E00CEE24A /* GetPlusButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetPlusButton.swift; sourceTree = "<group>"; };
 		B761D5872BA834CB00CEE24A /* AvailableOnPlus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvailableOnPlus.swift; sourceTree = "<group>"; };
-		B764A5102BA89CF00097C263 /* AddNewTip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewTip.swift; sourceTree = "<group>"; };
 		B764A5122BA8AE950097C263 /* NotificationWarningTip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationWarningTip.swift; sourceTree = "<group>"; };
 		B764EC592B73DC810024A166 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
-		B765534F2BA96AEF0045BF93 /* BrandNameTip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandNameTip.swift; sourceTree = "<group>"; };
-		B76553512BA96D7C0045BF93 /* InitialDateTip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialDateTip.swift; sourceTree = "<group>"; };
 		B76553532BA99EDD0045BF93 /* Binding+OptionalChaining.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Binding+OptionalChaining.swift"; sourceTree = "<group>"; };
-		B76553552BA9B4D30045BF93 /* ReminderDaysTip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderDaysTip.swift; sourceTree = "<group>"; };
 		B76564FD2BAEB4F600671713 /* NavigationContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationContext.swift; sourceTree = "<group>"; };
 		B76564FF2BAEB57300671713 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		B7BF527E2B865E6200FE0162 /* LensFormViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LensFormViewModel.swift; sourceTree = "<group>"; };
@@ -167,11 +159,7 @@
 		B764A50F2BA89CDC0097C263 /* Tips */ = {
 			isa = PBXGroup;
 			children = (
-				B764A5102BA89CF00097C263 /* AddNewTip.swift */,
 				B764A5122BA8AE950097C263 /* NotificationWarningTip.swift */,
-				B765534F2BA96AEF0045BF93 /* BrandNameTip.swift */,
-				B76553512BA96D7C0045BF93 /* InitialDateTip.swift */,
-				B76553552BA9B4D30045BF93 /* ReminderDaysTip.swift */,
 			);
 			path = Tips;
 			sourceTree = "<group>";
@@ -403,13 +391,11 @@
 				B76565002BAEB57300671713 /* ContentView.swift in Sources */,
 				B7580F582BA6A5200058F540 /* PassIdentifiers.swift in Sources */,
 				B7E32D8D2B2521DC00CA0729 /* WearDuration.swift in Sources */,
-				B76553522BA96D7C0045BF93 /* InitialDateTip.swift in Sources */,
 				B760DC5D2B959BAB00C2C025 /* AppAppearance.swift in Sources */,
 				B7BF52832B86721F00FE0162 /* Sphere.swift in Sources */,
 				B7580F562BA6A34B0058F540 /* RestorePurchasesButton.swift in Sources */,
 				B7C08EB12B1CAAB600DD0BE2 /* LensDashboardView.swift in Sources */,
 				B760DC4F2B88CCC000C2C025 /* LensDashboardViewModel.swift in Sources */,
-				B76553562BA9B4D30045BF93 /* ReminderDaysTip.swift in Sources */,
 				B761D5862BA8339E00CEE24A /* GetPlusButton.swift in Sources */,
 				B7C08EAF2B1CAAB600DD0BE2 /* EE_TrackerApp.swift in Sources */,
 				B70D06E02B9FEB3C004E9092 /* PassStatus.swift in Sources */,
@@ -426,7 +412,6 @@
 				B76553542BA99EDD0045BF93 /* Binding+OptionalChaining.swift in Sources */,
 				B70D06E82B9FF1AF004E9092 /* SubscriptionShopView.swift in Sources */,
 				B761D5822BA810F300CEE24A /* NotificationTaskModifier.swift in Sources */,
-				B764A5112BA89CF00097C263 /* AddNewTip.swift in Sources */,
 				B7E075532B1D0FF2001ABFE4 /* SettingsView.swift in Sources */,
 				B7E32DA42B2629A800CA0729 /* LensTrackingTimelineView.swift in Sources */,
 				B7E32D8B2B2521B700CA0729 /* EyeSide.swift in Sources */,
@@ -442,7 +427,6 @@
 				B7E32D812B2119CD00CA0729 /* LensTrackingView.swift in Sources */,
 				B71262C02B66A049009185EE /* LensSortOrder.swift in Sources */,
 				B760DC592B95646500C2C025 /* NotificationManager.swift in Sources */,
-				B76553502BA96AEF0045BF93 /* BrandNameTip.swift in Sources */,
 				B7BF527F2B865E6200FE0162 /* LensFormViewModel.swift in Sources */,
 				B76564FE2BAEB4F600671713 /* NavigationContext.swift in Sources */,
 				B74FA83A2B5A84F1001E896F /* LensCarouselView.swift in Sources */,

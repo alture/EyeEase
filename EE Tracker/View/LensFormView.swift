@@ -241,8 +241,6 @@ struct MainSection: View {
     @Binding var eyeSide: EyeSide
     @Binding var initialUseDate: Date
     @Binding var isWearing: Bool
-    var brandNameTip = BrandNameTip()
-    var initialDateTip = InitialDateTip()
     
     var body: some View {
         Section {
