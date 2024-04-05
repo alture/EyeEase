@@ -9,6 +9,7 @@ import SwiftUI
 import Combine
 import SwiftData
 import TipKit
+import WidgetKit
 
 struct LensFormView: View {
     @FocusState private var focusField: FocusableField?
@@ -147,6 +148,8 @@ struct LensFormView: View {
             if passStatus != .notSubscribed {
                 viewModel.updateNotification(by: lensItem)
             }
+            
+            WidgetCenter.shared.reloadAllTimelines()
         } else {
             let newLensItem = LensItem()
             newLensItem.name = viewModel.brandName
@@ -156,14 +159,19 @@ struct LensFormView: View {
             newLensItem.sphere = viewModel.sphere
             newLensItem.detail = viewModel.detail
             newLensItem.changeDate = viewModel.changeDate
+            newLensItem.wearDuration = viewModel.wearDuration
             
-            modelContext.insert(newLensItem)
-            navigationContext.selectedLensItem = newLensItem
+            DispatchQueue.main.async {
+                navigationContext.selectedLensItem = newLensItem
+                modelContext.insert(newLensItem)
+                WidgetCenter.shared.reloadAllTimelines()
+            }
             
             if passStatus != .notSubscribed {
                 viewModel.createNotification(by: newLensItem)
             }
         }
+        
     }
 }
 

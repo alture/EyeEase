@@ -9,6 +9,7 @@ import SwiftUI
 import StoreKit
 import SwiftData
 import TipKit
+import WidgetKit
 
 struct LensDashboardView: View {
     @Query(sort: \LensItem.createdDate) var lensItems: [LensItem]
@@ -179,6 +180,8 @@ struct TrackingOverviewHeaderView: View {
                             navigationContext.selectedLensItem = nil
                             
                         }
+                        
+                        WidgetCenter.shared.reloadAllTimelines()
                     }
                 }
                 
