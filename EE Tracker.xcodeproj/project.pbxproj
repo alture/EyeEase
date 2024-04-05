@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B709D4FD2BC03B5B00EBB5EB /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B709D4FC2BC03B5B00EBB5EB /* DataManager.swift */; };
+		B709D4FE2BC03B5B00EBB5EB /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B709D4FC2BC03B5B00EBB5EB /* DataManager.swift */; };
 		B70D06E02B9FEB3C004E9092 /* PassStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = B70D06DF2B9FEB3C004E9092 /* PassStatus.swift */; };
 		B70D06E82B9FF1AF004E9092 /* SubscriptionShopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B70D06E72B9FF1AF004E9092 /* SubscriptionShopView.swift */; };
 		B70D06EA2B9FF654004E9092 /* PassManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B70D06E92B9FF654004E9092 /* PassManager.swift */; };
@@ -36,6 +38,28 @@
 		B76553562BA9B4D30045BF93 /* ReminderDaysTip.swift in Sources */ = {isa = PBXBuildFile; fileRef = B76553552BA9B4D30045BF93 /* ReminderDaysTip.swift */; };
 		B76564FE2BAEB4F600671713 /* NavigationContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = B76564FD2BAEB4F600671713 /* NavigationContext.swift */; };
 		B76565002BAEB57300671713 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B76564FF2BAEB57300671713 /* ContentView.swift */; };
+		B78692D32BBBFA7200417E68 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B78692D22BBBFA7200417E68 /* WidgetKit.framework */; };
+		B78692D42BBBFA7200417E68 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B764EC592B73DC810024A166 /* SwiftUI.framework */; };
+		B78692D72BBBFA7200417E68 /* EyeEaseWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78692D62BBBFA7200417E68 /* EyeEaseWidgetBundle.swift */; };
+		B78692D92BBBFA7200417E68 /* EyeEaseWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78692D82BBBFA7200417E68 /* EyeEaseWidget.swift */; };
+		B78692DB2BBBFA7300417E68 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B78692DA2BBBFA7300417E68 /* Assets.xcassets */; };
+		B78692DF2BBBFA7300417E68 /* EyeEaseWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = B78692D12BBBFA7200417E68 /* EyeEaseWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		B78692E32BBBFD5800417E68 /* LensTrackingTimelineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E32DA32B2629A800CA0729 /* LensTrackingTimelineView.swift */; };
+		B78692E42BBBFD5E00417E68 /* CircleProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E075502B1CE214001ABFE4 /* CircleProgressView.swift */; };
+		B78692E52BBBFD6F00417E68 /* Date+formatDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E394142B98A94000113138 /* Date+formatDate.swift */; };
+		B78692E62BBBFD7900417E68 /* SampleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E32DA12B2605AD00CA0729 /* SampleData.swift */; };
+		B78692E72BBBFD8B00417E68 /* LensItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C08EBF2B1CB73C00DD0BE2 /* LensItem.swift */; };
+		B78692E82BBBFD9100417E68 /* WearDuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E32D8C2B2521DC00CA0729 /* WearDuration.swift */; };
+		B78692E92BBBFD9500417E68 /* EyeSide.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E32D8A2B2521B700CA0729 /* EyeSide.swift */; };
+		B78692EA2BBBFD9C00417E68 /* Sphere.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7BF52822B86721F00FE0162 /* Sphere.swift */; };
+		B78692EB2BBBFDA500417E68 /* LensDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7BF52802B86720500FE0162 /* LensDetail.swift */; };
+		B78692ED2BBD7E7100417E68 /* EyeEaseWidgetIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78692EC2BBD7E7100417E68 /* EyeEaseWidgetIntent.swift */; };
+		B78692F12BBD830E00417E68 /* EyeEaseWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78692F02BBD830E00417E68 /* EyeEaseWidgetView.swift */; };
+		B78692F22BBD830E00417E68 /* EyeEaseWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78692F02BBD830E00417E68 /* EyeEaseWidgetView.swift */; };
+		B78692F32BBDEFC300417E68 /* EyeEaseWidgetIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78692EC2BBD7E7100417E68 /* EyeEaseWidgetIntent.swift */; };
+		B78692F52BBF42AD00417E68 /* EyeEaseTimelineProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78692F42BBF42A800417E68 /* EyeEaseTimelineProvider.swift */; };
+		B78692F62BBF42AE00417E68 /* EyeEaseTimelineProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78692F42BBF42A800417E68 /* EyeEaseTimelineProvider.swift */; };
+		B78692F92BBF517F00417E68 /* EyeEase - Contact Lens Tracker.storekit in Resources */ = {isa = PBXBuildFile; fileRef = B78692F82BBF517F00417E68 /* EyeEase - Contact Lens Tracker.storekit */; };
 		B7BF527D2B865D7600FE0162 /* EE-Tracker-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B7FC523F2B366E32009BA759 /* EE-Tracker-Info.plist */; };
 		B7BF527F2B865E6200FE0162 /* LensFormViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7BF527E2B865E6200FE0162 /* LensFormViewModel.swift */; };
 		B7BF52812B86720500FE0162 /* LensDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7BF52802B86720500FE0162 /* LensDetail.swift */; };
@@ -63,6 +87,16 @@
 		B7FC52412B36713D009BA759 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B7FC52402B36713D009BA759 /* Launch Screen.storyboard */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		B78692DD2BBBFA7300417E68 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B7C08EA32B1CAAB500DD0BE2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B78692D02BBBFA7200417E68;
+			remoteInfo = EyeEaseWidgetExtension;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXCopyFilesBuildPhase section */
 		B764EC662B73DC850024A166 /* Embed Foundation Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -70,6 +104,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
+				B78692DF2BBBFA7300417E68 /* EyeEaseWidgetExtension.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -77,6 +112,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		B709D4FC2BC03B5B00EBB5EB /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		B70D06DA2B9E2091004E9092 /* EE TrackerDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "EE TrackerDebug.entitlements"; sourceTree = "<group>"; };
 		B70D06DF2B9FEB3C004E9092 /* PassStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassStatus.swift; sourceTree = "<group>"; };
 		B70D06E72B9FF1AF004E9092 /* SubscriptionShopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionShopView.swift; sourceTree = "<group>"; };
@@ -108,6 +144,17 @@
 		B76553552BA9B4D30045BF93 /* ReminderDaysTip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderDaysTip.swift; sourceTree = "<group>"; };
 		B76564FD2BAEB4F600671713 /* NavigationContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationContext.swift; sourceTree = "<group>"; };
 		B76564FF2BAEB57300671713 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		B78692D12BBBFA7200417E68 /* EyeEaseWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = EyeEaseWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		B78692D22BBBFA7200417E68 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		B78692D62BBBFA7200417E68 /* EyeEaseWidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EyeEaseWidgetBundle.swift; sourceTree = "<group>"; };
+		B78692D82BBBFA7200417E68 /* EyeEaseWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EyeEaseWidget.swift; sourceTree = "<group>"; };
+		B78692DA2BBBFA7300417E68 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		B78692DC2BBBFA7300417E68 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B78692EC2BBD7E7100417E68 /* EyeEaseWidgetIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EyeEaseWidgetIntent.swift; sourceTree = "<group>"; };
+		B78692F02BBD830E00417E68 /* EyeEaseWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EyeEaseWidgetView.swift; sourceTree = "<group>"; };
+		B78692F42BBF42A800417E68 /* EyeEaseTimelineProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EyeEaseTimelineProvider.swift; sourceTree = "<group>"; };
+		B78692F72BBF4B9600417E68 /* EyeEaseWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = EyeEaseWidgetExtension.entitlements; sourceTree = "<group>"; };
+		B78692F82BBF517F00417E68 /* EyeEase - Contact Lens Tracker.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; name = "EyeEase - Contact Lens Tracker.storekit"; path = "EE Tracker/Store/EyeEase - Contact Lens Tracker.storekit"; sourceTree = "<group>"; };
 		B7BF527E2B865E6200FE0162 /* LensFormViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LensFormViewModel.swift; sourceTree = "<group>"; };
 		B7BF52802B86720500FE0162 /* LensDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LensDetail.swift; sourceTree = "<group>"; };
 		B7BF52822B86721F00FE0162 /* Sphere.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sphere.swift; sourceTree = "<group>"; };
@@ -138,6 +185,15 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		B78692CE2BBBFA7200417E68 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B78692D42BBBFA7200417E68 /* SwiftUI.framework in Frameworks */,
+				B78692D32BBBFA7200417E68 /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		B7C08EA82B1CAAB600DD0BE2 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -176,8 +232,23 @@
 			isa = PBXGroup;
 			children = (
 				B764EC592B73DC810024A166 /* SwiftUI.framework */,
+				B78692D22BBBFA7200417E68 /* WidgetKit.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		B78692D52BBBFA7200417E68 /* EyeEaseWidget */ = {
+			isa = PBXGroup;
+			children = (
+				B78692D62BBBFA7200417E68 /* EyeEaseWidgetBundle.swift */,
+				B78692D82BBBFA7200417E68 /* EyeEaseWidget.swift */,
+				B78692EC2BBD7E7100417E68 /* EyeEaseWidgetIntent.swift */,
+				B78692F02BBD830E00417E68 /* EyeEaseWidgetView.swift */,
+				B78692F42BBF42A800417E68 /* EyeEaseTimelineProvider.swift */,
+				B78692DA2BBBFA7300417E68 /* Assets.xcassets */,
+				B78692DC2BBBFA7300417E68 /* Info.plist */,
+			);
+			path = EyeEaseWidget;
 			sourceTree = "<group>";
 		};
 		B7A7FD932BA6F37800F968A0 /* Notification */ = {
@@ -242,7 +313,10 @@
 		B7C08EA22B1CAAB500DD0BE2 = {
 			isa = PBXGroup;
 			children = (
+				B78692F82BBF517F00417E68 /* EyeEase - Contact Lens Tracker.storekit */,
+				B78692F72BBF4B9600417E68 /* EyeEaseWidgetExtension.entitlements */,
 				B7C08EAD2B1CAAB600DD0BE2 /* EE Tracker */,
+				B78692D52BBBFA7200417E68 /* EyeEaseWidget */,
 				B764EC562B73DC810024A166 /* Frameworks */,
 				B7C08EAC2B1CAAB600DD0BE2 /* Products */,
 			);
@@ -252,6 +326,7 @@
 			isa = PBXGroup;
 			children = (
 				B7C08EAB2B1CAAB600DD0BE2 /* EE Tracker.app */,
+				B78692D12BBBFA7200417E68 /* EyeEaseWidgetExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -312,6 +387,7 @@
 				B760DC5C2B959BAB00C2C025 /* AppAppearance.swift */,
 				B7E3941A2B990C2900113138 /* AppStorageKeys.swift */,
 				B7F555852BA160550069D38E /* PreferenceKeys.swift */,
+				B709D4FC2BC03B5B00EBB5EB /* DataManager.swift */,
 			);
 			path = Support;
 			sourceTree = "<group>";
@@ -319,6 +395,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		B78692D02BBBFA7200417E68 /* EyeEaseWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B78692E22BBBFA7300417E68 /* Build configuration list for PBXNativeTarget "EyeEaseWidgetExtension" */;
+			buildPhases = (
+				B78692CD2BBBFA7200417E68 /* Sources */,
+				B78692CE2BBBFA7200417E68 /* Frameworks */,
+				B78692CF2BBBFA7200417E68 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = EyeEaseWidgetExtension;
+			productName = EyeEaseWidgetExtension;
+			productReference = B78692D12BBBFA7200417E68 /* EyeEaseWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		B7C08EAA2B1CAAB600DD0BE2 /* EE Tracker */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = B7C08EBB2B1CAABA00DD0BE2 /* Build configuration list for PBXNativeTarget "EE Tracker" */;
@@ -331,6 +424,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				B78692DE2BBBFA7300417E68 /* PBXTargetDependency */,
 			);
 			name = "EE Tracker";
 			productName = "EE Tracker";
@@ -347,6 +441,9 @@
 				LastSwiftUpdateCheck = 1520;
 				LastUpgradeCheck = 1500;
 				TargetAttributes = {
+					B78692D02BBBFA7200417E68 = {
+						CreatedOnToolsVersion = 15.2;
+					};
 					B7C08EAA2B1CAAB600DD0BE2 = {
 						CreatedOnToolsVersion = 15.0.1;
 					};
@@ -366,15 +463,25 @@
 			projectRoot = "";
 			targets = (
 				B7C08EAA2B1CAAB600DD0BE2 /* EE Tracker */,
+				B78692D02BBBFA7200417E68 /* EyeEaseWidgetExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		B78692CF2BBBFA7200417E68 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B78692DB2BBBFA7300417E68 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		B7C08EA92B1CAAB600DD0BE2 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B78692F92BBF517F00417E68 /* EyeEase - Contact Lens Tracker.storekit in Resources */,
 				B7FC52412B36713D009BA759 /* Launch Screen.storyboard in Resources */,
 				B7C08EB82B1CAABA00DD0BE2 /* Preview Assets.xcassets in Resources */,
 				B7C08EB52B1CAABA00DD0BE2 /* Assets.xcassets in Resources */,
@@ -386,6 +493,28 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		B78692CD2BBBFA7200417E68 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B78692F32BBDEFC300417E68 /* EyeEaseWidgetIntent.swift in Sources */,
+				B709D4FE2BC03B5B00EBB5EB /* DataManager.swift in Sources */,
+				B78692EA2BBBFD9C00417E68 /* Sphere.swift in Sources */,
+				B78692D72BBBFA7200417E68 /* EyeEaseWidgetBundle.swift in Sources */,
+				B78692E62BBBFD7900417E68 /* SampleData.swift in Sources */,
+				B78692E82BBBFD9100417E68 /* WearDuration.swift in Sources */,
+				B78692E42BBBFD5E00417E68 /* CircleProgressView.swift in Sources */,
+				B78692E32BBBFD5800417E68 /* LensTrackingTimelineView.swift in Sources */,
+				B78692F22BBD830E00417E68 /* EyeEaseWidgetView.swift in Sources */,
+				B78692EB2BBBFDA500417E68 /* LensDetail.swift in Sources */,
+				B78692E92BBBFD9500417E68 /* EyeSide.swift in Sources */,
+				B78692E72BBBFD8B00417E68 /* LensItem.swift in Sources */,
+				B78692F52BBF42AD00417E68 /* EyeEaseTimelineProvider.swift in Sources */,
+				B78692D92BBBFA7200417E68 /* EyeEaseWidget.swift in Sources */,
+				B78692E52BBBFD6F00417E68 /* Date+formatDate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		B7C08EA72B1CAAB600DD0BE2 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -398,6 +527,7 @@
 				B76553522BA96D7C0045BF93 /* InitialDateTip.swift in Sources */,
 				B760DC5D2B959BAB00C2C025 /* AppAppearance.swift in Sources */,
 				B7BF52832B86721F00FE0162 /* Sphere.swift in Sources */,
+				B709D4FD2BC03B5B00EBB5EB /* DataManager.swift in Sources */,
 				B7580F562BA6A34B0058F540 /* RestorePurchasesButton.swift in Sources */,
 				B7C08EB12B1CAAB600DD0BE2 /* LensDashboardView.swift in Sources */,
 				B760DC4F2B88CCC000C2C025 /* LensDashboardViewModel.swift in Sources */,
@@ -409,10 +539,12 @@
 				B7BF52812B86720500FE0162 /* LensDetail.swift in Sources */,
 				B7E32DA22B2605AD00CA0729 /* SampleData.swift in Sources */,
 				B7E3941B2B990C2900113138 /* AppStorageKeys.swift in Sources */,
+				B78692ED2BBD7E7100417E68 /* EyeEaseWidgetIntent.swift in Sources */,
 				B71524302B97D329005E7A88 /* LensNameFormView.swift in Sources */,
 				B73FA0532B5BC20600BCD9A4 /* LensDetailView.swift in Sources */,
 				B7E394152B98A94000113138 /* Date+formatDate.swift in Sources */,
 				B7E32DA02B26058500CA0729 /* PreviewSampleData.swift in Sources */,
+				B78692F12BBD830E00417E68 /* EyeEaseWidgetView.swift in Sources */,
 				B7F555862BA160550069D38E /* PreferenceKeys.swift in Sources */,
 				B7580F5A2BA6ADF80058F540 /* SubscriptionShopViewModifier.swift in Sources */,
 				B76553542BA99EDD0045BF93 /* Binding+OptionalChaining.swift in Sources */,
@@ -435,6 +567,7 @@
 				B71262C02B66A049009185EE /* LensSortOrder.swift in Sources */,
 				B760DC592B95646500C2C025 /* NotificationManager.swift in Sources */,
 				B76553502BA96AEF0045BF93 /* BrandNameTip.swift in Sources */,
+				B78692F62BBF42AE00417E68 /* EyeEaseTimelineProvider.swift in Sources */,
 				B7BF527F2B865E6200FE0162 /* LensFormViewModel.swift in Sources */,
 				B76564FE2BAEB4F600671713 /* NavigationContext.swift in Sources */,
 				B74FA83A2B5A84F1001E896F /* LensCarouselView.swift in Sources */,
@@ -444,7 +577,73 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		B78692DE2BBBFA7300417E68 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B78692D02BBBFA7200417E68 /* EyeEaseWidgetExtension */;
+			targetProxy = B78692DD2BBBFA7300417E68 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		B78692E02BBBFA7300417E68 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = EyeEaseWidgetExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = FNS9H7J227;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = EyeEaseWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = EyeEaseWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.alture.eye-ease.EyeEaseWidget";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		B78692E12BBBFA7300417E68 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = EyeEaseWidgetExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = FNS9H7J227;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = EyeEaseWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = EyeEaseWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.alture.eye-ease.EyeEaseWidget";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		B7C08EB92B1CAABA00DD0BE2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -567,6 +766,7 @@
 		B7C08EBC2B1CAABA00DD0BE2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "EE Tracker/EE TrackerDebug.entitlements";
@@ -606,6 +806,7 @@
 		B7C08EBD2B1CAABA00DD0BE2 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "EE Tracker/EE TrackerRelease.entitlements";
@@ -645,6 +846,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		B78692E22BBBFA7300417E68 /* Build configuration list for PBXNativeTarget "EyeEaseWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B78692E02BBBFA7300417E68 /* Debug */,
+				B78692E12BBBFA7300417E68 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		B7C08EA62B1CAAB500DD0BE2 /* Build configuration list for PBXProject "EE Tracker" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

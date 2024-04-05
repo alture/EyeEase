@@ -31,4 +31,14 @@ extension Date {
     var startOfDay: Self {
         Calendar.current.startOfDay(for: self)
     }
+    
+    var nextOfDay: Self {
+        let calendar = Calendar.current
+        
+        guard let nextDay = calendar.date(byAdding: .day, value: 1, to: self) else {
+            return self
+        }
+        
+        return nextDay.startOfDay
+    }
 }

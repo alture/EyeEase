@@ -30,7 +30,7 @@ struct LensTrackingTimelineView: View {
             
             VStack(alignment: .center, spacing: 20.0) {
                 CircleProgressView(progressValue: progressValue, lineWidth: 10, progressColor: conditionColor)
-                    .frame(width: 120, height: 120)
+                    .frame(maxWidth: 120, maxHeight: 120)
                     .overlay {
                         VStack(alignment: .center) {
                             Text("\(remainingDays)")
@@ -104,27 +104,34 @@ struct LensTrackingTimelineView: View {
     }
 }
 
-#Preview("Not expired") {
+//#Preview("Not expired") {
+//    LensTrackingTimelineView(
+//        wearDuration: SampleData.content[0].wearDuration.limit,
+//        changeDate: SampleData.content[0].changeDate,
+//        showingChangables: .constant(false)
+//    )
+//}
+//
+//#Preview("Expired") {
+//    LensTrackingTimelineView(
+//        wearDuration: SampleData.content[0].wearDuration.limit,
+//        changeDate: Date.distantPast,
+//        showingChangables: .constant(false)
+//    )
+//}
+//
+//#Preview("Ready to expire") {
+//    LensTrackingTimelineView(
+//        wearDuration: SampleData.content[2].wearDuration.limit,
+//        changeDate: SampleData.content[2].changeDate,
+//        showingChangables: .constant(false)
+//    )
+//}
+
+#Preview(traits: .fixedLayout(width: 120, height: 120), body: {
     LensTrackingTimelineView(
         wearDuration: SampleData.content[0].wearDuration.limit,
         changeDate: SampleData.content[0].changeDate,
         showingChangables: .constant(false)
     )
-}
-
-#Preview("Expired") {
-    LensTrackingTimelineView(
-        wearDuration: SampleData.content[0].wearDuration.limit,
-        changeDate: Date.distantPast,
-        showingChangables: .constant(false)
-    )
-}
-
-#Preview("Ready to expire") {
-    LensTrackingTimelineView(
-        wearDuration: SampleData.content[2].wearDuration.limit,
-        changeDate: SampleData.content[2].changeDate,
-        showingChangables: .constant(false)
-    )
-}
-
+})
