@@ -97,7 +97,9 @@ struct WidgetDetailRow: View {
     var body: some View {
         HStack(alignment: .center) {
             Image(systemName: systemImage)
-                .font(.subheadline)
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 15, height: 15)
             VStack(alignment: .leading) {
                 Text(title)
                     .font(.system(.caption, design: .rounded))
