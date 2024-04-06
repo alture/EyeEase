@@ -44,6 +44,26 @@ struct LensCarouselView: View {
                     navigationContext.selectedLensItem = lensItems.first
                 }
             }
+            .onOpenURL(perform: { url in
+                guard let scheme = url.scheme else { return }
+                
+                let query = url.query ?? url.absoluteString.components(separatedBy: "\(scheme):///").last
+                let queryItems = query?.components(separatedBy: "&").map { item -> (String, String) in
+                    let keyValue = item.components(separatedBy: "=")
+                    return (keyValue[0], keyValue.count > 1 ? keyValue[1] : "")
+                }
+
+                if let lensItemId = queryItems?.first(where: { $0.0 == "lensItemId" })?.1 {
+                    navigationContext.selectedLensItem = lensItems.first(where: { $0.id.uuidString == lensItemId })
+                }
+            })
+            .onNotification(perform: { notificationResponse in
+                let notification = notificationResponse.notification
+                let id = notification.request.identifier
+                    .replacingOccurrences(of: "-day-before", with: "")
+                    .replacingOccurrences(of: "-day-of", with: "")
+                navigationContext.selectedLensItem = lensItems.first(where: { $0.id.uuidString == id })
+            })
             .contentMargins(.horizontal, EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16), for: .scrollContent)
             .scrollIndicators(.hidden)
         }

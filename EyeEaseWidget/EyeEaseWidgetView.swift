@@ -97,7 +97,9 @@ struct WidgetDetailRow: View {
     var body: some View {
         HStack(alignment: .center) {
             Image(systemName: systemImage)
-                .font(.subheadline)
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 15, height: 15)
             VStack(alignment: .leading) {
                 Text(title)
                     .font(.system(.caption, design: .rounded))
@@ -163,6 +165,7 @@ struct EyeEaseWidgetEntryView : View {
                     .frame(minWidth: 0, maxWidth: .infinity)
                 }
             }
+            .widgetURL(URL(string: "eyeease:///lensItemId=\(lensItem.id.uuidString)"))
             .containerBackground(.fill, for: .widget)
         } else {
             ContentUnavailableView("No tracking contact lens", systemImage: "clock.arrow.2.circlepath")
