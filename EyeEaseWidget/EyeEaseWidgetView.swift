@@ -163,6 +163,7 @@ struct EyeEaseWidgetEntryView : View {
                     .frame(minWidth: 0, maxWidth: .infinity)
                 }
             }
+            .widgetURL(URL(string: "eyeease:///lensItemId=\(lensItem.id.uuidString)"))
             .containerBackground(.fill, for: .widget)
         } else {
             ContentUnavailableView("No tracking contact lens", systemImage: "clock.arrow.2.circlepath")

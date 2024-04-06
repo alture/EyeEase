@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		B709D4FD2BC03B5B00EBB5EB /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B709D4FC2BC03B5B00EBB5EB /* DataManager.swift */; };
 		B709D4FE2BC03B5B00EBB5EB /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B709D4FC2BC03B5B00EBB5EB /* DataManager.swift */; };
+		B709D5002BC17FF900EBB5EB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B709D4FF2BC17FF900EBB5EB /* AppDelegate.swift */; };
+		B709D5022BC180E000EBB5EB /* NotificationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = B709D5012BC180E000EBB5EB /* NotificationHandler.swift */; };
+		B709D5042BC1817600EBB5EB /* NotificationViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = B709D5032BC1817600EBB5EB /* NotificationViewModifier.swift */; };
 		B70D06E02B9FEB3C004E9092 /* PassStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = B70D06DF2B9FEB3C004E9092 /* PassStatus.swift */; };
 		B70D06E82B9FF1AF004E9092 /* SubscriptionShopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B70D06E72B9FF1AF004E9092 /* SubscriptionShopView.swift */; };
 		B70D06EA2B9FF654004E9092 /* PassManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B70D06E92B9FF654004E9092 /* PassManager.swift */; };
@@ -113,6 +116,9 @@
 
 /* Begin PBXFileReference section */
 		B709D4FC2BC03B5B00EBB5EB /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
+		B709D4FF2BC17FF900EBB5EB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		B709D5012BC180E000EBB5EB /* NotificationHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationHandler.swift; sourceTree = "<group>"; };
+		B709D5032BC1817600EBB5EB /* NotificationViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewModifier.swift; sourceTree = "<group>"; };
 		B70D06DA2B9E2091004E9092 /* EE TrackerDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "EE TrackerDebug.entitlements"; sourceTree = "<group>"; };
 		B70D06DF2B9FEB3C004E9092 /* PassStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassStatus.swift; sourceTree = "<group>"; };
 		B70D06E72B9FF1AF004E9092 /* SubscriptionShopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionShopView.swift; sourceTree = "<group>"; };
@@ -257,6 +263,8 @@
 				B760DC582B95646500C2C025 /* NotificationManager.swift */,
 				B761D57F2BA80FA100CEE24A /* NotificationGrantedKey.swift */,
 				B761D5812BA810F300CEE24A /* NotificationTaskModifier.swift */,
+				B709D5012BC180E000EBB5EB /* NotificationHandler.swift */,
+				B709D5032BC1817600EBB5EB /* NotificationViewModifier.swift */,
 			);
 			path = Notification;
 			sourceTree = "<group>";
@@ -388,6 +396,7 @@
 				B7E3941A2B990C2900113138 /* AppStorageKeys.swift */,
 				B7F555852BA160550069D38E /* PreferenceKeys.swift */,
 				B709D4FC2BC03B5B00EBB5EB /* DataManager.swift */,
+				B709D4FF2BC17FF900EBB5EB /* AppDelegate.swift */,
 			);
 			path = Support;
 			sourceTree = "<group>";
@@ -556,6 +565,7 @@
 				B7E32D8B2B2521B700CA0729 /* EyeSide.swift in Sources */,
 				B7616D352BB2EF20000FA37A /* AppConstants.swift in Sources */,
 				B7E32D832B21219C00CA0729 /* LensFormView.swift in Sources */,
+				B709D5042BC1817600EBB5EB /* NotificationViewModifier.swift in Sources */,
 				B761D5802BA80FA100CEE24A /* NotificationGrantedKey.swift in Sources */,
 				B761D5882BA834CB00CEE24A /* AvailableOnPlus.swift in Sources */,
 				B7E075512B1CE214001ABFE4 /* CircleProgressView.swift in Sources */,
@@ -566,7 +576,9 @@
 				B7E32D812B2119CD00CA0729 /* LensTrackingView.swift in Sources */,
 				B71262C02B66A049009185EE /* LensSortOrder.swift in Sources */,
 				B760DC592B95646500C2C025 /* NotificationManager.swift in Sources */,
+				B709D5022BC180E000EBB5EB /* NotificationHandler.swift in Sources */,
 				B76553502BA96AEF0045BF93 /* BrandNameTip.swift in Sources */,
+				B709D5002BC17FF900EBB5EB /* AppDelegate.swift in Sources */,
 				B78692F62BBF42AE00417E68 /* EyeEaseTimelineProvider.swift in Sources */,
 				B7BF527F2B865E6200FE0162 /* LensFormViewModel.swift in Sources */,
 				B76564FE2BAEB4F600671713 /* NavigationContext.swift in Sources */,
