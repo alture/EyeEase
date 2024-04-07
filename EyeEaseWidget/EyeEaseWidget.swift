@@ -18,10 +18,10 @@ struct EyeEaseWidget: Widget {
             intent: EyeEaseWidgetIntent.self,
             provider: EyeEaseTimelineProvider()) { entry in
                 EyeEaseWidgetEntryView(entry: entry)
-        }
-        .supportedFamilies([.systemSmall, .systemMedium])
-        .configurationDisplayName("Tracking Overview")
-        .description("Keep track of your current lens")
+            }
+            .supportedFamilies([.systemSmall, .systemMedium, .accessoryRectangular, .accessoryCircular])
+            .configurationDisplayName("Tracking Overview")
+            .description("Keep track of your current lens")
     }
 }
 

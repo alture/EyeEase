@@ -24,7 +24,16 @@ extension Date {
         } else if calendar.isDateInTomorrow(self) {
             return "Tomorrow"
         } else {
-            return self.formattedDate(with: format)
+            let dateDifference = calendar.dateComponents([.day], from: Date.now.startOfDay, to: self)
+            if let dayCount = dateDifference.day, dayCount <= 7 {
+                if dayCount > 0 {
+                    return "After \(dayCount) \(dayCount == 1 ? "day" : "days")"
+                } else if dayCount < 0 {
+                    return "\(abs(dayCount)) \(abs(dayCount) == 1 ? "day" : "days") ago"
+                }
+            }
+            
+            return formattedDate()
         }
     }
     

@@ -47,7 +47,7 @@ final class LensFormViewModel {
     var brandName: String = ""
     var wearDuration: WearDuration = .biweekly
     var eyeSide: EyeSide = .both
-    var initialUseDate: Date = Date.now
+    var initialUseDate: Date = Date.now.startOfDay
     var sphere: Sphere? = nil
     var detail: LensDetail = LensDetail()
     var isWearing: Bool = false
