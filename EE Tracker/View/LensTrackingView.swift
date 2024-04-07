@@ -34,17 +34,12 @@ struct LensTrackingView: View {
     var body: some View {
         if let lensItem = navigationContext.selectedLensItem {
             VStack {
-                LensTrackingHeader(
-                    name: lensItem.name,
-                    initialDate: lensItem.startDate,
-                    isWearing: lensItem.isWearing
-                )
-                
                 LensTrackingTimelineView(
+                    name: lensItem.name,
                     wearDuration: lensItem.wearDuration.limit,
                     changeDate: lensItem.changeDate,
                     showingChangables: self.$showingChangables
-                ).padding(.top)
+                )
                 
                 LensInformationView(
                     wearDuration: lensItem.wearDuration.rawValue,
@@ -109,8 +104,8 @@ struct LensInformationView: View {
     
     var body: some View {
         HStack(alignment: .top, spacing: 8.0) {
-            LensInformationRow(image: "hourglass.circle", title: "Type", value: wearDuration)
-            LensInformationRow(image: "dial", title: "Power", value: sphere)
+            LensInformationRow(image: "hourglass.circle", title: "Wearing Type", value: wearDuration)
+            LensInformationRow(image: "dial", title: "Power Range", value: sphere)
             LensInformationRow(image: "eyes.inverse", title: "Eye Side", value: eyeSide)
         }
     }
@@ -139,7 +134,7 @@ struct LensInformationRow: View {
             Divider()
             
             Text(title)
-                .font(.headline)
+                .font(.subheadline)
                 .foregroundColor(.secondary)
         }
         .frame(minWidth: 0, maxWidth: .infinity)

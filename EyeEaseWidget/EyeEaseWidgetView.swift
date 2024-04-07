@@ -13,35 +13,33 @@ struct GaugeView: View {
     var maxDays: Float
     var progress: CGFloat
     var body: some View {
-        VStack {
-            Gauge(
-                value: currentDay,
-                in: 0...maxDays,
-                label: {
-                    Text("Day(s)")
-                },
-                currentValueLabel: {
-                    Text("\(Int(currentDay))")
-                        .foregroundStyle(labelColor(for: progress))
-                },
-                minimumValueLabel: {
-                    Text("0")
-                        .foregroundStyle(Color.green)
-                },
-                maximumValueLabel: {
-                    Text("\(Int(maxDays))")
-                        .foregroundStyle(Color.red)
-                }
-            )
-            .gaugeStyle(.accessoryCircular)
-            .tint(Gradient(stops: [
-                .init(color: .green, location: 0.0),
-                .init(color: .green, location: 0.6),
-                .init(color: .yellow, location: 0.8),
-                .init(color: .orange, location: 0.9),
-                .init(color: .red, location: 0.95)
-            ]))
-        }
+        Gauge(
+            value: currentDay,
+            in: 0...maxDays,
+            label: {
+                Text("Day(s)")
+            },
+            currentValueLabel: {
+                Text("\(Int(currentDay))")
+                    .foregroundStyle(labelColor(for: progress))
+            },
+            minimumValueLabel: {
+                Text("0")
+                    .foregroundStyle(Color.green)
+            },
+            maximumValueLabel: {
+                Text("\(Int(maxDays))")
+                    .foregroundStyle(Color.red)
+            }
+        )
+        .gaugeStyle(.accessoryCircular)
+        .tint(Gradient(stops: [
+            .init(color: .green, location: 0.0),
+            .init(color: .green, location: 0.6),
+            .init(color: .yellow, location: 0.8),
+            .init(color: .orange, location: 0.9),
+            .init(color: .red, location: 0.95)
+        ]))
     }
     
     func labelColor(for progress: CGFloat) -> Color {

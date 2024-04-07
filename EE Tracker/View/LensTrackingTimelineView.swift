@@ -8,15 +8,23 @@
 import SwiftUI
 
 struct LensTrackingTimelineView: View {
+    private(set) var name: String
     private(set) var wearDuration: Int
     private(set) var changeDate: Date
     @Binding var showingChangables: Bool
     
-    func getConditionColor(for remainingDays: Int) -> Color {
-        switch remainingDays {
-        case 0...2: return Color.red
-        case 3...6: return Color.yellow
-        default:    return Color.green
+    func labelColor(for progress: Double) -> Color {
+        switch progress {
+        case 0.0..<0.8:
+            return .green
+        case 0.8..<0.9:
+            return .yellow
+        case 0.9..<0.95:
+            return .orange
+        case 0.95...1:
+            return .red
+        default:
+            return .red
         }
     }
     
@@ -24,63 +32,65 @@ struct LensTrackingTimelineView: View {
         TimelineView(.everyMinute) { context in
             let remainingDays = getRemainingDays(for: context.date.startOfDay)
             let progressValue = getProgressValue(for: remainingDays)
-            let hasExpired = remainingDays <= 0
-            let readyToExpire = remainingDays <= 2
-            let conditionColor = getConditionColor(for: remainingDays)
+            let currentDay = abs(wearDuration - remainingDays)
+            let hasExpired = wearDuration - currentDay <= 0
+            let readyToExpire = wearDuration - currentDay <= 2
             
-            VStack(alignment: .center, spacing: 20.0) {
-                CircleProgressView(progressValue: progressValue, lineWidth: 10, progressColor: conditionColor)
-                    .frame(maxWidth: 120, maxHeight: 120)
-                    .overlay {
-                        VStack(alignment: .center) {
-                            Text("\(remainingDays)")
-                                .font(.largeTitle)
-                                .bold()
-                            Text("\(remainingDays > 1 ? "days" : "day") left")
-                                .font(.subheadline)
-                                .bold()
-                                .foregroundStyle(Color(.systemGray2))
-                        }
-                    }
-                
-                VStack {
-                    if hasExpired {
-                        HStack(alignment: .lastTextBaseline) {
-                            Text("Expired on")
-                                .font(.title3)
-                                .fontWeight(.semibold)
-                            Text(changeDate.relativeFormattedDate())
-                                .font(.title2)
-                                .bold()
-                                .foregroundStyle(.red)
-                        }
-                    } else {
-                        HStack(alignment: .lastTextBaseline) {
-                            Text("Replace on")
-                                .font(.title3)
-                                .fontWeight(.semibold)
-                            Text(changeDate.relativeFormattedDate())
-                                .foregroundStyle(conditionColor)
-                                .font(.title2)
-                                .bold()
-                        }
-                    }
+            VStack(alignment: .center) {
+                ZStack {
+                    ProgressRingView(
+                        progress: progressValue,
+                        color: labelColor(for: progressValue)
+                    )
                     
-                    if readyToExpire || hasExpired {
-                        Button(action: {
-                            self.showingChangables = true
-                        }, label: {
-                            Text("Replace now")
-                                .padding(4)
-                                .fontWeight(.semibold)
-                                .font(.title3)
-                        })
-                        .buttonStyle(.bordered)
-                        .controlSize(.small)
-                        .tint(Color.orange)
+                    VStack(alignment: .center) {
+                        HStack(alignment: .lastTextBaseline, spacing: 0) {
+                            Text(verbatim: "\(currentDay)")
+                                .font(.system(.title, design: .rounded, weight: .bold))
+                                .foregroundStyle(labelColor(for: progressValue))
+                            Text(verbatim: "/")
+                                .font(.system(.title, design: .rounded, weight: .regular))
+                                .foregroundStyle(.gray)
+                            Text(verbatim: "\(wearDuration)")
+                                .font(.system(.subheadline, design: .rounded, weight: .bold))
+                                .foregroundStyle(.gray)
+                        }
+                        Text(currentDay == 1 ? "used day" : "used days")
+                            .font(.system(.body, design: .rounded))
+                            .foregroundStyle(.gray)
                     }
-                    
                 }
+                .padding(.vertical)
+                
+                Text(verbatim: "\(name)")
+                    .font(.system(.title2, design: .rounded, weight: .bold))
+                    .minimumScaleFactor(0.7)
+                    .padding(.bottom, 8.0)
+                
+                VStack(spacing: 4.0) {
+                    Text(hasExpired ? "Expired" : "Next replacement")
+                        .font(.system(.subheadline, design: .rounded))
+                        .foregroundStyle(.gray)
+                    Text(verbatim: changeDate.relativeFormattedDate(with: "EEEE, MMMM d"))
+                        .font(.system(.headline, design: .rounded))
+                        .foregroundStyle(labelColor(for: progressValue))
+                }
+                
+                if readyToExpire || hasExpired {
+                    Button(action: {
+                        self.showingChangables = true
+                    }, label: {
+                        Text("Replace now")
+                            .padding(4)
+                            .fontWeight(.semibold)
+                            .font(.title3)
+                    })
+                    .buttonStyle(.bordered)
+                    .controlSize(.small)
+                    .tint(Color.orange)
+                    .padding(.top, 4.0)
+                }
+                
             }
         }
     }
@@ -93,14 +103,12 @@ struct LensTrackingTimelineView: View {
             to: changeDate
         )
         
-        let remainingDays = max(0, daysInterval.day ?? 0)
+        let remainingDays = daysInterval.day ?? 0
         return remainingDays
     }
     
-    private func getProgressValue(for remainingDays: Int) -> CGFloat {
-        return CGFloat(
-            1.0 - Double(remainingDays) / Double(wearDuration)
-        )
+    private func getProgressValue(for remainingDays: Int) -> Double {
+        return 1.0 - Double(remainingDays) / Double(wearDuration)
     }
 }
 
@@ -130,6 +138,7 @@ struct LensTrackingTimelineView: View {
 
 #Preview(traits: .fixedLayout(width: 120, height: 120), body: {
     LensTrackingTimelineView(
+        name: SampleData.content[0].name,
         wearDuration: SampleData.content[0].wearDuration.limit,
         changeDate: SampleData.content[0].changeDate,
         showingChangables: .constant(false)
