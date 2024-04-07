@@ -19,6 +19,8 @@
 		B71524302B97D329005E7A88 /* LensNameFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B715242F2B97D329005E7A88 /* LensNameFormView.swift */; };
 		B71524342B97E3C1005E7A88 /* BlankView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B71524332B97E3C1005E7A88 /* BlankView.swift */; };
 		B72F3D6A2BB180B10099FAB4 /* Privacy.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = B72F3D692BB180B10099FAB4 /* Privacy.xcprivacy */; };
+		B73392362BC321EF0011C8D5 /* ProgressRingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73392352BC321EF0011C8D5 /* ProgressRingView.swift */; };
+		B73392372BC32B180011C8D5 /* ProgressRingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73392352BC321EF0011C8D5 /* ProgressRingView.swift */; };
 		B73FA0532B5BC20600BCD9A4 /* LensDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73FA0522B5BC20600BCD9A4 /* LensDetailView.swift */; };
 		B74FA83A2B5A84F1001E896F /* LensCarouselView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74FA8392B5A84F1001E896F /* LensCarouselView.swift */; };
 		B74FA83C2B5A946C001E896F /* Bool+Comparable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74FA83B2B5A946C001E896F /* Bool+Comparable.swift */; };
@@ -127,6 +129,7 @@
 		B715242F2B97D329005E7A88 /* LensNameFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LensNameFormView.swift; sourceTree = "<group>"; };
 		B71524332B97E3C1005E7A88 /* BlankView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlankView.swift; sourceTree = "<group>"; };
 		B72F3D692BB180B10099FAB4 /* Privacy.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Privacy.xcprivacy; sourceTree = "<group>"; };
+		B73392352BC321EF0011C8D5 /* ProgressRingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressRingView.swift; sourceTree = "<group>"; };
 		B73FA0522B5BC20600BCD9A4 /* LensDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LensDetailView.swift; sourceTree = "<group>"; };
 		B74FA8392B5A84F1001E896F /* LensCarouselView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LensCarouselView.swift; sourceTree = "<group>"; };
 		B74FA83B2B5A946C001E896F /* Bool+Comparable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bool+Comparable.swift"; sourceTree = "<group>"; };
@@ -382,6 +385,7 @@
 				B7580F552BA6A34B0058F540 /* RestorePurchasesButton.swift */,
 				B761D5852BA8339E00CEE24A /* GetPlusButton.swift */,
 				B761D5872BA834CB00CEE24A /* AvailableOnPlus.swift */,
+				B73392352BC321EF0011C8D5 /* ProgressRingView.swift */,
 			);
 			path = ViewHelpers;
 			sourceTree = "<group>";
@@ -507,6 +511,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B78692F32BBDEFC300417E68 /* EyeEaseWidgetIntent.swift in Sources */,
+				B73392372BC32B180011C8D5 /* ProgressRingView.swift in Sources */,
 				B709D4FE2BC03B5B00EBB5EB /* DataManager.swift in Sources */,
 				B78692EA2BBBFD9C00417E68 /* Sphere.swift in Sources */,
 				B78692D72BBBFA7200417E68 /* EyeEaseWidgetBundle.swift in Sources */,
@@ -584,6 +589,7 @@
 				B76564FE2BAEB4F600671713 /* NavigationContext.swift in Sources */,
 				B74FA83A2B5A84F1001E896F /* LensCarouselView.swift in Sources */,
 				B7E394172B98FFC900113138 /* CustomTimelineSchedules.swift in Sources */,
+				B73392362BC321EF0011C8D5 /* ProgressRingView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

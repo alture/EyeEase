@@ -109,6 +109,10 @@ struct LensDashboardView: View {
                 self.viewModel.showingSubscriptionsSheet.toggle()
                 self.firstAppear = false
             }
+            
+        }
+        .task {
+            await NotificationManager.shared.resetBadges()
         }
         .sheet(isPresented: $viewModel.showingSettings, onDismiss: {
             self.viewModel.showingSettings = false
@@ -225,4 +229,5 @@ struct TodayDateView: View {
     LensDashboardView()
         .modelContainer(previewContainer)
         .environment(NavigationContext(selectedLensItem: SampleData.content[0]))
+        .environment(\.passStatus, .monthly)
 }
