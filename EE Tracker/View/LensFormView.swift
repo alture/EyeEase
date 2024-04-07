@@ -283,7 +283,7 @@ struct MainSection: View {
                 }
             }
             
-            DatePicker("Date first used", selection: $initialUseDate, in: ...Date.now, displayedComponents: [.date])
+            DatePicker("First Used Date", selection: $initialUseDate, in: ...Date.now, displayedComponents: [.date])
             // TODO: - Show InitialDateTip
         } header: {
             HStack {
