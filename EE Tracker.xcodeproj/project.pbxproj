@@ -64,7 +64,6 @@
 		B78692F32BBDEFC300417E68 /* EyeEaseWidgetIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78692EC2BBD7E7100417E68 /* EyeEaseWidgetIntent.swift */; };
 		B78692F52BBF42AD00417E68 /* EyeEaseTimelineProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78692F42BBF42A800417E68 /* EyeEaseTimelineProvider.swift */; };
 		B78692F62BBF42AE00417E68 /* EyeEaseTimelineProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78692F42BBF42A800417E68 /* EyeEaseTimelineProvider.swift */; };
-		B78692F92BBF517F00417E68 /* EyeEase - Contact Lens Tracker.storekit in Resources */ = {isa = PBXBuildFile; fileRef = B78692F82BBF517F00417E68 /* EyeEase - Contact Lens Tracker.storekit */; };
 		B7BF527D2B865D7600FE0162 /* EE-Tracker-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B7FC523F2B366E32009BA759 /* EE-Tracker-Info.plist */; };
 		B7BF527F2B865E6200FE0162 /* LensFormViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7BF527E2B865E6200FE0162 /* LensFormViewModel.swift */; };
 		B7BF52812B86720500FE0162 /* LensDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7BF52802B86720500FE0162 /* LensDetail.swift */; };
@@ -163,7 +162,6 @@
 		B78692F02BBD830E00417E68 /* EyeEaseWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EyeEaseWidgetView.swift; sourceTree = "<group>"; };
 		B78692F42BBF42A800417E68 /* EyeEaseTimelineProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EyeEaseTimelineProvider.swift; sourceTree = "<group>"; };
 		B78692F72BBF4B9600417E68 /* EyeEaseWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = EyeEaseWidgetExtension.entitlements; sourceTree = "<group>"; };
-		B78692F82BBF517F00417E68 /* EyeEase - Contact Lens Tracker.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; name = "EyeEase - Contact Lens Tracker.storekit"; path = "EE Tracker/Store/EyeEase - Contact Lens Tracker.storekit"; sourceTree = "<group>"; };
 		B7BF527E2B865E6200FE0162 /* LensFormViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LensFormViewModel.swift; sourceTree = "<group>"; };
 		B7BF52802B86720500FE0162 /* LensDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LensDetail.swift; sourceTree = "<group>"; };
 		B7BF52822B86721F00FE0162 /* Sphere.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sphere.swift; sourceTree = "<group>"; };
@@ -324,7 +322,6 @@
 		B7C08EA22B1CAAB500DD0BE2 = {
 			isa = PBXGroup;
 			children = (
-				B78692F82BBF517F00417E68 /* EyeEase - Contact Lens Tracker.storekit */,
 				B78692F72BBF4B9600417E68 /* EyeEaseWidgetExtension.entitlements */,
 				B7C08EAD2B1CAAB600DD0BE2 /* EE Tracker */,
 				B78692D52BBBFA7200417E68 /* EyeEaseWidget */,
@@ -494,7 +491,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B78692F92BBF517F00417E68 /* EyeEase - Contact Lens Tracker.storekit in Resources */,
 				B7FC52412B36713D009BA759 /* Launch Screen.storyboard in Resources */,
 				B7C08EB82B1CAABA00DD0BE2 /* Preview Assets.xcassets in Resources */,
 				B7C08EB52B1CAABA00DD0BE2 /* Assets.xcassets in Resources */,
@@ -789,14 +785,14 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "EE Tracker/EE TrackerDebug.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"EE Tracker/Preview Content\"";
 				DEVELOPMENT_TEAM = FNS9H7J227;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "EE-Tracker-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Eye Ease";
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.healthcare-fitness";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.medical";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen.storyboard";
@@ -808,7 +804,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.alture.eye-ease";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -829,14 +825,14 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "EE Tracker/EE TrackerRelease.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"EE Tracker/Preview Content\"";
 				DEVELOPMENT_TEAM = FNS9H7J227;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "EE-Tracker-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Eye Ease";
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.healthcare-fitness";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.medical";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen.storyboard";
@@ -848,7 +844,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.alture.eye-ease";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
