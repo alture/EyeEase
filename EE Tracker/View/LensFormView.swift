@@ -283,7 +283,12 @@ struct MainSection: View {
                 }
             }
             
-            DatePicker("First Used Date", selection: $initialUseDate, in: ...Date.now, displayedComponents: [.date])
+            DatePicker(
+                "First Used Date",
+                selection: $initialUseDate,
+                in: Calendar.current.date(byAdding: .month, value: -1, to: Date.now)!...Date.now,
+                displayedComponents: [.date]
+            )
             // TODO: - Show InitialDateTip
         } header: {
             HStack {
@@ -516,12 +521,15 @@ struct DetailRow: View {
     }
 }
 
-//#Preview("Pro", body: {
-//    return LensFormView(lensItem: SampleData.content[1], status: .new) { _ in }
-//        .environment(\.passStatus, .yearly)
-//})
-//
-//#Preview("Base", body: {
-//    return LensFormView(lensItem: SampleData.content[1], status: .new) { _ in }
-//})
-//
+#Preview("Pro", body: {
+    return LensFormView(state: .new)
+        .environment(\.passStatus, .yearly)
+        .environment(NavigationContext(selectedLensItem: nil))
+})
+
+#Preview("Base", body: {
+    return LensFormView(state: .new)
+        .environment(\.passStatus, .notSubscribed)
+        .environment(NavigationContext(selectedLensItem: nil))
+})
+
