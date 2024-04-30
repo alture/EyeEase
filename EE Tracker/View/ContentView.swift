@@ -13,10 +13,9 @@ struct ContentView: View {
 
     var body: some View {
         LensDashboardView()
+            .notificationGrantedTask()
             .preferredColorScheme(appAppearance == .system ? .none : (appAppearance == .dark ? .dark : .light ))
             .fontDesign(.rounded)
-            .notificationGrantedTask()
-            .subscriptionShop()
             .environment(navigationContext)
     }
 }

@@ -8,7 +8,7 @@
 import StoreKit
 import SwiftUI
 
-enum PassStatus: Comparable, Hashable {
+enum PassStatus: Comparable, Hashable, Codable {
     case notSubscribed
     case monthly
     case yearly

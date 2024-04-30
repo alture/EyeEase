@@ -153,7 +153,10 @@ struct SettingsView: View {
                         Spacer()
                         
                         if !hasPass {
-                            GetPlusButton(didTap: $presentingPassSheet)
+                            Button("Available on Plus", systemImage: "crown.fill") {
+                                self.presentingPassSheet = true
+                            }
+                            .buttonStyle(.availableOnPlus)
                         }
                     }
                 } footer: {
