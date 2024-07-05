@@ -14,6 +14,7 @@ import WidgetKit
 struct LensFormView: View {
     @FocusState private var focusField: FocusableField?
     @Environment(\.dismiss) var dismiss
+    @Environment(\.requestReview) var requestReview
     @Environment(\.passStatus) private var passStatus
     @Environment(NavigationContext.self) private var navigationContext
     @Environment(\.modelContext) private var modelContext
@@ -22,6 +23,7 @@ struct LensFormView: View {
     @State private var showingSphereSection: Bool = false
     @State private var sheetHeight: CGFloat = .zero
     @State private var initialUseDate: Date = Date.now
+    @State private var presentingPassSheet: Bool = false
     
     @State private var viewModel = LensFormViewModel()
     
@@ -44,6 +46,7 @@ struct LensFormView: View {
                     detail: $viewModel.detail,
                     sphere: $viewModel.sphere,
                     focusField: _focusField,
+                    presentingPassSheet: $presentingPassSheet,
                     showingSphereRow: $showingSphereSection
                 )
             }
@@ -63,6 +66,9 @@ struct LensFormView: View {
                 self.viewModel.sphere = lensItem?.sphere
                 self.viewModel.detail = lensItem?.detail ?? LensDetail()
             }
+            .sheet(isPresented: $presentingPassSheet, content: {
+                SubscriptionShopView()
+            })
             .navigationTitle(state.navigationTitle)
             .navigationBarTitleDisplayMode(.inline)
             .defaultFocus($focusField, .name)
@@ -106,6 +112,7 @@ struct LensFormView: View {
                     Button(state.actionTitle) {
                         if viewModel.isNameValid {
                             self.save()
+                            self.requestReview()
                             self.dismiss()
                         } else {
                             self.showingAlert.toggle()
@@ -397,7 +404,7 @@ struct DetailSection: View {
     @Binding var sphere: Sphere?
     @FocusState var focusField: FocusableField?
     @Environment(\.passStatus) private var passStatus
-    @State private var presentingPassSheet: Bool = false
+    @Binding var presentingPassSheet: Bool
     @Binding var showingSphereRow: Bool
     
     private var sphereDesc: String {
@@ -478,13 +485,13 @@ struct DetailSection: View {
                 Spacer()
                 
                 if passStatus == .notSubscribed {
-                    GetPlusButton(didTap: $presentingPassSheet)
+                    Button("Available on Plus", systemImage: "crown.fill") {
+                        self.presentingPassSheet = true
+                    }
+                    .buttonStyle(.availableOnPlus)
                 }
             }
         }
-        .sheet(isPresented: $presentingPassSheet, content: {
-            SubscriptionShopView()
-        })
     }
 }
 

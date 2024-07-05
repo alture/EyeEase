@@ -11,10 +11,11 @@ import TipKit
 
 @main
 struct EE_TrackerApp: App {
-    @UIApplicationDelegateAdaptor var appDelegate: AppDelegate
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .subscriptionShop()
         }
         .modelContainer(DataManager.sharedModelContainer)
     }

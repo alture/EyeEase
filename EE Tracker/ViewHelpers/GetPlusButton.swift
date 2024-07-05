@@ -7,16 +7,15 @@
 
 import SwiftUI
 
-struct GetPlusButton: View {
-    @Binding var didTap: Bool
-    
-    var body: some View {
-        Button("Available on Plus", systemImage: "crown.fill") {
-            self.didTap.toggle()
-        }
-        .buttonStyle(.borderedProminent)
-        .tint(.teal)
-        .controlSize(.small)
+struct AvailableOnPlusButtonStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration
+            .label
+            .foregroundStyle(.teal)
+            .controlSize(.small)
     }
 }
 
+extension ButtonStyle where Self == AvailableOnPlusButtonStyle {
+    static var availableOnPlus: Self { Self() }
+}
