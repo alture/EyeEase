@@ -35,6 +35,10 @@ actor NotificationManager {
         return UserDefaults.standard.integer(forKey: AppStorageKeys.reminderDays)
     }
     
+    private var repeatEnabled: Bool {
+        return UserDefaults.standard.bool(forKey: AppStorageKeys.repeatReminder)
+    }
+    
     func requestAuthorization() async throws -> Bool {
         let notificationCenter = UNUserNotificationCenter.current()
         let options: UNAuthorizationOptions = [.alert, .sound, .badge]
@@ -92,7 +96,7 @@ actor NotificationManager {
         let dayOfContent = createNotificationContent(for: item, referenceDate: changeDate)
         let dayOfId = "\(item.id.uuidString)-day-of"
         
-        await scheduleNotification(for: dayOfId, at: changeDate, with: dayOfContent)
+        await scheduleNotification(for: dayOfId, at: changeDate, with: dayOfContent, repeats: repeatEnabled)
     }
     
     private func createNotificationContent(for item: LensItem, referenceDate: Date) -> UNMutableNotificationContent {
@@ -101,7 +105,7 @@ actor NotificationManager {
         content.badge = 1
         
         if let dayBeforeChangeDate = calendar.date(byAdding: .day, value: -1, to: item.changeDate),
-           calendar.isDate(referenceDate, inSameDayAs: dayBeforeChangeDate) {
+            calendar.isDate(referenceDate, inSameDayAs: dayBeforeChangeDate) {
             content.title = "Prepare new contact lens"
             content.body = "Replace your \"\(item.name)\" contact lens by tomorrow."
         } else if calendar.isDate(referenceDate, inSameDayAs: item.changeDate) {
@@ -116,16 +120,17 @@ actor NotificationManager {
         return content
     }
 
-    private func scheduleNotification(for id: String, at date: Date, with content: UNMutableNotificationContent) async {
+    private func scheduleNotification(for id: String, at date: Date, with content: UNMutableNotificationContent, repeats: Bool = false) async {
         let notificationCenter = UNUserNotificationCenter.current()
         var dateComponents = Calendar.current.dateComponents([.year, .month, .day, .hour], from: date)
         dateComponents.hour = 10
 
-        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
+        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: repeats)
         let request = UNNotificationRequest(identifier: id, content: content, trigger: trigger)
         
         do {
-            print("NotificationManager scheduleNotification: \(dateComponents.description)")
+            print("NotificationManager scheduleNotification: \(dateComponents.description), repeats: \(repeats)")
+            print("NotificationManager nextTriggerDate: \(trigger.nextTriggerDate()?.description)")
             try await notificationCenter.add(request)
         } catch {
             print("NotificationManager can't add notification request: \(error)")

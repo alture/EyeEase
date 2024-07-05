@@ -14,4 +14,5 @@ enum AppStorageKeys {
     static var notificationGranted = "notificationGranted"
     static var firstAppear = "firstAppear"
     static var passStatus = "passStatus"
+    static var repeatReminder = "repeatReminder"
 }

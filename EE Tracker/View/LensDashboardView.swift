@@ -69,7 +69,6 @@ struct LensDashboardView: View {
                         } else {
                             self.viewModel.showingNew.toggle()
                         }
-
                     } label: {
                         Image(systemName: "plus")
                             .font(.title3)
@@ -110,9 +109,9 @@ struct LensDashboardView: View {
                 self.firstAppear = false
             }
             
-        }
-        .task {
-            await NotificationManager.shared.resetBadges()
+            Task(priority: .background) {
+                await NotificationManager.shared.resetBadges()
+            }
         }
         .sheet(isPresented: $viewModel.showingSettings, onDismiss: {
             self.viewModel.showingSettings = false

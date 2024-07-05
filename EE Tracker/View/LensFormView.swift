@@ -14,6 +14,7 @@ import WidgetKit
 struct LensFormView: View {
     @FocusState private var focusField: FocusableField?
     @Environment(\.dismiss) var dismiss
+    @Environment(\.requestReview) var requestReview
     @Environment(\.passStatus) private var passStatus
     @Environment(NavigationContext.self) private var navigationContext
     @Environment(\.modelContext) private var modelContext
@@ -111,6 +112,7 @@ struct LensFormView: View {
                     Button(state.actionTitle) {
                         if viewModel.isNameValid {
                             self.save()
+                            self.requestReview()
                             self.dismiss()
                         } else {
                             self.showingAlert.toggle()

@@ -18,16 +18,18 @@
 		B71262C02B66A049009185EE /* LensSortOrder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B71262BF2B66A049009185EE /* LensSortOrder.swift */; };
 		B71524302B97D329005E7A88 /* LensNameFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B715242F2B97D329005E7A88 /* LensNameFormView.swift */; };
 		B71524342B97E3C1005E7A88 /* BlankView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B71524332B97E3C1005E7A88 /* BlankView.swift */; };
-		B72F3D6A2BB180B10099FAB4 /* Privacy.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = B72F3D692BB180B10099FAB4 /* Privacy.xcprivacy */; };
+		B718E2A32C38628E00862C31 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = B718E2A22C38628E00862C31 /* PrivacyInfo.xcprivacy */; };
 		B73392362BC321EF0011C8D5 /* ProgressRingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73392352BC321EF0011C8D5 /* ProgressRingView.swift */; };
 		B73392372BC32B180011C8D5 /* ProgressRingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73392352BC321EF0011C8D5 /* ProgressRingView.swift */; };
-		B7390C5B2BD5DDCA00D2202D /* EyeEase - Contact Lens Tracker.storekit in Resources */ = {isa = PBXBuildFile; fileRef = B7390C5A2BD5DDCA00D2202D /* EyeEase - Contact Lens Tracker.storekit */; };
 		B7390C5C2BD5F19700D2202D /* PassStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = B70D06DF2B9FEB3C004E9092 /* PassStatus.swift */; };
 		B7390C5D2BD5F1BB00D2202D /* PassManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B70D06E92B9FF654004E9092 /* PassManager.swift */; };
 		B7390C5E2BD5F1E700D2202D /* PassIdentifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7580F572BA6A5200058F540 /* PassIdentifiers.swift */; };
 		B7390C5F2BD5F23A00D2202D /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B760DC582B95646500C2C025 /* NotificationManager.swift */; };
 		B7390C602BD5F26100D2202D /* NotificationGrantedKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = B761D57F2BA80FA100CEE24A /* NotificationGrantedKey.swift */; };
 		B7390C612BD5F32E00D2202D /* AppStorageKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E3941A2B990C2900113138 /* AppStorageKeys.swift */; };
+		B7390C632BE175FF00D2202D /* LensHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7390C622BE175FF00D2202D /* LensHistoryView.swift */; };
+		B7390C652BEBB13800D2202D /* LensUsage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7390C642BEBB13800D2202D /* LensUsage.swift */; };
+		B7390C672BEBED2300D2202D /* Collection+groupedByMonth.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7390C662BEBED2300D2202D /* Collection+groupedByMonth.swift */; };
 		B73FA0532B5BC20600BCD9A4 /* LensDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73FA0522B5BC20600BCD9A4 /* LensDetailView.swift */; };
 		B74FA83A2B5A84F1001E896F /* LensCarouselView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74FA8392B5A84F1001E896F /* LensCarouselView.swift */; };
 		B74FA83C2B5A946C001E896F /* Bool+Comparable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74FA83B2B5A946C001E896F /* Bool+Comparable.swift */; };
@@ -94,6 +96,8 @@
 		B7E394152B98A94000113138 /* Date+formatDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E394142B98A94000113138 /* Date+formatDate.swift */; };
 		B7E394172B98FFC900113138 /* CustomTimelineSchedules.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E394162B98FFC900113138 /* CustomTimelineSchedules.swift */; };
 		B7E3941B2B990C2900113138 /* AppStorageKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E3941A2B990C2900113138 /* AppStorageKeys.swift */; };
+		B7F492082C3282F600CD2A53 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B7F492072C3282F600CD2A53 /* GoogleService-Info.plist */; };
+		B7F4920B2C32839E00CD2A53 /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = B7F4920A2C32839E00CD2A53 /* FirebaseCrashlytics */; };
 		B7F555862BA160550069D38E /* PreferenceKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F555852BA160550069D38E /* PreferenceKeys.swift */; };
 		B7FC52412B36713D009BA759 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B7FC52402B36713D009BA759 /* Launch Screen.storyboard */; };
 /* End PBXBuildFile section */
@@ -134,9 +138,11 @@
 		B71262BF2B66A049009185EE /* LensSortOrder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LensSortOrder.swift; sourceTree = "<group>"; };
 		B715242F2B97D329005E7A88 /* LensNameFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LensNameFormView.swift; sourceTree = "<group>"; };
 		B71524332B97E3C1005E7A88 /* BlankView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlankView.swift; sourceTree = "<group>"; };
-		B72F3D692BB180B10099FAB4 /* Privacy.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Privacy.xcprivacy; sourceTree = "<group>"; };
+		B718E2A22C38628E00862C31 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		B73392352BC321EF0011C8D5 /* ProgressRingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressRingView.swift; sourceTree = "<group>"; };
-		B7390C5A2BD5DDCA00D2202D /* EyeEase - Contact Lens Tracker.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = "EyeEase - Contact Lens Tracker.storekit"; sourceTree = "<group>"; };
+		B7390C622BE175FF00D2202D /* LensHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LensHistoryView.swift; sourceTree = "<group>"; };
+		B7390C642BEBB13800D2202D /* LensUsage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LensUsage.swift; sourceTree = "<group>"; };
+		B7390C662BEBED2300D2202D /* Collection+groupedByMonth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Collection+groupedByMonth.swift"; sourceTree = "<group>"; };
 		B73FA0522B5BC20600BCD9A4 /* LensDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LensDetailView.swift; sourceTree = "<group>"; };
 		B74FA8392B5A84F1001E896F /* LensCarouselView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LensCarouselView.swift; sourceTree = "<group>"; };
 		B74FA83B2B5A946C001E896F /* Bool+Comparable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bool+Comparable.swift"; sourceTree = "<group>"; };
@@ -194,6 +200,7 @@
 		B7E394142B98A94000113138 /* Date+formatDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+formatDate.swift"; sourceTree = "<group>"; };
 		B7E394162B98FFC900113138 /* CustomTimelineSchedules.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTimelineSchedules.swift; sourceTree = "<group>"; };
 		B7E3941A2B990C2900113138 /* AppStorageKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStorageKeys.swift; sourceTree = "<group>"; };
+		B7F492072C3282F600CD2A53 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		B7F555852BA160550069D38E /* PreferenceKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferenceKeys.swift; sourceTree = "<group>"; };
 		B7FC523F2B366E32009BA759 /* EE-Tracker-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "EE-Tracker-Info.plist"; sourceTree = SOURCE_ROOT; };
 		B7FC52402B36713D009BA759 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = "Launch Screen.storyboard"; path = "EE Tracker/Preview Content/Launch Screen.storyboard"; sourceTree = SOURCE_ROOT; };
@@ -213,6 +220,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B7F4920B2C32839E00CD2A53 /* FirebaseCrashlytics in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -285,6 +293,7 @@
 				B7E394142B98A94000113138 /* Date+formatDate.swift */,
 				B7E394162B98FFC900113138 /* CustomTimelineSchedules.swift */,
 				B76553532BA99EDD0045BF93 /* Binding+OptionalChaining.swift */,
+				B7390C662BEBED2300D2202D /* Collection+groupedByMonth.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -298,6 +307,7 @@
 				B7BF52822B86721F00FE0162 /* Sphere.swift */,
 				B76564FD2BAEB4F600671713 /* NavigationContext.swift */,
 				B7616D342BB2EF20000FA37A /* AppConstants.swift */,
+				B7390C642BEBB13800D2202D /* LensUsage.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -314,6 +324,7 @@
 				B73FA0522B5BC20600BCD9A4 /* LensDetailView.swift */,
 				B715242F2B97D329005E7A88 /* LensNameFormView.swift */,
 				B76564FF2BAEB57300671713 /* ContentView.swift */,
+				B7390C622BE175FF00D2202D /* LensHistoryView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -330,7 +341,9 @@
 		B7C08EA22B1CAAB500DD0BE2 = {
 			isa = PBXGroup;
 			children = (
+				B718E2A22C38628E00862C31 /* PrivacyInfo.xcprivacy */,
 				B78692F72BBF4B9600417E68 /* EyeEaseWidgetExtension.entitlements */,
+				B7F492072C3282F600CD2A53 /* GoogleService-Info.plist */,
 				B7C08EAD2B1CAAB600DD0BE2 /* EE Tracker */,
 				B78692D52BBBFA7200417E68 /* EyeEaseWidget */,
 				B764EC562B73DC810024A166 /* Frameworks */,
@@ -361,10 +374,8 @@
 				B7E32D9E2B26055C00CA0729 /* Support */,
 				B70D06DA2B9E2091004E9092 /* EE TrackerDebug.entitlements */,
 				B7DAA1412B9E03CE005B9A7F /* EE TrackerRelease.entitlements */,
-				B72F3D692BB180B10099FAB4 /* Privacy.xcprivacy */,
 				B7FC523F2B366E32009BA759 /* EE-Tracker-Info.plist */,
 				B7C08EAE2B1CAAB600DD0BE2 /* EE_TrackerApp.swift */,
-				B7390C5A2BD5DDCA00D2202D /* EyeEase - Contact Lens Tracker.storekit */,
 				B7C08EB42B1CAABA00DD0BE2 /* Assets.xcassets */,
 				B7C08EB62B1CAABA00DD0BE2 /* Preview Content */,
 			);
@@ -439,6 +450,7 @@
 				B7C08EA82B1CAAB600DD0BE2 /* Frameworks */,
 				B7C08EA92B1CAAB600DD0BE2 /* Resources */,
 				B764EC662B73DC850024A166 /* Embed Foundation Extensions */,
+				B718E2A12C385C3F00862C31 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -446,6 +458,9 @@
 				B78692DE2BBBFA7300417E68 /* PBXTargetDependency */,
 			);
 			name = "EE Tracker";
+			packageProductDependencies = (
+				B7F4920A2C32839E00CD2A53 /* FirebaseCrashlytics */,
+			);
 			productName = "EE Tracker";
 			productReference = B7C08EAB2B1CAAB600DD0BE2 /* EE Tracker.app */;
 			productType = "com.apple.product-type.application";
@@ -477,6 +492,10 @@
 				Base,
 			);
 			mainGroup = B7C08EA22B1CAAB500DD0BE2;
+			packageReferences = (
+				B75786602BF825460034C81E /* XCRemoteSwiftPackageReference "SystemNotification" */,
+				B7F492092C32839E00CD2A53 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
 			productRefGroup = B7C08EAC2B1CAAB600DD0BE2 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -500,16 +519,41 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B7390C5B2BD5DDCA00D2202D /* EyeEase - Contact Lens Tracker.storekit in Resources */,
 				B7FC52412B36713D009BA759 /* Launch Screen.storyboard in Resources */,
 				B7C08EB82B1CAABA00DD0BE2 /* Preview Assets.xcassets in Resources */,
 				B7C08EB52B1CAABA00DD0BE2 /* Assets.xcassets in Resources */,
-				B72F3D6A2BB180B10099FAB4 /* Privacy.xcprivacy in Resources */,
 				B7BF527D2B865D7600FE0162 /* EE-Tracker-Info.plist in Resources */,
+				B718E2A32C38628E00862C31 /* PrivacyInfo.xcprivacy in Resources */,
+				B7F492082C3282F600CD2A53 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		B718E2A12C385C3F00862C31 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}",
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${PRODUCT_NAME}",
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Info.plist",
+				"$(TARGET_BUILD_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/GoogleService-Info.plist",
+				"$(TARGET_BUILD_DIR)/$(EXECUTABLE_PATH)",
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\n\"${BUILD_DIR%/Build/*}/SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/run\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		B78692CD2BBBFA7200417E68 /* Sources */ = {
@@ -553,6 +597,7 @@
 				B76553522BA96D7C0045BF93 /* InitialDateTip.swift in Sources */,
 				B760DC5D2B959BAB00C2C025 /* AppAppearance.swift in Sources */,
 				B7BF52832B86721F00FE0162 /* Sphere.swift in Sources */,
+				B7390C672BEBED2300D2202D /* Collection+groupedByMonth.swift in Sources */,
 				B709D4FD2BC03B5B00EBB5EB /* DataManager.swift in Sources */,
 				B7580F562BA6A34B0058F540 /* RestorePurchasesButton.swift in Sources */,
 				B7C08EB12B1CAAB600DD0BE2 /* LensDashboardView.swift in Sources */,
@@ -564,12 +609,14 @@
 				B7E32DC22B26523D00CA0729 /* AppVersionProvider.swift in Sources */,
 				B7BF52812B86720500FE0162 /* LensDetail.swift in Sources */,
 				B7E32DA22B2605AD00CA0729 /* SampleData.swift in Sources */,
+				B7390C632BE175FF00D2202D /* LensHistoryView.swift in Sources */,
 				B7E3941B2B990C2900113138 /* AppStorageKeys.swift in Sources */,
 				B78692ED2BBD7E7100417E68 /* EyeEaseWidgetIntent.swift in Sources */,
 				B71524302B97D329005E7A88 /* LensNameFormView.swift in Sources */,
 				B73FA0532B5BC20600BCD9A4 /* LensDetailView.swift in Sources */,
 				B7E394152B98A94000113138 /* Date+formatDate.swift in Sources */,
 				B7E32DA02B26058500CA0729 /* PreviewSampleData.swift in Sources */,
+				B7390C652BEBB13800D2202D /* LensUsage.swift in Sources */,
 				B78692F12BBD830E00417E68 /* EyeEaseWidgetView.swift in Sources */,
 				B7F555862BA160550069D38E /* PreferenceKeys.swift in Sources */,
 				B7580F5A2BA6ADF80058F540 /* SubscriptionShopViewModifier.swift in Sources */,
@@ -708,7 +755,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -904,6 +951,33 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		B75786602BF825460034C81E /* XCRemoteSwiftPackageReference "SystemNotification" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/danielsaidi/SystemNotification.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.1.0;
+			};
+		};
+		B7F492092C32839E00CD2A53 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 10.28.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		B7F4920A2C32839E00CD2A53 /* FirebaseCrashlytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B7F492092C32839E00CD2A53 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCrashlytics;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = B7C08EA32B1CAAB500DD0BE2 /* Project object */;
 }

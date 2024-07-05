@@ -52,6 +52,7 @@ struct SettingsView: View {
     @State private var presentingPassSheet: Bool = false
     @State private var presentingManagePassSheet = false
     @AppStorage(AppStorageKeys.reminderDays) var reminderDays: ReminderDays = .none
+    @AppStorage(AppStorageKeys.repeatReminder) var repeatReminder: Bool = false
     var notificationWarningTip = NotificationWarningTip()
     
     var body: some View {
@@ -133,6 +134,14 @@ struct SettingsView: View {
                             }
                         }
                         
+                        Toggle(isOn: $repeatReminder) {
+                            HStack {
+                                Image(systemName: "bell")
+                                Text("Repeats")
+                            }
+                        }
+                        .disabled(!notificationAllowed)
+                        
                         Picker(selection: $reminderDays) {
                             ForEach(ReminderDays.allCases) { day in
                                 Text(day.description)
@@ -140,11 +149,12 @@ struct SettingsView: View {
                             }
                         } label: {
                             HStack {
-                                Image(systemName: "bell")
+                                Image(systemName: "calendar")
                                 Text("Early Reminder")
                             }
                         }
                         .disabled(!notificationAllowed)
+                        
                     }
                     .availableOnPlus()
                 } header: {
@@ -160,7 +170,7 @@ struct SettingsView: View {
                         }
                     }
                 } footer: {
-                    Text("Set reminder days before contact lens replacement. Available on Plus")
+                    Text("Set reminder day before contact lens replacement. Available on Plus")
                 }
                 
                 Section("Application") {
@@ -225,7 +235,6 @@ struct SettingsView: View {
                                 .foregroundStyle(Color(.systemGray2))
                         }
                         
-                        
                     }
                     .foregroundStyle(.primary)
                 }
@@ -242,6 +251,11 @@ struct SettingsView: View {
                 }
             })
             .onChange(of: reminderDays, { oldValue, newValue in
+                Task {
+                    await NotificationManager.shared.reloadLocalNotificationByItems(true)
+                }
+            })
+            .onChange(of: repeatReminder, { oldValue, newValue in
                 Task {
                     await NotificationManager.shared.reloadLocalNotificationByItems(true)
                 }
@@ -281,4 +295,6 @@ struct SettingsView: View {
 
 #Preview {
     SettingsView()
+        .environment(\.passStatus, .monthly)
+        .environment(\.notificationGranted, true)
 }
